@@ -1,0 +1,50 @@
+{
+  "name": "Syslog-CKY",
+  "version": "0.0.0",
+  "description": "A Syslog client which options for UDP, TCP, and TLS transport and suport for both RFC-3164 and RFC-5424 including Structured Data.",
+  "repository": "",
+  "author": {
+    "name": "Craig Yamato",
+    "email": "craig.yamato2@gmail.com",
+    "url": "http://linkedin.com/in/cyamato"
+  },
+  "contributors": [
+    {
+      "name": "Craig Yamato",
+      "email": "craig.yamato2@gmail.com",
+      "url": "http://linkedin.com/in/cyamato"
+    }
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "moment": "^2.22.2"
+  },
+  "devDependencies": {
+    "docco": "^0.8.0",
+    "docdash": "^1.0.0",
+    "jest": "^23.5.0",
+    "jsdoc": "^3.5.5"
+  },
+  "scripts": {
+    "test": "jest --colors --expand --logHeapUsage --runInBand",
+    "doc": "jsdoc *.js --destination ./docs/jsdoc --private --readme ./README.md --template ../../../node_modules/docdash"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+      "json",
+      "text",
+      "lcov"
+    ],
+    "globals": {
+      "udpServerPort": 8000,
+      "tcpServerPort": 8001,
+      "tlsBasicServerPort": 8002,
+      "tlsAuthServerPort": 8003
+    },
+    "notify": true,
+    "testEnvironment": "node",
+    "verbose": true
+  }
+}
