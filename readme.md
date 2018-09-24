@@ -2,16 +2,7 @@ SyslogPro
 =========
 [![Build Status](https://travis-ci.org/cyamato/SyslogPro.svg?branch=master)](https://travis-ci.org/cyamato/SyslogPro) [![Coverage Status](https://coveralls.io/repos/github/cyamato/SyslogPro/badge.svg?branch=master)](https://coveralls.io/github/cyamato/SyslogPro?branch=master)
 
-A pure Javascript Syslog module with support for RFC3164, RFC5424, IBM LEEF 
-(Log Event Extended Format), and HP CEF (Common Event Format) formatted 
-messages. SyslogPro has transport options of UDP, TCP, and TLS.  TLS includes 
-support for Server and Client certificate authrization.  For unformatedm and 
-RFC messages there is support for Basic and Extended ANSI coloring. RFC5424 
-Strucutred Data is also encluded in the module.  All 28 standard CEF Extentions 
-are included in the defualt CEF class.  All 45 standard LEEF Atrabutes are 
-included in the defualt LEEF class. It is the goal of this project is for every 
-relase to offer full code covrage unit testing and documentation. [Please see
-the full documation for usage and options:  https://cyamato.github.io/SyslogPro/](https://cyamato.github.io/SyslogPro/).
+A pure Javascript Syslog module with support for RFC3164, RFC5424, IBM LEEF (Log Event Extended Format), and HP CEF (Common Event Format) formatted messages. SyslogPro has transport options for UDP, TCP, and TLS. TLS includes support for Server and Client certificate authorization. For unformatted and RFC messages there is support for Basic and Extended ANSI coloring. RFC5424 Structured Data is also included in the module. All 28 standard CEF Extensions are included in the default CEF class. All 45 standard LEEF Attributes are included in the default LEEF class. It is the goal of this project is for every release to offer full code coverage unit testing and documentation. [Please see the full documentation for usage and options:  https://cyamato.github.io/SyslogPro/](https://cyamato.github.io/SyslogPro/).
 
 ## Installation
 
