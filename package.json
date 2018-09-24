@@ -1,6 +1,6 @@
 {
   "name": "SyslogPro",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A Syslog client which options for UDP, TCP, and TLS transport and suport for both RFC-3164 and RFC-5424 including Structured Data.",
   "repository": "",
   "author": {
@@ -16,6 +16,10 @@
     }
   ],
   "license": "MIT",
+  "main": "index.js",
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "dependencies": {
     "moment": "^2.22.2"
   },
@@ -27,14 +31,15 @@
   },
   "scripts": {
     "test": "jest --colors --expand --logHeapUsage --runInBand",
-    "doc": "jsdoc *.js --destination ./docs/jsdoc --private --readme ./README.md --template ../../../node_modules/docdash"
+    "doc": "jsdoc *.js --destination ./docs/jsdoc --private --readme ./readme.md --template ./node_modules/docdash"
   },
   "jest": {
     "collectCoverage": true,
-    "coverageDirectory": "coverage",
+    "coverageDirectory": "docs/coverage",
     "coverageReporters": [
       "json",
       "text",
+      "text-summary",
       "lcov"
     ],
     "globals": {

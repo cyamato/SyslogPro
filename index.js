@@ -31,43 +31,7 @@ function rgbToAnsi (hex, extendedColor) {
     let colorCode = 0;  // Var to hold color code
     // Break HEX Code up into RGB
     const hexParts = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    if (hexParts) {
-      const r = parseInt(hexParts[1], 16);
-      const g = parseInt(hexParts[2], 16);
-      const b = parseInt(hexParts[3], 16);
-      if (extendedColor) {
-        if (r === g && g === b) {
-          // Gray Scale Color
-	        if (r < 8) {
-		        colorCode = 16;
-	        } else if (r > 248) {
-		        colorCode = 231;
-	        } else {
-	          colorCode = Math.round(((r - 8) / 247) * 24) + 232;
-	        }
-        } else {
-          colorCode = 16
-	            + (36 * Math.round(r / 255 * 5))
-	            + (6 * Math.round(g / 255 * 5))
-	            + Math.round(b / 255 * 5);
-        }
-      } else {
-        colorCode = 30;
-        const red = r / 255;
-        const green = g / 255;
-        const blue = b / 255;
-        let v = Math.max(red, green, blue) * 100;
-        v = Math.round(v / 50);
-        if (v !== 0) {
-          colorCode += ((Math.round(b / 255) << 2)
-              | (Math.round(g / 255) << 1)
-              | Math.round(r / 255));
-        }
-        if (v === 2) {
-          colorCode += 60;
-        }
-      }
-    } else {
+    if (hexParts || typeof hex === 'number') {
       if (typeof hex === 'number') {
         if (extendedColor && hex < 256) {
           resolve(hex);
@@ -77,11 +41,48 @@ function rgbToAnsi (hex, extendedColor) {
           reject (new Error('FORMAT ERROR: Color code not in range')); 
         }
       } else {
-        reject (new Error('TYPE ERROR: Not in RGB color hex or color code'));
+        const r = parseInt(hexParts[1], 16);
+        const g = parseInt(hexParts[2], 16);
+        const b = parseInt(hexParts[3], 16);
+        if (extendedColor) {
+          if (r === g && g === b) {
+            // Gray Scale Color
+  	        if (r < 8) {
+  		        colorCode = 16;
+  	        } else if (r > 248) {
+  		        colorCode = 231;
+  	        } else {
+  	          colorCode = Math.round(((r - 8) / 247) * 24) + 232;
+  	        }
+          } else {
+            colorCode = 16
+  	            + (36 * Math.round(r / 255 * 5))
+  	            + (6 * Math.round(g / 255 * 5))
+  	            + Math.round(b / 255 * 5);
+          }
+        } else {
+          colorCode = 30;
+          const red = r / 255;
+          const green = g / 255;
+          const blue = b / 255;
+          let v = Math.max(red, green, blue) * 100;
+          v = Math.round(v / 50);
+          if (v === 1) {
+            colorCode += ((Math.round(b / 255) << 2)
+                | (Math.round(g / 255) << 1)
+                | Math.round(r / 255));
+          }
+          if (v === 2) {
+            colorCode += 60;
+          }
+        }
       }
-      colorCode = hex;
+      resolve(colorCode);
+      return;
+    } else {
+      reject(new Error('TYPE ERROR: Not in RGB color hex or color code'));
+      return;
     }
-    resolve(colorCode);
   });
 }
 
@@ -137,12 +138,13 @@ class Syslog {
    *    (Common Event Format) formating object} 
    */
   constructor (options) {
+    this.constructor__ = true;
     if (!options) {
       options = {};
     }
     // Basic transport setup
     /** @type {string} */
-    this.target = options.target || '127.0.0.1';
+    this.target = options.target || 'localhost';
     /** @type {string} */
     this.protocol = options.protocol || 'udp';
     this.protocol = this.protocol.toLowerCase();
@@ -173,41 +175,49 @@ class Syslog {
     } else {
       this.format = options.format || 'none';
     }
-    if (this.format === 'rfc3164') {
-      if (options.rfc3164 && options.rfc3164.constructor__) {
+    if (options.rfc3164) {
+      if (options.rfc3164.constructor__) {
+        /** @type {RFC3164} */
         this.rfc3164 = options.rfc3164;
-      } else if (options.rfc3164) {
+      } else {
         this.rfc3164 = new RFC3164(options);
-      } else {
-        this.rfc3164 = new RFC3164();
       }
     }
-    if (this.format === 'rfc5424') {
-      if (options.rfc5424 && options.rfc5424.constructor__) {
+    if (options.rfc5424) {
+      if (options.rfc5424.constructor__) {
+        /** @type {RFC5424} */
         this.rfc5424 = options.rfc5424;
-      } else if (options.rfc5424) {
+      } else {
         this.rfc5424 = new RFC5424(options);
-      } else {
-        this.rfc5424 = new RFC5424();
       }
     }
-    if (this.format === 'leef') {
-      if (options.leef && options.leef.constructor__) {
+    if (options.leef) {
+      if (options.leef.constructor__) {
+        /** @type {LEEF} */
         this.leef = options.leef;
-      } else if (options.leef) {
-        this.leef = new LEEF(options);
       } else {
-        this.leef = new LEEF();
+        this.leef = new LEEF(options);
       }
     }
-    if (this.format === 'cef') {
-      if (options.cef && options.cef.constructor__) {
+    if (options.cef) {
+      if (options.cef.constructor__) {
+        /** @type {CEF} */
         this.cef = options.cef;
-      } else if (options.cef) {
-        this.cef = new CEF(options);
       } else {
-        this.cef = new CEF();
+        this.cef = new CEF(options);
       }
+    }
+    if (this.format === 'rfc3164' && !this.rfc3164) {
+      this.rfc3164 = new RFC3164();
+    }
+    if (this.format === 'rfc5424' && !this.rfc5424) {
+      this.rfc5424 = new RFC5424();
+    }
+    if (this.format === 'leef' && !this.leef) {
+      this.leef = new LEEF();
+    }
+    if (this.format === 'cef' && !this.cef) {
+      this.cef = new CEF();
     }
   }
   
@@ -230,220 +240,13 @@ class Syslog {
       } else if (typeof certs === 'string') {
         this.tlsServerCerts = [certs];
       } else {
-        let errMsg = 'TYPE ERROR: Server Cert file loctions shoudl be a sting';
-        errMsg += 'or array of strings';
+        let errMsg = 'TYPE ERROR: Server Cert file loctions shoudl be a string';
+        errMsg += ' or array of strings';
         reject(new Error(errMsg));
       }
       resolve(true);
     });
   }
-  
-  /**
-   * Building of the Syslog Message.  Returns a promise with a formated message 
-   * @private
-   * @param {string} msg - The Syslog Message
-   * @returns {Promise} A Syslog formated string acording to the selected RFC
-   * @throws {Error} A standard error object
-   */
-  buildMessage (msg, options) {
-    return new Promise((resolve, reject) => {
-      msg = msg || '';
-      options = options || {};
-      options.msgSeverity = typeof options.msgSeverity === 'number'
-          ? options.msgSeverity : this.severity;
-      options.msgFacility = typeof options.msgFacility === 'number'
-          ? options.msgFacility : this.facility;
-      options.msgFormat = typeof options.msgFormat === 'string'
-          ? options.msgFormat : this.format;
-      let fmtMsg = ''; // Formated Syslog message string var
-      
-      if (typeof msg !== 'string' || options.msgSeverity > 7) {
-        let errMsg = 'FORMAT ERROR: Syslog message must be a string';
-        errMsg += ' msgSeverity must be a number between 0 and 7';
-        reject(new Error(errMsg));
-      } else {
-        const newLine = '\n';
-        const newLineRegEx = /(\r|\n|(\r\n))/;
-        
-        // The PRI is common to both RFC formats
-        const pri = (options.msgFacility * 8) + options.msgSeverity;
-
-        msg = msg.replace(newLineRegEx, ''); // Remove any newline character
-        
-        // Add ansi color if selected
-        if (this.color 
-            && (typeof this.format === 'string'
-            && this.format !== 'leef' 
-            && this.format != 'cep')) {
-          // Color is allowed based on global setting
-          const escapeCode = '\u001B';
-          const resetColor = '\u001B[0m';
-          
-          let colorCode = escapeCode + '[';  // String holder
-          
-          if (this.extendedColor) {
-            colorCode += '38;5;'; // Extended 256 Colors ANSI Code
-          }
-          if (typeof options.msgColor === 'number') {
-            colorCode += options.msgColor;
-            colorCode += 'm'; // ANSI Color Closer
-          } else {
-            colorCode = escapeCode;
-            colorCode += '[39m';  // Use terminal's defualt color
-          }
-          
-          msg = colorCode + msg + resetColor;
-        }
-        
-        if (typeof this.format === 'string' && this.format === 'rfc3164') {
-          // RFC3164 formating
-          // RegEx to find a leading 0 in the day of a DateTime for RFC3164
-          // RFC3164 uses BSD timeformat
-          const rfc3164DateRegEx = /((A|D|F|J|M|N|O|S)(a|c|e|p|o|u)(b|c|g|l|n|p|r|t|v|y)\s)0(\d\s\d\d:\d\d:\d\d)/;
-          const timestamp = moment()
-              .format('MMM DD hh:mm:ss')
-              .replace(rfc3164DateRegEx, '$1 $5');
-              
-          fmtMsg = '<' + pri + '>';
-          fmtMsg += timestamp;
-          fmtMsg += ' ' + this.hostname;
-          fmtMsg += ' ' + this.applacationName;
-          fmtMsg += ' ' + msg;
-          fmtMsg += newLine;
-        } else if (typeof this.format === 'string' 
-            && this.format === 'leef'
-            && typeof this.leef === 'object') {
-          // IBM LEEF (Log Event Extended Format) formating
-          if (this.leef.syslogHeader) {
-            // Build Syslog header
-            const timestamp = moment()
-              .format('MMM DD hh:mm:ss');
-              
-            fmtMsg = timestamp;
-            fmtMsg += ' ' + this.hostname;
-            fmtMsg += ' ';
-          }
-          
-          // Build LEEF header
-          fmtMsg = 'LEEF:2.0';
-          fmtMsg += '|' + this.leef.vendor;
-          fmtMsg += '|' + this.leef.product;
-          fmtMsg += '|' + this.leef.version;
-          fmtMsg += '|' + this.leef.eventId;
-          fmtMsg += '|';
-          
-          // Build LEEF Attrabuites
-          const Tab = '\x09';
-          const leefAttribs = Object.entries(this.leef.attrabutes);
-          const leefAttribsLen = leefAttribs.length;
-          for (let attrib = 0; attrib < leefAttribsLen; attrib++) {
-            if (leefAttribs[attrib][1] !== null) {
-              fmtMsg += leefAttribs[attrib][0] + '=' + leefAttribs[attrib][1] + Tab;
-            }
-          }
-        } else if (typeof this.format === 'string' 
-            && this.format === 'cef'
-            && typeof this.cef === 'object') {
-          // HP CEF (Common Event Format) formating
-          // Build CEF Header
-          fmtMsg = 'CEF:0';
-          fmtMsg += '|' + this.cef.deviceVendor;
-          fmtMsg += '|' + this.cef.deviceProduct;
-          fmtMsg += '|' + this.cef.deviceVersion;
-          fmtMsg += '|' + this.cef.deviceEventClassId;
-          fmtMsg += '|' + this.cef.name;
-          fmtMsg += '|' + this.cef.severity;
-          fmtMsg += '|';
-          
-          const cefExts = Object.entries(this.cef.extensions);
-          const cefExtsLen = cefExts.length;
-          for (let ext = 0; ext < cefExtsLen; ext++) {
-            if (cefExts[ext][1] !== null) {
-              fmtMsg += cefExts[ext][0] + '=' + cefExts[ext][1] + ' ';
-            }
-          }
-        } else if (typeof this.format === 'string' 
-            && this.format === 'rfc5424') {
-          // RFC5424 formating
-          let timestamp = '-';
-          if (this.rfc5424.timestamp) {
-            if (this.rfc5424.timestampUTC) {
-              if (this.rfc5424.timestampMS) {
-                if (this.rfc5424.timestampTZ) {
-                  timestamp = moment().utc().format('YYYY-MM-DDThh:mm:ss.SSSSSSZ');
-                } else {
-                  timestamp = moment().utc().format('YYYY-MM-DDThh:mm:ss.SSSSSS');
-                }
-              } else {
-                if (this.rfc5424.timestampTZ) {
-                  timestamp = moment().utc().format('YYYY-MM-DDThh:mm:ssZ');
-                } else {
-                  timestamp = moment().utc().format('YYYY-MM-DDThh:mm:ss');
-                }
-              }
-            } else {
-              if (this.rfc5424.timestampMS) {
-                if (this.rfc5424.timestampTZ) {
-                  timestamp = moment().format('YYYY-MM-DDThh:mm:ss.SSSSSSZ');
-                } else {
-                  timestamp = moment().format('YYYY-MM-DDThh:mm:ss.SSSSSS');
-                }
-              } else {
-                if (this.rfc5424.timestampTZ) {
-                  timestamp = moment().format('YYYY-MM-DDThh:mm:ssZ');
-                } else {
-                  timestamp = moment().format('YYYY-MM-DDThh:mm:ss');
-                }
-              }
-            }
-          }
-          
-          let rfc5424StructuredData = '-';
-          const sdElementCount = this.rfc5424StructuredData.length;
-          if (this.rfc5424EncludeStructuredData && sdElementCount > 0) {
-            let sdElementNames = [];
-            let sdElements = [];
-            const sdElementNameRegEx = /(\[)(\S*)(\s|\])/;
-            // Loop to drop duplicates of the same SD Element name
-            for (let elementIndex=0; 
-                elementIndex<sdElementCount; 
-                elementIndex++) {
-              let elementName = 
-                this.rfc5424StructuredData[elementIndex]
-                .match(sdElementNameRegEx)[2];
-              if (!sdElementNames.includes(elementName)) {
-                sdElementNames.push(elementName);
-                sdElements.push(this.rfc5424StructuredData[elementIndex]);
-              }
-            }
-            rfc5424StructuredData = sdElements.join('');
-          }
-          
-          const pid = options.pid || '-';
-          const msgId = options.msgId || '-';
-          
-          fmtMsg = '<' + pri + '>';
-          fmtMsg += '1'; // Version number
-          fmtMsg += ' ' + timestamp;
-          fmtMsg += ' ' + this.hostname;
-          fmtMsg += ' ' + this.applacationName;
-          fmtMsg += ' ' + pid;
-          fmtMsg += ' ' + msgId;
-          fmtMsg += ' ' + rfc5424StructuredData;
-          if (this.rfc5424Utf8BOM) {
-            fmtMsg += ' BOM' + msg;
-          } else {
-            fmtMsg += ' ' + msg;
-          }
-          fmtMsg += newLine;
-        } else {
-          fmtMsg = msg;
-        }
-      }
-      resolve(fmtMsg);
-    });
-  }
-  
   /**
    * Send the Syslog message over UDP
    * @private
@@ -465,10 +268,8 @@ class Syslog {
             let msgBuffer = Buffer.from(msg, 'utf8');
             client.send(msgBuffer, this.port, this.target, (error) => {
               client.close();
+              resolve(msg);
             });
-            client.on('end', () => {
-                resolve(msg);
-              });
           })
           .catch((error) => {
             reject(error); // Reject out of the sendMessage function promise
@@ -517,7 +318,7 @@ class Syslog {
             });
           })
           .catch((error) => {
-            reject(error); // Reject out of the sendMessage function promise
+            reject(error);
           });
     });
   }
@@ -607,6 +408,7 @@ class Syslog {
         reject(new Error("TYPE ERROR: Syslog message must be a string"));
         return;
       }
+      this.protocol = this.protocol.toLowerCase();
       if (this.protocol === 'udp') {
         this.udpMessage(msg)
             .then((result) => {
@@ -631,7 +433,11 @@ class Syslog {
             .catch((reson) => {
               reject(reson);
             });
-      })
+      } else {
+        let errorMsg = 'FORMAT ERROR: Protocol not reconized, should be ';
+        errorMsg += 'udp|tcp|tls';
+        reject(new Error(errorMsg));
+      }
     });
   }
 }
@@ -689,6 +495,7 @@ class RFC3164 {
   constructor (options) {
     /** @private @type {boolean} */
     this.constructor__ = true;
+    options = options || {};
     this.hostname = options.hostname || os.hostname();
     this.applacationName = options.applacationName || '';
     this.facility = options.facility || 23;
@@ -740,7 +547,7 @@ class RFC3164 {
       this.debugColor = 34; // Dark Blue foreground color
     }
     if (typeof options.colors === 'object') {
-      this.setColor(options.colors);
+      this.setColor(options.colors, this.extendedColor);
     }
   }
   /**
@@ -772,80 +579,144 @@ class RFC3164 {
    *    Extended)
    * @throws {Error} A standard error object
    */
-  setColor (colors) {
+  setColor (colors, extendedColor) {
     return new Promise((resolve, reject) => {
+      let colorPromises = [];
       if (colors.emergencyColor) {
-        rgbToAnsi(colors.emergencyColor)
-            .then((result) => {
-              this.emergencyColor = result;
-            })
-            .catch((reson) => {
-              reject(reson);
-            });
+        colorPromises.push(
+            new Promise((resolve,reject) => {
+              rgbToAnsi(colors.emergencyColor, this.extendedColor)
+                  .then((result) => {
+                    this.emergencyColor = result;
+                    resolve(true);
+                  })
+                  .catch((reson) => {
+                    reson.message = 'TYPE ERROR: '; 
+                    reson.message += 'emergencyColor';
+                    reson.message += ' Not in RGB color hex or color code';
+                    reject(reson);
+                  });
+        }));
       }
       if (colors.alertColor) {
-        rgbToAnsi(colors.alertColor)
-            .then((result) => {
-              this.alertColor = result;
-            })
-            .catch((reson) => {
-              reject(reson);
-            });
+        colorPromises.push(
+            new Promise((resolve,reject) => {
+              rgbToAnsi(colors.alertColor, this.extendedColor)
+                  .then((result) => {
+                    this.alertColor = result;
+                    resolve(true);
+                  })
+                  .catch((reson) => {
+                    reson.message = 'TYPE ERROR: '; 
+                    reson.message += 'alertColor';
+                    reson.message += ' Not in RGB color hex or color code';
+                    reject(reson);
+                  });
+        }));
       }
       if (colors.criticalColor) {
-        rgbToAnsi(colors.criticalColor)
-            .then((result) => {
-              this.criticalColor = result;
-            })
-            .catch((reson) => {
-              reject(reson);
-            });
+        colorPromises.push(
+            new Promise((resolve,reject) => {
+              rgbToAnsi(colors.criticalColor, this.extendedColor)
+                  .then((result) => {
+                    this.criticalColor = result;
+                    resolve(true);
+                  })
+                  .catch((reson) => {
+                    reson.message = 'TYPE ERROR: '; 
+                    reson.message += 'criticalColor';
+                    reson.message += ' Not in RGB color hex or color code';
+                    reject(reson);
+                  });
+        }));
       }
       if (colors.errorColor) {
-        rgbToAnsi(colors.errorColor)
-            .then((result) => {
-              this.errorColor = result;
-            })
-            .catch((reson) => {
-              reject(reson);
-            });
+        colorPromises.push(
+            new Promise((resolve,reject) => {
+              rgbToAnsi(colors.errorColor, this.extendedColor)
+                  .then((result) => {
+                    this.errorColor = result;
+                    resolve(true);
+                  })
+                  .catch((reson) => {
+                    reson.message = 'TYPE ERROR: '; 
+                    reson.message += 'errorColor';
+                    reson.message += ' Not in RGB color hex or color code';
+                    reject(reson);
+                  });
+        }));
       }
       if (colors.warningColor) {
-        rgbToAnsi(colors.warningColor)
-            .then((result) => {
-              this.warningColor = result;
-            })
-            .catch((reson) => {
-              reject(reson);
-            });
+        colorPromises.push(
+            new Promise((resolve,reject) => {
+              rgbToAnsi(colors.warningColor, this.extendedColor)
+                  .then((result) => {
+                    this.warningColor = result;
+                    resolve(true);
+                  })
+                  .catch((reson) => {
+                    reson.message = 'TYPE ERROR: '; 
+                    reson.message += 'warningColor';
+                    reson.message += ' Not in RGB color hex or color code';
+                    reject(reson);
+                  });
+        }));
       }
       if (colors.noticeColor) {
-        rgbToAnsi(colors.noticeColor)
-            .then((result) => {
-              this.noticeColor = result;
-            })
-            .catch((reson) => {
-              reject(reson);
-            });
+        colorPromises.push(
+            new Promise((resolve,reject) => {
+              rgbToAnsi(colors.noticeColor, this.extendedColor)
+                  .then((result) => {
+                    this.noticeColor = result;
+                    resolve(true);
+                  })
+                  .catch((reson) => {
+                    reson.message = 'TYPE ERROR: '; 
+                    reson.message += 'noticeColor';
+                    reson.message += ' Not in RGB color hex or color code';
+                    reject(reson);
+                  });
+        }));
       }
       if (colors.informationalColor) {
-        rgbToAnsi(colors.informationalColor)
-            .then((result) => {
-              this.informationalColor = result;
-            })
-            .catch((reson) => {
-              reject(reson);
-            });
+        colorPromises.push(
+            new Promise((resolve,reject) => {
+              rgbToAnsi(colors.informationalColor, this.extendedColor)
+                  .then((result) => {
+                    this.informationalColor = result;
+                    resolve(true);
+                  })
+                  .catch((reson) => {
+                    reson.message = 'TYPE ERROR: '; 
+                    reson.message += 'informationalColor';
+                    reson.message += ' Not in RGB color hex or color code';
+                    reject(reson);
+                  });
+        }));
       }
       if (colors.debugColor) {
-        rgbToAnsi(colors.debugColor)
-            .then((result) => {
-              this.debugColor = result;
-            })
-            .catch((reson) => {
-              reject(reson);
-            });
+        colorPromises.push(
+            new Promise((resolve,reject) => {
+              rgbToAnsi(colors.debugColor, this.extendedColor)
+                  .then((result) => {
+                    this.debugColor = result;
+                    resolve(true);
+                  })
+                  .catch((reson) => {
+                    reson.message = 'TYPE ERROR: '; 
+                    reson.message += 'debugColor';
+                    reson.message += ' Not in RGB color hex or color code';
+                    reject(reson);
+                  });
+        }));
       }
+      Promise.all(colorPromises)
+          .then((results) => {
+            resolve(true);
+          })
+          .catch((reson) => {
+            reject(reson);
+          });
     });
   }
   /**
@@ -861,15 +732,15 @@ class RFC3164 {
    */
   buildMessage (msg, options) {
     return new Promise((resolve, reject) => {
+      options = options || {};
+      let severity = typeof options.severity === 'number' ? 
+          options.severity : 6;
       if (typeof msg !== 'string' || options.msgSeverity > 7) {
         let errMsg = 'FORMAT ERROR: Syslog message must be a string';
         errMsg += ' msgSeverity must be a number between 0 and 7';
         reject(new Error(errMsg));
         return;
       }
-      options = options || {};
-      let severity = options.severity || 7;
-      let colorCode = options.colorCode || 36;
       let fmtMsg = ''; // Formated Syslog message string var
       const newLine = '\n';
       const newLineRegEx = /(\r|\n|(\r\n))/;
@@ -881,6 +752,8 @@ class RFC3164 {
       msg = msg.replace(newLineRegEx, ''); 
       // Add requested color
       if (this.color) {
+        options.msgColor = options.msgColor || 36;
+        let colorCode = '[';
         if (this.extendedColor) {
           colorCode += '38;5;'; // Extended 256 Colors ANSI Code
         }
@@ -888,10 +761,9 @@ class RFC3164 {
           colorCode += options.msgColor;
           colorCode += 'm'; // ANSI Color Closer
         } else {
-          colorCode = escapeCode;
-          colorCode += '[39m';  // Use terminal's defualt color
+          colorCode = '[39m';  // Use terminal's defualt color
         }
-        msg = colorCode + msg + resetColor;
+        msg = escapeCode + colorCode + msg + resetColor;
       }
       // RegEx to find a leading 0 in the day of a DateTime for RFC3164
       // RFC3164 uses BSD timeformat
@@ -950,7 +822,10 @@ class RFC3164 {
    * @throws {Error} - Any bubbled up error
    */
   emergency (msg) {
-    return this.send(msg, {severity: 0, colorCode: this.emergencyColor});
+    return this.send(msg, {
+      severity: 0, 
+      colorCode: this.emergencyColor
+    });
   }
   /**
    * Send a syslog message with a secerity level of 0 (Emergency)
@@ -970,7 +845,10 @@ class RFC3164 {
    * @throws {Error} - Any bubbled up error
    */
   alert (msg) {
-    return this.send(msg, {severity: 1, colorCode: this.alertColor});
+    return this.send(msg, {
+      severity: 1, 
+      colorCode: this.alertColor
+    });
   }
   /**
    * Send a syslog message with a secerity level of 2 (Critical)
@@ -980,7 +858,10 @@ class RFC3164 {
    * @throws {Error} - Any bubbled up error
    */
   critical (msg) {
-    return this.send(msg, {severity: 2, colorCode: this.criticalColor});
+    return this.send(msg, {
+      severity: 2, 
+      colorCode: this.criticalColor
+    });
   }
   /**
    * Send a syslog message with a secerity level of 2 (Critical)
@@ -1000,7 +881,10 @@ class RFC3164 {
    * @throws {Error} - Any bubbled up error
    */
   error (msg) {
-    return this.send(msg, {severity: 3, colorCode: this.errorColor});
+    return this.send(msg, {
+      severity: 3, 
+      colorCode: this.errorColor
+    });
   }
   /**
    * Send a syslog message with a secerity level of 3 (Error)
@@ -1020,7 +904,10 @@ class RFC3164 {
    * @throws {Error} - Any bubbled up error
    */
   warning (msg) {
-    return this.send(msg, {severity: 4, colorCode: this.warningColor});
+    return this.send(msg, {
+      severity: 4, 
+      colorCode: this.warningColor
+    });
   }
   /**
    * Send a syslog message with a secerity level of 4 (Warning)
@@ -1040,7 +927,10 @@ class RFC3164 {
    * @throws {Error} - Any bubbled up error
    */
   notice (msg) {
-    return this.send(msg, {severity: 5, colorCode: this.noticeColor});
+    return this.send(msg, {
+      severity: 5, 
+      colorCode: this.noticeColor
+    });
   }
   /**
    * Send a syslog message with a secerity level of 5 (Notice)
@@ -1060,9 +950,9 @@ class RFC3164 {
    * @throws {Error} - Any bubbled up error
    */
   informational (msg) {
-    return this.process(msg, {
-      msgSeverity: 6, 
-      msgColor: this.informationalColor
+    return this.send(msg, {
+      severity: 6, 
+      colorCode: this.informationalColor
     });
   }
   /**
@@ -1093,7 +983,10 @@ class RFC3164 {
    * @throws {Error} - Any bubbled up error
    */
   debug (msg) {
-    return this.send(msg, {severity: 7, colorCode: this.debugColor});
+    return this.send(msg, {
+      severity: 7, 
+      colorCode: this.debugColor
+    });
   }
 }
 
@@ -1157,6 +1050,7 @@ class RFC5424 {
   constructor (options) {
     /** @private @type {boolean} */
     this.constructor__ = true;
+    options = options || {};
     this.hostname = options.hostname || os.hostname();
     this.applacationName = options.applacationName || '';
     if (typeof options.timestamp === 'undefined' || options.timestamp) {
@@ -1215,27 +1109,6 @@ class RFC5424 {
         this.server = options.server;
       }
     }
-    // Setup defulat SD for RFC5424 formated messages
-    if (this.timestamp 
-        && (this.timestampUTC 
-        || this.timestampMS
-        || this.timestampTZ)) {
-      let timeQuality = '[timeQuality';
-      if (this.timestampUTC) {
-        timeQuality += ' tzKnown=1';
-      }
-      if (!this.timestampUTC && this.timestampTZ) {
-        timeQuality += ' tzKnown=1';
-      } else if (!this.timestampUTC && !this.timestampTZ) {
-        timeQuality += ' tzKnown=0';
-      }
-      if (this.timestampMS) {
-        timeQuality += ' isSynced=1';
-        timeQuality += ' syncAccuracy=0';
-      }
-      timeQuality += ']';
-      this.structuredData.push(timeQuality);
-    }
     if (this.extendedColor) {
       /** @private @type {number} */
       this.emergencyColor = 1; // Red foreground color
@@ -1264,7 +1137,7 @@ class RFC5424 {
       this.debugColor = 34; // Dark Blue foreground color
     }
     if (typeof options.colors === 'object') {
-      this.setColor(options.colors);
+      this.setColor(options.colors, this.extendedColor);
     }
   }
   /**
@@ -1296,80 +1169,144 @@ class RFC5424 {
    *    Extended)
    * @throws {Error} A standard error object
    */
-  setColor (colors) {
+  setColor (colors, extendedColor) {
     return new Promise((resolve, reject) => {
+      let colorPromises = [];
       if (colors.emergencyColor) {
-        rgbToAnsi(colors.emergencyColor)
-            .then((result) => {
-              this.emergencyColor = result;
-            })
-            .catch((reson) => {
-              reject(reson);
-            });
+        colorPromises.push(
+            new Promise((resolve,reject) => {
+              rgbToAnsi(colors.emergencyColor, this.extendedColor)
+                  .then((result) => {
+                    this.emergencyColor = result;
+                    resolve(true);
+                  })
+                  .catch((reson) => {
+                    reson.message = 'TYPE ERROR: '; 
+                    reson.message += 'emergencyColor';
+                    reson.message += ' Not in RGB color hex or color code';
+                    reject(reson);
+                  });
+        }));
       }
       if (colors.alertColor) {
-        rgbToAnsi(colors.alertColor)
-            .then((result) => {
-              this.alertColor = result;
-            })
-            .catch((reson) => {
-              reject(reson);
-            });
+        colorPromises.push(
+            new Promise((resolve,reject) => {
+              rgbToAnsi(colors.alertColor, this.extendedColor)
+                  .then((result) => {
+                    this.alertColor = result;
+                    resolve(true);
+                  })
+                  .catch((reson) => {
+                    reson.message = 'TYPE ERROR: '; 
+                    reson.message += 'alertColor';
+                    reson.message += ' Not in RGB color hex or color code';
+                    reject(reson);
+                  });
+        }));
       }
       if (colors.criticalColor) {
-        rgbToAnsi(colors.criticalColor)
-            .then((result) => {
-              this.criticalColor = result;
-            })
-            .catch((reson) => {
-              reject(reson);
-            });
+        colorPromises.push(
+            new Promise((resolve,reject) => {
+              rgbToAnsi(colors.criticalColor, this.extendedColor)
+                  .then((result) => {
+                    this.criticalColor = result;
+                    resolve(true);
+                  })
+                  .catch((reson) => {
+                    reson.message = 'TYPE ERROR: '; 
+                    reson.message += 'criticalColor';
+                    reson.message += ' Not in RGB color hex or color code';
+                    reject(reson);
+                  });
+        }));
       }
       if (colors.errorColor) {
-        rgbToAnsi(colors.errorColor)
-            .then((result) => {
-              this.errorColor = result;
-            })
-            .catch((reson) => {
-              reject(reson);
-            });
+        colorPromises.push(
+            new Promise((resolve,reject) => {
+              rgbToAnsi(colors.errorColor, this.extendedColor)
+                  .then((result) => {
+                    this.errorColor = result;
+                    resolve(true);
+                  })
+                  .catch((reson) => {
+                    reson.message = 'TYPE ERROR: '; 
+                    reson.message += 'errorColor';
+                    reson.message += ' Not in RGB color hex or color code';
+                    reject(reson);
+                  });
+        }));
       }
       if (colors.warningColor) {
-        rgbToAnsi(colors.warningColor)
-            .then((result) => {
-              this.warningColor = result;
-            })
-            .catch((reson) => {
-              reject(reson);
-            });
+        colorPromises.push(
+            new Promise((resolve,reject) => {
+              rgbToAnsi(colors.warningColor, this.extendedColor)
+                  .then((result) => {
+                    this.warningColor = result;
+                    resolve(true);
+                  })
+                  .catch((reson) => {
+                    reson.message = 'TYPE ERROR: '; 
+                    reson.message += 'warningColor';
+                    reson.message += ' Not in RGB color hex or color code';
+                    reject(reson);
+                  });
+        }));
       }
       if (colors.noticeColor) {
-        rgbToAnsi(colors.noticeColor)
-            .then((result) => {
-              this.noticeColor = result;
-            })
-            .catch((reson) => {
-              reject(reson);
-            });
+        colorPromises.push(
+            new Promise((resolve,reject) => {
+              rgbToAnsi(colors.noticeColor, this.extendedColor)
+                  .then((result) => {
+                    this.noticeColor = result;
+                    resolve(true);
+                  })
+                  .catch((reson) => {
+                    reson.message = 'TYPE ERROR: '; 
+                    reson.message += 'noticeColor';
+                    reson.message += ' Not in RGB color hex or color code';
+                    reject(reson);
+                  });
+        }));
       }
       if (colors.informationalColor) {
-        rgbToAnsi(colors.informationalColor)
-            .then((result) => {
-              this.informationalColor = result;
-            })
-            .catch((reson) => {
-              reject(reson);
-            });
+        colorPromises.push(
+            new Promise((resolve,reject) => {
+              rgbToAnsi(colors.informationalColor, this.extendedColor)
+                  .then((result) => {
+                    this.informationalColor = result;
+                    resolve(true);
+                  })
+                  .catch((reson) => {
+                    reson.message = 'TYPE ERROR: '; 
+                    reson.message += 'informationalColor';
+                    reson.message += ' Not in RGB color hex or color code';
+                    reject(reson);
+                  });
+        }));
       }
       if (colors.debugColor) {
-        rgbToAnsi(colors.debugColor)
-            .then((result) => {
-              this.debugColor = result;
-            })
-            .catch((reson) => {
-              reject(reson);
-            });
+        colorPromises.push(
+            new Promise((resolve,reject) => {
+              rgbToAnsi(colors.debugColor, this.extendedColor)
+                  .then((result) => {
+                    this.debugColor = result;
+                    resolve(true);
+                  })
+                  .catch((reson) => {
+                    reson.message = 'TYPE ERROR: '; 
+                    reson.message += 'debugColor';
+                    reson.message += ' Not in RGB color hex or color code';
+                    reject(reson);
+                  });
+        }));
       }
+      Promise.all(colorPromises)
+          .then((results) => {
+            resolve(true);
+          })
+          .catch((reson) => {
+            reject(reson);
+          });
     });
   }
   /**
@@ -1394,19 +1331,19 @@ class RFC5424 {
    */
   buildMessage (msg, options) {
     return new Promise((resolve, reject) => {
-      if (typeof msg !== 'string' || options.msgSeverity > 7) {
+      options = options || {};
+      let severity = typeof options.severity === 'number' ? 
+          options.severity : 6;
+      if (typeof msg !== 'string' || options.severity > 7) {
         let errMsg = 'FORMAT ERROR: Syslog message must be a string';
         errMsg += ' msgSeverity must be a number between 0 and 7';
         reject(new Error(errMsg));
         return;
       }
-      options = options || {};
-      let severity = options.severity || 7;
       let facility = options.facility || 23;
       let pid = options.pid || '-';
       let id = options.id || '-';
       let msgStructuredData = options.msgStructuredData || [];
-      let colorCode = options.colorCode || 36;
       let fmtMsg = ''; // Formated Syslog message string var
       const newLine = '\n';
       const newLineRegEx = /(\r|\n|(\r\n))/;
@@ -1418,6 +1355,8 @@ class RFC5424 {
       msg = msg.replace(newLineRegEx, ''); 
       // Add requested color
       if (this.color) {
+        options.msgColor = options.msgColor || 36;
+        let colorCode = '[';
         if (this.extendedColor) {
           colorCode += '38;5;'; // Extended 256 Colors ANSI Code
         }
@@ -1425,15 +1364,16 @@ class RFC5424 {
           colorCode += options.msgColor;
           colorCode += 'm'; // ANSI Color Closer
         } else {
-          colorCode = escapeCode;
-          colorCode += '[39m';  // Use terminal's defualt color
+          colorCode = '[39m';  // Use terminal's defualt color
         }
-        msg = colorCode + msg + resetColor;
+        msg = escapeCode + colorCode + msg + resetColor;
       }
       // RFC5424 timestamp formating
       let timestamp = '-';
       if (this.timestamp) {
+        let timeQuality = '[timeQuality';
         if (this.timestampUTC) {
+          timeQuality += ' tzKnown=1';
           if (this.timestampMS) {
             if (this.timestampTZ) {
               timestamp = moment().utc().format('YYYY-MM-DDThh:mm:ss.SSSSSSZ');
@@ -1448,20 +1388,28 @@ class RFC5424 {
             }
           }
         } else {
-          if (this.timestampMS) {
-            if (this.timestampTZ) {
+          if (this.timestampTZ) {
+            timeQuality += ' tzKnown=1';
+            if (this.timestampMS) {
+              timeQuality += ' isSynced=1';
+              timeQuality += ' syncAccuracy=0';
               timestamp = moment().format('YYYY-MM-DDThh:mm:ss.SSSSSSZ');
             } else {
-              timestamp = moment().format('YYYY-MM-DDThh:mm:ss.SSSSSS');
+              timestamp = moment().format('YYYY-MM-DDThh:mm:ssZ');
             }
           } else {
-            if (this.timestampTZ) {
-              timestamp = moment().format('YYYY-MM-DDThh:mm:ssZ');
+            timeQuality += ' tzKnown=0';
+            if (this.timestampMS) {
+              timeQuality += ' isSynced=1';
+              timeQuality += ' syncAccuracy=0';
+              timestamp = moment().format('YYYY-MM-DDThh:mm:ss.SSSSSS');
             } else {
               timestamp = moment().format('YYYY-MM-DDThh:mm:ss');
             }
           }
         }
+        timeQuality += ']';
+        msgStructuredData.push(timeQuality);
       }
       // Build Structured Data string
       let structuredData = '-';
@@ -1512,12 +1460,12 @@ class RFC5424 {
    * @returns {Promise} A Syslog formated string acording to the selected RFC
    * @throws {Error} A standard error object
    */
-  send (msg) {
+  send (msg, options) {
     return new Promise((resolve, reject) => {
       if (!this.server) {
         this.server = new Syslog();
       }
-      this.buildMessage(msg)
+      this.buildMessage(msg, options)
         .then((result) => {
           this.server.send(result)
             .then((sendResult) => {
@@ -1540,7 +1488,10 @@ class RFC5424 {
    * @throws {Error} - Any bubbled up error
    */
   emergency (msg) {
-    return this.send(msg, {severity: 0, colorCode: this.emergencyColor});
+    return this.send(msg, {
+      severity: 0, 
+      colorCode: this.emergencyColor
+    });
   }
   /**
    * Send a syslog message with a secerity level of 0 (Emergency)
@@ -1560,7 +1511,10 @@ class RFC5424 {
    * @throws {Error} - Any bubbled up error
    */
   alert (msg) {
-    return this.send(msg, {severity: 1, colorCode: this.alertColor});
+    return this.send(msg, {
+      severity: 1, 
+      colorCode: this.alertColor
+    });
   }
   /**
    * Send a syslog message with a secerity level of 2 (Critical)
@@ -1570,7 +1524,10 @@ class RFC5424 {
    * @throws {Error} - Any bubbled up error
    */
   critical (msg) {
-    return this.send(msg, {severity: 2, colorCode: this.criticalColor});
+    return this.send(msg, {
+      severity: 2, 
+      colorCode: this.criticalColor
+    });
   }
   /**
    * Send a syslog message with a secerity level of 2 (Critical)
@@ -1590,7 +1547,10 @@ class RFC5424 {
    * @throws {Error} - Any bubbled up error
    */
   error (msg) {
-    return this.send(msg, {severity: 3, colorCode: this.errorColor});
+    return this.send(msg, {
+      severity: 3, 
+      colorCode: this.errorColor
+    });
   }
   /**
    * Send a syslog message with a secerity level of 3 (Error)
@@ -1610,7 +1570,10 @@ class RFC5424 {
    * @throws {Error} - Any bubbled up error
    */
   warning (msg) {
-    return this.send(msg, {severity: 4, colorCode: this.warningColor});
+    return this.send(msg, {
+      severity: 4, 
+      colorCode: this.warningColor
+    });
   }
   /**
    * Send a syslog message with a secerity level of 4 (Warning)
@@ -1630,7 +1593,10 @@ class RFC5424 {
    * @throws {Error} - Any bubbled up error
    */
   notice (msg) {
-    return this.send(msg, {severity: 5, colorCode: this.noticeColor});
+    return this.send(msg, {
+      severity: 5, 
+      colorCode: this.noticeColor
+    });
   }
   /**
    * Send a syslog message with a secerity level of 5 (Notice)
@@ -1650,9 +1616,9 @@ class RFC5424 {
    * @throws {Error} - Any bubbled up error
    */
   informational (msg) {
-    return this.process(msg, {
-      msgSeverity: 6, 
-      msgColor: this.informationalColor
+    return this.send(msg, {
+      severity: 6, 
+      colorCode: this.informationalColor
     });
   }
   /**
@@ -1683,7 +1649,10 @@ class RFC5424 {
    * @throws {Error} - Any bubbled up error
    */
   debug (msg) {
-    return this.send(msg, {severity: 7, colorCode: this.debugColor});
+    return this.send(msg, {
+      severity: 7, 
+      colorCode: this.debugColor
+    });
   }
 }
  
@@ -1781,11 +1750,11 @@ class LEEF {
       calCountryOrRegion: null,
     };
     if (options.server) {
-      if (!options.server.constructor__) {
+      if (options.server.constructor__) {
         /** @private @type {Syslog} */
-        this.server = new Syslog(options.server);
-      } else {
         this.server = options.server;
+      } else {
+        this.server = new Syslog(options.server);
       }
     }
   }
@@ -1836,9 +1805,6 @@ class LEEF {
             .catch((reson) => {
               reject(reson);
             });
-        })
-        .catch((reson) => {
-          reject(reson);
         });
     });
   }
@@ -2052,11 +2018,11 @@ class CEF {
       'sourceZoneURI': null,
     };
     if (options.server) {
-      if (!options.server.constructor__) {
+      if (options.server.constructor__) {
         /** @private @type {Syslog} */
-        this.server = new Syslog(options.server);
-      } else {
         this.server = options.server;
+      } else {
+        this.server = new Syslog(options.server);
       }
     }
   }
@@ -2262,8 +2228,8 @@ class CEF {
         if (cefExts[ext][1] !== null) {
           if(Extensions[cefExts[ext][0]]) {
             if (typeof cefExts[ext][1] === Extensions[cefExts[ext][0]]
-              .type
-              .toLowerCase()) {
+                .type
+                .toLowerCase()) {
               if (Extensions[cefExts[ext][0]].len > 0
                   && typeof cefExts[ext][1] === 'string'
                   && cefExts[ext][1].length > Extensions[cefExts[ext][0]].len){
@@ -2335,15 +2301,13 @@ class CEF {
             .catch((reson) => {
               reject(reson);
             });
-        })
-        .catch((reson) => {
-          reject(reson);
         });
     });
   }
 }
 
 module.exports = {
+  RgbToAnsi: rgbToAnsi,
   RFC3164: RFC3164,
   RFC5424:RFC5424,
   LEEF: LEEF,
