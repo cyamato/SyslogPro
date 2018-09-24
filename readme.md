@@ -9,8 +9,8 @@ RFC messages there is support for Basic and Extended ANSI coloring. RFC5424
 Strucutred Data is also encluded in the module.  All 28 standard CEF Extentions 
 are included in the defualt CEF class.  All 45 standard LEEF Atrabutes are 
 included in the defualt LEEF class. It is the goal of this project is for every 
-relase to offer full code covrage unit testing and documentation. Please see
-the full documation for usage and options.
+relase to offer full code covrage unit testing and documentation. [Please see
+the full documation for usage and options:  https://cyamato.github.io/SyslogPro/](https://cyamato.github.io/SyslogPro/).
 
 ## Installation
 
