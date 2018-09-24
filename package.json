@@ -2,7 +2,24 @@
   "name": "SyslogPro",
   "version": "0.1.0",
   "description": "A Syslog client which options for UDP, TCP, and TLS transport and suport for both RFC-3164 and RFC-5424 including Structured Data.",
-  "repository": "",
+  "keywords": [
+    "Syslog",
+    "RFC3164",
+    "RFC5424",
+    "LEEF",
+    "CEF",
+    "Securty",
+    "Logging",
+    "514",
+    "tcp",
+    "tls",
+    "Common Event Format",
+    "Log Event Extended Format"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cyamato/SyslogPro.git"
+  },
   "author": {
     "name": "Craig Yamato",
     "email": "craig.yamato2@gmail.com",
@@ -31,7 +48,7 @@
   },
   "scripts": {
     "test": "jest --colors --expand --logHeapUsage --runInBand",
-    "doc": "jsdoc *.js --destination ./docs/jsdoc --private --readme ./readme.md --template ./node_modules/docdash"
+    "doc": "jsdoc *.js --destination ./docs --private --readme ./readme.md --template ./node_modules/docdash"
   },
   "jest": {
     "collectCoverage": true,

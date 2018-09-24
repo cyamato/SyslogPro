@@ -1,8 +1,51 @@
-/** Copyright (c) 2018 Craig Yamato */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>index.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module-SyslogPro-CEF.html">CEF</a><ul class='methods'><li data-type='method'><a href="module-SyslogPro-CEF.html#buildMessage">buildMessage</a></li><li data-type='method'><a href="module-SyslogPro-CEF.html#send">send</a></li><li data-type='method'><a href="module-SyslogPro-CEF.html#validate">validate</a></li></ul></li><li><a href="module-SyslogPro-LEEF.html">LEEF</a><ul class='methods'><li data-type='method'><a href="module-SyslogPro-LEEF.html#buildMessage">buildMessage</a></li><li data-type='method'><a href="module-SyslogPro-LEEF.html#send">send</a></li></ul></li><li><a href="module-SyslogPro-RFC3164.html">RFC3164</a><ul class='methods'><li data-type='method'><a href="module-SyslogPro-RFC3164.html#alert">alert</a></li><li data-type='method'><a href="module-SyslogPro-RFC3164.html#buildMessage">buildMessage</a></li><li data-type='method'><a href="module-SyslogPro-RFC3164.html#crit">crit</a></li><li data-type='method'><a href="module-SyslogPro-RFC3164.html#critical">critical</a></li><li data-type='method'><a href="module-SyslogPro-RFC3164.html#debug">debug</a></li><li data-type='method'><a href="module-SyslogPro-RFC3164.html#emer">emer</a></li><li data-type='method'><a href="module-SyslogPro-RFC3164.html#emergency">emergency</a></li><li data-type='method'><a href="module-SyslogPro-RFC3164.html#err">err</a></li><li data-type='method'><a href="module-SyslogPro-RFC3164.html#error">error</a></li><li data-type='method'><a href="module-SyslogPro-RFC3164.html#info">info</a></li><li data-type='method'><a href="module-SyslogPro-RFC3164.html#informational">informational</a></li><li data-type='method'><a href="module-SyslogPro-RFC3164.html#log">log</a></li><li data-type='method'><a href="module-SyslogPro-RFC3164.html#note">note</a></li><li data-type='method'><a href="module-SyslogPro-RFC3164.html#notice">notice</a></li><li data-type='method'><a href="module-SyslogPro-RFC3164.html#send">send</a></li><li data-type='method'><a href="module-SyslogPro-RFC3164.html#setColor">setColor</a></li><li data-type='method'><a href="module-SyslogPro-RFC3164.html#warn">warn</a></li><li data-type='method'><a href="module-SyslogPro-RFC3164.html#warning">warning</a></li></ul></li><li><a href="module-SyslogPro-RFC5424.html">RFC5424</a><ul class='methods'><li data-type='method'><a href="module-SyslogPro-RFC5424.html#alert">alert</a></li><li data-type='method'><a href="module-SyslogPro-RFC5424.html#buildMessage">buildMessage</a></li><li data-type='method'><a href="module-SyslogPro-RFC5424.html#crit">crit</a></li><li data-type='method'><a href="module-SyslogPro-RFC5424.html#critical">critical</a></li><li data-type='method'><a href="module-SyslogPro-RFC5424.html#debug">debug</a></li><li data-type='method'><a href="module-SyslogPro-RFC5424.html#emer">emer</a></li><li data-type='method'><a href="module-SyslogPro-RFC5424.html#emergency">emergency</a></li><li data-type='method'><a href="module-SyslogPro-RFC5424.html#err">err</a></li><li data-type='method'><a href="module-SyslogPro-RFC5424.html#error">error</a></li><li data-type='method'><a href="module-SyslogPro-RFC5424.html#info">info</a></li><li data-type='method'><a href="module-SyslogPro-RFC5424.html#informational">informational</a></li><li data-type='method'><a href="module-SyslogPro-RFC5424.html#log">log</a></li><li data-type='method'><a href="module-SyslogPro-RFC5424.html#note">note</a></li><li data-type='method'><a href="module-SyslogPro-RFC5424.html#notice">notice</a></li><li data-type='method'><a href="module-SyslogPro-RFC5424.html#send">send</a></li><li data-type='method'><a href="module-SyslogPro-RFC5424.html#setColor">setColor</a></li><li data-type='method'><a href="module-SyslogPro-RFC5424.html#warn">warn</a></li><li data-type='method'><a href="module-SyslogPro-RFC5424.html#warning">warning</a></li></ul></li><li><a href="module-SyslogPro-Syslog.html">Syslog</a><ul class='methods'><li data-type='method'><a href="module-SyslogPro-Syslog.html#addTlsServerCerts">addTlsServerCerts</a></li><li data-type='method'><a href="module-SyslogPro-Syslog.html#send">send</a></li><li data-type='method'><a href="module-SyslogPro-Syslog.html#tcpMessage">tcpMessage</a></li><li data-type='method'><a href="module-SyslogPro-Syslog.html#tlsMessage">tlsMessage</a></li><li data-type='method'><a href="module-SyslogPro-Syslog.html#udpMessage">udpMessage</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-SyslogPro.html">SyslogPro</a><ul class='methods'><li data-type='method'><a href="module-SyslogPro.html#~rgbToAnsi">rgbToAnsi</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** Copyright (c) 2018 Craig Yamato */
 
 /**
  * @fileoverview The SyslogPro class for sending syslog messages
- * @author Craig Yamato <craig@kentik.com>
+ * @author Craig Yamato &lt;craig@kentik.com>
  * @copyright (c) 2018 - Craig Yamato
  * @version 0.0.0
  * @since 0.0.0
@@ -22,7 +65,7 @@ const fs = require("fs");
  * Format the ANSI foreground color code from a RGB hex code or ANSI color code
  * @private
  * @param {string} hex - The color hex code in the form of #FFFFFF or Number of
- *     the ANSI color code (30-37 Standard & 0-255 Extended)
+ *     the ANSI color code (30-37 Standard &amp; 0-255 Extended)
  * @returns {Promise} - The formated ANSI color code
  * @throws {Error} - A Format Error
  */
@@ -33,9 +76,9 @@ function rgbToAnsi (hex, extendedColor) {
     const hexParts = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     if (hexParts || typeof hex === 'number') {
       if (typeof hex === 'number') {
-        if (extendedColor && hex < 256) {
+        if (extendedColor &amp;&amp; hex &lt; 256) {
           resolve(hex);
-        } else if ((hex > 29 && hex < 38) || (hex > 89 && hex < 98)) {
+        } else if ((hex > 29 &amp;&amp; hex &lt; 38) || (hex > 89 &amp;&amp; hex &lt; 98)) {
           resolve(hex);
         } else {
           reject (new Error('FORMAT ERROR: Color code not in range')); 
@@ -45,9 +88,9 @@ function rgbToAnsi (hex, extendedColor) {
         const g = parseInt(hexParts[2], 16);
         const b = parseInt(hexParts[3], 16);
         if (extendedColor) {
-          if (r === g && g === b) {
+          if (r === g &amp;&amp; g === b) {
             // Gray Scale Color
-  	        if (r < 8) {
+  	        if (r &lt; 8) {
   		        colorCode = 16;
   	        } else if (r > 248) {
   		        colorCode = 231;
@@ -68,8 +111,8 @@ function rgbToAnsi (hex, extendedColor) {
           let v = Math.max(red, green, blue) * 100;
           v = Math.round(v / 50);
           if (v === 1) {
-            colorCode += ((Math.round(b / 255) << 2)
-                | (Math.round(g / 255) << 1)
+            colorCode += ((Math.round(b / 255) &lt;&lt; 2)
+                | (Math.round(g / 255) &lt;&lt; 1)
                 | Math.round(r / 255));
           }
           if (v === 2) {
@@ -153,7 +196,7 @@ class Syslog {
     /** @type {number} */
     this.tcpTimeout = options.tcpTimeout || 10000;
     if ((typeof options.tlsServerCerts === 'object' 
-        && Array.isArray(options.tlsServerCerts))
+        &amp;&amp; Array.isArray(options.tlsServerCerts))
         || typeof options.tlsServerCerts === 'string') {
       this.addTlsServerCerts(options.tlsServerCerts);  
     } else {
@@ -207,16 +250,16 @@ class Syslog {
         this.cef = new CEF(options);
       }
     }
-    if (this.format === 'rfc3164' && !this.rfc3164) {
+    if (this.format === 'rfc3164' &amp;&amp; !this.rfc3164) {
       this.rfc3164 = new RFC3164();
     }
-    if (this.format === 'rfc5424' && !this.rfc5424) {
+    if (this.format === 'rfc5424' &amp;&amp; !this.rfc5424) {
       this.rfc5424 = new RFC5424();
     }
-    if (this.format === 'leef' && !this.leef) {
+    if (this.format === 'leef' &amp;&amp; !this.leef) {
       this.leef = new LEEF();
     }
-    if (this.format === 'cef' && !this.cef) {
+    if (this.format === 'cef' &amp;&amp; !this.cef) {
       this.cef = new CEF();
     }
   }
@@ -234,7 +277,7 @@ class Syslog {
    */
   addTlsServerCerts (certs) {
     return new Promise((resolve, reject) => {
-      if (typeof certs === 'object' && Array.isArray(certs)) {
+      if (typeof certs === 'object' &amp;&amp; Array.isArray(certs)) {
         /** @private @type {string[]} */
         this.tlsServerCerts = certs;
       } else if (typeof certs === 'string') {
@@ -339,17 +382,17 @@ class Syslog {
       };
       // Load client cert and key if requested
       if (typeof this.tlsClientKey === 'string' 
-          && typeof this.tlsClientCert === 'string') {
+          &amp;&amp; typeof this.tlsClientCert === 'string') {
         tlsOptions.key = fs.readFileSync(this.tlsClientKey);
         tlsOptions.cert = fs.readFileSync(this.tlsClientCert);      
       } else if (typeof this.tlsClientKey !== 'string' 
-          && typeof this.tlsClientKey !== 'undefined') {
+          &amp;&amp; typeof this.tlsClientKey !== 'undefined') {
         let errMsg = 'TYPE ERROR: TLS Client Key is not a file';
         errMsg += 'location string';
         reject(new Error(errMsg));
         return;
       } else if (typeof this.tlsClientCert !== 'string' 
-          && typeof this.tlsClientCert !== 'undefined') {
+          &amp;&amp; typeof this.tlsClientCert !== 'undefined') {
         let errMsg = 'TYPE ERROR: TLS Client Cert is not a file';
         errMsg += 'location string';
         reject(new Error(errMsg));
@@ -359,7 +402,7 @@ class Syslog {
       let tlsCerts = this.tlsServerCerts.length;
       if (tlsCerts > 0) {
         let tlsOptionsCerts = [];
-        for (let certIndex=0; certIndex<tlsCerts; certIndex++) {
+        for (let certIndex=0; certIndex&lt;tlsCerts; certIndex++) {
           if (typeof this.tlsServerCerts[certIndex] !== 'string') {
             let errMsg = 'TYPE ERROR: TLS Server Cert is not a file';
             errMsg += 'location string';
@@ -465,28 +508,28 @@ class RFC3164 {
    * @param {object} [options.colors] - User defended colors for 
    *    severites
    * @param {string} [options.colors.emergencyColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [options.colors.alertColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [options.colors.criticalColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [options.colors.errorColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [options.colors.warningColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [options.colors.noticeColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [options.colors.informationalColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [options.colors.debugColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {Syslog} [options.server=false] - A {@link module:SyslogPro~Syslog|
    *    Syslog server connection} that should be used to send messages directly 
@@ -554,28 +597,28 @@ class RFC3164 {
    * Sets the color to be used for messages at a set priority
    * @public   
    * @param {string} [colors.emergencyColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [colors.alertColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [colors.criticalColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [colors.errorColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [colors.warningColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [colors.noticeColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [colors.informationalColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [colors.debugColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @throws {Error} A standard error object
    */
@@ -772,7 +815,7 @@ class RFC3164 {
           .format('MMM DD hh:mm:ss')
           .replace(rfc3164DateRegEx, '$1 $5');
       // Build message    
-      fmtMsg = '<' + pri + '>';
+      fmtMsg = '&lt;' + pri + '>';
       fmtMsg += timestamp;
       fmtMsg += ' ' + this.hostname;
       fmtMsg += ' ' + this.applacationName;
@@ -1020,28 +1063,28 @@ class RFC5424 {
    * @param {object} [options.colors] - User defended colors for 
    *    severites
    * @param {string} [options.colors.emergencyColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [options.colors.alertColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [options.colors.criticalColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [options.colors.errorColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [options.colors.warningColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [options.colors.noticeColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [options.colors.informationalColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [options.colors.debugColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {Syslog} [options.server=false] - A {@link module:SyslogPro~Syslog|
    *    Syslog server connection} that should be used to send messages directly 
@@ -1144,28 +1187,28 @@ class RFC5424 {
    * Sets the color to be used for messages at a set priority
    * @public   
    * @param {string} [colors.emergencyColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [colors.alertColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [colors.criticalColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [colors.errorColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [colors.warningColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [colors.noticeColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [colors.informationalColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @param {string} [colors.debugColor] - A RGB Hex coded color in the form 
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
+   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
    * @throws {Error} A standard error object
    */
@@ -1323,7 +1366,7 @@ class RFC5424 {
    *    data strings conforming to the IETF/IANA defined SD-IDs or IANA 
    *    registred SMI Network Management Private Enterprise Code SD-ID 
    *    conforming to the format 
-   *    [name@<private enterprise number> parameter=value] 
+   *    [name@&lt;private enterprise number> parameter=value] 
    * @param {number} [options.colorCode=36] - The ANSI color code to use if 
    *    message coloration is selected
    * @returns {Promise} A Syslog formated string acording to the selected RFC
@@ -1414,13 +1457,13 @@ class RFC5424 {
       // Build Structured Data string
       let structuredData = '-';
       const sdElementCount = msgStructuredData.length;
-      if (this.encludeStructuredData && sdElementCount > 0) {
+      if (this.encludeStructuredData &amp;&amp; sdElementCount > 0) {
         let sdElementNames = [];
         let sdElements = [];
         const sdElementNameRegEx = /(\[)(\S*)(\s|\])/;
         // Loop to drop duplicates of the same SD Element name
         for (let elementIndex=0; 
-            elementIndex<sdElementCount; 
+            elementIndex&lt;sdElementCount; 
             elementIndex++) {
           let elementName = 
             msgStructuredData[elementIndex]
@@ -1433,7 +1476,7 @@ class RFC5424 {
         structuredData = sdElements.join('');
       }
       // Build the message
-      fmtMsg = '<' + pri + '>';
+      fmtMsg = '&lt;' + pri + '>';
       fmtMsg += '1'; // Version number
       fmtMsg += ' ' + timestamp;
       fmtMsg += ' ' + this.hostname;
@@ -1779,7 +1822,7 @@ class LEEF {
       const Tab = '\x09';
       const leefAttribs = Object.entries(this.attrabutes);
       const leefAttribsLen = leefAttribs.length;
-      for (let attrib = 0; attrib < leefAttribsLen; attrib++) {
+      for (let attrib = 0; attrib &lt; leefAttribsLen; attrib++) {
         if (leefAttribs[attrib][1] !== null) {
           fmtMsg += leefAttribs[attrib][0] + '=' + leefAttribs[attrib][1] + Tab;
         }
@@ -2203,21 +2246,21 @@ class CEF {
         reject(new Error('TYPE ERROR: CEF Device Info must be a string'));
       }
       if (this.severity
-          && (
+          &amp;&amp; (
             (
               typeof this.severity === 'string'
-              && (
+              &amp;&amp; (
                 this.severity !== 'Unknown'
-                && this.severity !== 'Low'
-                && this.severity !== 'Medium'
-                && this.severity !== 'High'
-                && this.severity !== 'Very-High'
+                &amp;&amp; this.severity !== 'Low'
+                &amp;&amp; this.severity !== 'Medium'
+                &amp;&amp; this.severity !== 'High'
+                &amp;&amp; this.severity !== 'Very-High'
               )
             )
             || (
               typeof this.severity === 'number'
-              && (
-                this.severity < 0
+              &amp;&amp; (
+                this.severity &lt; 0
                 || this.severity > 10
               )
             )
@@ -2227,15 +2270,15 @@ class CEF {
       }
       const cefExts = Object.entries(this.extensions);
       const cefExtsLen = cefExts.length;
-      for (let ext = 0; ext < cefExtsLen; ext++) {
+      for (let ext = 0; ext &lt; cefExtsLen; ext++) {
         if (cefExts[ext][1] !== null) {
           if(Extensions[cefExts[ext][0]]) {
             if (typeof cefExts[ext][1] === Extensions[cefExts[ext][0]]
                 .type
                 .toLowerCase()) {
               if (Extensions[cefExts[ext][0]].len > 0
-                  && typeof cefExts[ext][1] === 'string'
-                  && cefExts[ext][1].length > Extensions[cefExts[ext][0]].len){
+                  &amp;&amp; typeof cefExts[ext][1] === 'string'
+                  &amp;&amp; cefExts[ext][1].length > Extensions[cefExts[ext][0]].len){
                 let errMsg = 'FORMAT ERROR:';
                 errMsg += ' CEF Extention Key';
                 errMsg += ' ' + cefExts[ext][0];
@@ -2276,7 +2319,7 @@ class CEF {
       
       const cefExts = Object.entries(this.extensions);
       const cefExtsLen = cefExts.length;
-      for (let ext = 0; ext < cefExtsLen; ext++) {
+      for (let ext = 0; ext &lt; cefExtsLen; ext++) {
         if (cefExts[ext][1] !== null) {
           fmtMsg += cefExts[ext][0] + '=' + cefExts[ext][1] + ' ';
         }
@@ -2316,4 +2359,26 @@ module.exports = {
   LEEF: LEEF,
   CEF: CEF,
   Syslog: Syslog
-};
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Sep 24 2018 06:41:35 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+
+
+</body>
+</html>
