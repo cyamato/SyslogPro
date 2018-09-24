@@ -41,18 +41,18 @@
     "moment": "^2.22.2"
   },
   "devDependencies": {
+    "coveralls": "^3.0.2",
     "docco": "^0.8.0",
     "docdash": "^1.0.0",
     "jest": "^23.5.0",
     "jsdoc": "^3.5.5"
   },
   "scripts": {
-    "test": "jest --colors --expand --logHeapUsage --runInBand",
+    "test": "jest --colors --expand --logHeapUsage --runInBand && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "doc": "jsdoc *.js --destination ./docs --private --readme ./readme.md --template ./node_modules/docdash"
   },
   "jest": {
     "collectCoverage": true,
-    "coverageDirectory": "docs/coverage",
     "coverageReporters": [
       "json",
       "text",
