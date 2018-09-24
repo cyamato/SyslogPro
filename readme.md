@@ -1,5 +1,6 @@
 SyslogPro
 =========
+[![Build Status](https://travis-ci.org/cyamato/SyslogPro.svg?branch=master)](https://travis-ci.org/cyamato/SyslogPro) [![Coverage Status](https://coveralls.io/repos/github/cyamato/SyslogPro/badge.svg?branch=master)](https://coveralls.io/github/cyamato/SyslogPro?branch=master)
 
 A pure Javascript Syslog module with support for RFC3164, RFC5424, IBM LEEF 
 (Log Event Extended Format), and HP CEF (Common Event Format) formatted 
