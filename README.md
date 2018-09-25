@@ -122,7 +122,9 @@ and the [DNS Promises API](https://nodejs.org/api/dns.html#dns_dns_promises_api)
 ## API
 For more details see:
 * [JSDoc](https://cyamato.github.io/SyslogPro/) 
-* [api.md](./docs/api.md)
+* [API.md](./docs/api.md)
+* [Docco.html](./docs/docco/index.html)
+* [Docco.md](./docs/docco/README.md)
 
 ## Test
 ```shell
