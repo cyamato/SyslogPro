@@ -50,92 +50,107 @@
 
 
     <section class="readme">
-        <article><h1>SyslogPro</h1><p>A pure Javascript Syslog module with support for RFC3164, RFC5424, IBM LEEF 
+        <article><h1>SyslogPro</h1><p><a href="https://travis-ci.org/cyamato/SyslogPro"><img src="https://travis-ci.org/cyamato/SyslogPro.svg?branch=master" alt="Build Status"></a> 
+<a href="https://coveralls.io/github/cyamato/SyslogPro?branch=master"><img src="https://coveralls.io/repos/github/cyamato/SyslogPro/badge.svg?branch=master" alt="Coverage Status"></a>
+<img src="https://img.shields.io/dub/l/vibe-d.svg?style=flat" alt=""></p>
+<p><a href="https://github.com/cyamato/SyslogPro">Site</a> |
+<a href="https://cyamato.github.io/SyslogPro/">Docs</a> |
+<a href="https://github.com/cyamato/SyslogPro/wiki" title="Changelog, Roadmap, etc.">Wiki</a> |
+<a href="https://js.foundation/community/code-of-conduct">Code of Conduct</a></p>
+<p>A pure Javascript Syslog module with support for RFC3164, RFC5424, IBM LEEF 
 (Log Event Extended Format), and HP CEF (Common Event Format) formatted 
-messages. SyslogPro has transport options of UDP, TCP, and TLS.  TLS includes 
-support for Server and Client certificate authrization.  For unformatedm and 
+messages. SyslogPro has transport options for UDP, TCP, and TLS. TLS includes 
+support for Server and Client certificate authorization. For unformatted and 
 RFC messages there is support for Basic and Extended ANSI coloring. RFC5424 
-Strucutred Data is also encluded in the module.  All 28 standard CEF Extentions 
-are included in the defualt CEF class.  All 45 standard LEEF Atrabutes are 
-included in the defualt LEEF class. It is the goal of this project is for every 
-relase to offer full code covrage unit testing and documentation. Please see
-the full documation for usage and options.</p>
-<h2>Installation</h2><p>  <code>npm install SyslogPro</code></p>
-<h2>Usage</h2><pre class="prettyprint source"><code>const SyslogPro = require('syslogpro');
-
-let syslog = new SyslogPro.Syslog({
-  target: 'localhost',
-  protocol: 'udp',
-  format: 'rfc5424'
-});
-
-syslog.rfc5424.info('My Message');
-
-// Optionaly you can create each class or class options to pass to SyslogPro
-// to create formated messages or use directly
-
-let rfc3164 = new SyslogPro.RFC3164({
-  applacationName: 'MyApp',
-  color: true,
-  extendedColor: true,
-  server: {
-    target: 'myServer.fqdn'
-  }
-});
-
-rfc3164.info('My Message');
-
-let rfc5424 = new SyslogPro.RFC5424({
-  applacationName: 'MyApp',
-  timestamp: true,
-  encludeStructuredData: true
-  color: true,
-  extendedColor: true,
-  server: {
-    target: 'myServer.fqdn'
-  }
-});
-
-rfc5424.info('My Message');
-
-let leef = new SyslogPro.LEEF({
-  vendor: 'acme',
-  product: 'doohickey1000',
-  version: 'alpha',
-  eventId: 'hack',
-  attrabutes: {
-    cat: 'CC Databreach'
-  },
-  server: {
-    target: 'myServer.fqdn'
-  }
-})
-    .send()
-        .then((result) => {})
-        .catch((error) => {
-          console.log(error);
-        });
-
-let cef = new SyslogPro.CEF({
-  deviceVendor: 'acme',
-  deviceProduct: 'doohickey1000',
-  deviceVersion: 'alpha',
-  deviceEventClassId: 'hack',
-  name: 'My Reporting Service',
-  severity: 'High',
-  extensions: {
-    rawEvent: 'CC Databreach'
-  },
-  server: {
-    target: 'myServer.fqdn'
-  }
-})
-    .send()
-        .then((result) => {})
-        .catch((error) => {
-          console.log(error);
-        });</code></pre><h2>Tests</h2><p>  <code>npm test</code></p>
-<h2>Contributing</h2><p>Please try to stay close to the Google JS Style Guid, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code.</p></article>
+Structured Data is also included in the module. All 28 standard CEF Extensions 
+are included in the default CEF class. All 45 standard LEEF Attributes are 
+included in the default LEEF class. It is the goal of this project is for 
+every release to offer full code coverage unit testing and documentation. </p>
+<p><a href="https://cyamato.github.io/SyslogPro/">Please see the full JSDoc for usage and options: 
+https://cyamato.github.io/SyslogPro/</a>.</p>
+<h3>News</h3><ul>
+<li>⚠ Please note that at present, the 0.1.x version of the SDK 
+<a href="https://github.com/nodejs/LTS">requires Node 10.6 or later</a>. </li>
+<li>This module makes use of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">ECMA-262 Promise</a>
+and the <a href="https://nodejs.org/api/dns.html#dns_dns_promises_api">DNS Promises API</a>. </li>
+<li>APIs do not support the callback model and only return promises.</li>
+</ul>
+<h3>Installation</h3><pre class="prettyprint source lang-shell"><code>  npm install --save SyslogPro</code></pre><h2>Usage</h2><pre class="prettyprint source lang-js"><code>  const SyslogPro = require('syslogpro');
+  let syslog = new SyslogPro.Syslog({
+    target: 'localhost',
+    protocol: 'udp',
+    format: 'rfc5424'
+  });
+  syslog.rfc5424.info('My Message');</code></pre><p>  Optionaly you can create each class or class options to pass to SyslogPro
+  to create formated messages or use directly</p>
+<p><strong>RFC3164</strong></p>
+<pre class="prettyprint source lang-js"><code>  let rfc3164 = new SyslogPro.RFC3164({
+    applacationName: 'MyApp',
+    color: true,
+    extendedColor: true,
+    server: {
+      target: 'myServer.fqdn'
+    }
+  });
+  rfc3164.info('My Message');</code></pre><p><strong>RFC5424</strong></p>
+<pre class="prettyprint source lang-js"><code>  let rfc5424 = new SyslogPro.RFC5424({
+    applacationName: 'MyApp',
+    timestamp: true,
+    encludeStructuredData: true
+    color: true,
+    extendedColor: true,
+    server: {
+      target: 'myServer.fqdn'
+    }
+  });
+  rfc5424.info('My Message');</code></pre><p><strong>LEEF (Log Event Extended Format)</strong></p>
+<pre class="prettyprint source lang-js"><code>  let leef = new SyslogPro.LEEF({
+    vendor: 'acme',
+    product: 'doohickey1000',
+    version: 'alpha',
+    eventId: 'hack',
+    attrabutes: {
+      cat: 'CC Databreach'
+    },
+    server: {
+      target: 'myServer.fqdn'
+    }
+  })
+      .send()
+          .then((result) => {})
+          .catch((error) => {
+            console.log(error);
+          });</code></pre><p><strong>CEF (Common Event Format)</strong></p>
+<pre class="prettyprint source lang-js"><code>  let cef = new SyslogPro.CEF({
+    deviceVendor: 'acme',
+    deviceProduct: 'doohickey1000',
+    deviceVersion: 'alpha',
+    deviceEventClassId: 'hack',
+    name: 'My Reporting Service',
+    severity: 'High',
+    extensions: {
+      rawEvent: 'CC Databreach'
+    },
+    server: {
+      target: 'myServer.fqdn'
+    }
+  })
+      .send()
+          .then((result) => {})
+          .catch((error) => {
+            console.log(error);
+          });</code></pre><h2>API</h2><p>For more details see:</p>
+<ul>
+<li><a href="https://cyamato.github.io/SyslogPro/">JSDoc</a> </li>
+<li><a href="./docs/api.md">api.md</a></li>
+</ul>
+<h2>Test</h2><pre class="prettyprint source lang-shell"><code>  npm test</code></pre><h2>Contributing</h2><p>Please try to maintain the existing coding style. Add unit tests for any new or 
+changed functionality. Lint and test your code.</p>
+<ul>
+<li><a href="https://github.com/cyamato/SyslogPro.git">Repository</a></li>
+<li><a href="https://github.com/cyamato/SyslogPro/issues">Bug Reporting</a></li>
+<li><a href="https://github.com/cyamato/SyslogPro/wiki">Wiki</a></li>
+</ul></article>
     </section>
 
 
@@ -150,7 +165,7 @@ let cef = new SyslogPro.CEF({
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Sep 24 2018 06:41:35 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Sep 25 2018 18:22:00 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

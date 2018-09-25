@@ -18,10 +18,18 @@ Structured Data is also included in the module. All 28 standard CEF Extensions
 are included in the default CEF class. All 45 standard LEEF Attributes are 
 included in the default LEEF class. It is the goal of this project is for 
 every release to offer full code coverage unit testing and documentation. 
-[Please see the full documentation for usage and options: 
+
+[Please see the full JSDoc for usage and options: 
 https://cyamato.github.io/SyslogPro/](https://cyamato.github.io/SyslogPro/).
 
-## Installation
+### News
+* ⚠ Please note that at present, the 0.1.x version of the SDK 
+[requires Node 10.6 or later](https://github.com/nodejs/LTS). 
+* This module makes use of [ECMA-262 Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+and the [DNS Promises API](https://nodejs.org/api/dns.html#dns_dns_promises_api). 
+* APIs do not support the callback model and only return promises.
+
+### Installation
 ```shell
   npm install --save SyslogPro
 ```
@@ -110,7 +118,12 @@ https://cyamato.github.io/SyslogPro/](https://cyamato.github.io/SyslogPro/).
             console.log(error);
           });
 ```
-  
+
+## API
+For more details see:
+* [JSDoc](https://cyamato.github.io/SyslogPro/) 
+* [api.md](./docs/api.md)
+
 ## Test
 ```shell
   npm test
@@ -118,4 +131,9 @@ https://cyamato.github.io/SyslogPro/](https://cyamato.github.io/SyslogPro/).
 
 ## Contributing
 
-Please try to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code.
+Please try to maintain the existing coding style. Add unit tests for any new or 
+changed functionality. Lint and test your code.
+
+* [Repository](https://github.com/cyamato/SyslogPro.git)
+* [Bug Reporting](https://github.com/cyamato/SyslogPro/issues)
+* [Wiki](https://github.com/cyamato/SyslogPro/wiki)

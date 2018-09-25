@@ -49,7 +49,18 @@
         RFC3164
         </h2>
         
-            <div class="class-description">A class to work with RFC3164 formated syslog messages.</div>
+            <div class="class-description">A class to work with RFC3164 formated syslog messages. The meesaging is fully configurabule and Ansi foreground 
+colors can be added.  Both ANSI 8 and ANSI 256 color are fully suported.
+Most APIs will return a promise. These APIs can be used using 
+`then(...)/catch(...)`
+
+A Syslog class with a configured
+Syslog server target can also be used as the input into the formating 
+classes so that it may run independtly.
+
+The RFC3164 Syslog logging format is ment to be used as a stream of log data 
+from a service or applacation. This class is designed to be used in this
+fashion where new messages are writen to the class as needed.</div>
         
     
 </header>
@@ -76,7 +87,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line451">line 451</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line469">line 469</a>
     </li></ul></dd>
     
 
@@ -865,7 +876,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line526">line 526</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line544">line 544</a>
     </li></ul></dd>
     
 
@@ -924,7 +935,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line504">line 504</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line522">line 522</a>
     </li></ul></dd>
     
 
@@ -993,7 +1004,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line497">line 497</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line515">line 515</a>
     </li></ul></dd>
     
 
@@ -1052,7 +1063,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line528">line 528</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line546">line 546</a>
     </li></ul></dd>
     
 
@@ -1111,7 +1122,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line538">line 538</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line556">line 556</a>
     </li></ul></dd>
     
 
@@ -1170,7 +1181,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line524">line 524</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line542">line 542</a>
     </li></ul></dd>
     
 
@@ -1229,7 +1240,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line530">line 530</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line548">line 548</a>
     </li></ul></dd>
     
 
@@ -1288,7 +1299,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line510">line 510</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line528">line 528</a>
     </li></ul></dd>
     
 
@@ -1357,7 +1368,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line536">line 536</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line554">line 554</a>
     </li></ul></dd>
     
 
@@ -1416,7 +1427,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line534">line 534</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line552">line 552</a>
     </li></ul></dd>
     
 
@@ -1475,7 +1486,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line517">line 517</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line535">line 535</a>
     </li></ul></dd>
     
 
@@ -1534,7 +1545,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line532">line 532</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line550">line 550</a>
     </li></ul></dd>
     
 
@@ -1603,7 +1614,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line847">line 847</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line865">line 865</a>
     </li></ul></dd>
     
 
@@ -1787,7 +1798,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line733">line 733</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line751">line 751</a>
     </li></ul></dd>
     
 
@@ -2123,7 +2134,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line873">line 873</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line891">line 891</a>
     </li></ul></dd>
     
 
@@ -2307,7 +2318,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line860">line 860</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line878">line 878</a>
     </li></ul></dd>
     
 
@@ -2491,7 +2502,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line985">line 985</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line1003">line 1003</a>
     </li></ul></dd>
     
 
@@ -2675,7 +2686,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line837">line 837</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line855">line 855</a>
     </li></ul></dd>
     
 
@@ -2859,7 +2870,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line824">line 824</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line842">line 842</a>
     </li></ul></dd>
     
 
@@ -3043,7 +3054,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line896">line 896</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line914">line 914</a>
     </li></ul></dd>
     
 
@@ -3227,7 +3238,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line883">line 883</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line901">line 901</a>
     </li></ul></dd>
     
 
@@ -3411,7 +3422,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line965">line 965</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line983">line 983</a>
     </li></ul></dd>
     
 
@@ -3595,7 +3606,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line952">line 952</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line970">line 970</a>
     </li></ul></dd>
     
 
@@ -3779,7 +3790,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line975">line 975</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line993">line 993</a>
     </li></ul></dd>
     
 
@@ -3963,7 +3974,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line942">line 942</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line960">line 960</a>
     </li></ul></dd>
     
 
@@ -4147,7 +4158,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line929">line 929</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line947">line 947</a>
     </li></ul></dd>
     
 
@@ -4331,7 +4342,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line797">line 797</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line815">line 815</a>
     </li></ul></dd>
     
 
@@ -4675,7 +4686,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line582">line 582</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line600">line 600</a>
     </li></ul></dd>
     
 
@@ -5096,7 +5107,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line919">line 919</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line937">line 937</a>
     </li></ul></dd>
     
 
@@ -5280,7 +5291,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line906">line 906</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line924">line 924</a>
     </li></ul></dd>
     
 
@@ -5467,7 +5478,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Sep 24 2018 06:41:35 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Sep 25 2018 18:22:00 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

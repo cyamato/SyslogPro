@@ -44,11 +44,17 @@
             <pre class="prettyprint source linenums"><code>/** Copyright (c) 2018 Craig Yamato */
 
 /**
- * @fileoverview The SyslogPro class for sending syslog messages
+ * @fileoverview The SyslogPro module for sending syslog messages
+ * Most APIs will return a promise. These APIs can be used using 
+ * `then(...)/catch(...)`
+ *
+ * Syslog formating classes can be used as input into a Syslog class to be used 
+ * simultatniusly to the same Syslog server.  The Syslog Class with a configured
+ * Syslog server target can also be used as the input into each of the formating 
+ * classes so that they may run independtly.
  * @author Craig Yamato &lt;craig@kentik.com>
  * @copyright (c) 2018 - Craig Yamato
- * @version 0.0.0
- * @since 0.0.0
+ * @version 0.1.0
  * @exports Syslog
  * @exports LEEF
  * @exports CEF
@@ -133,15 +139,16 @@ function rgbToAnsi (hex, extendedColor) {
  * A class to work with syslog messages using UDP, TCP, or TLS transport.  
  * There is suport for Syslog message formating RFC-3164, RFC-5424 including 
  * Structured Data, IBM LEEF (Log Event Extended Format), and HP CEF (Common
- * Event Format). The meesaging is fully configurabule and Ansi foreground 
- * colors can be added.  Both ANSI 8 and ANSI 256 color are fully suported.
+ * Event Format).
+ * Syslog formating classes can be used as input into a Syslog class to be used 
+ * simultatniusly to the same Syslog server. * 
  * @requires moment
  * @version 0.0.0
  * @since 0.0.0
  */
 class Syslog {
   /**
-   * Construct a new Syslog object with user options 
+   * Construct a new Syslog transport object with user options 
    * @public
    * @version 0.0.0
    * @since 0.0.0
@@ -486,7 +493,18 @@ class Syslog {
 }
  
 /**
- * A class to work with RFC3164 formated syslog messages.
+ * A class to work with RFC3164 formated syslog messages. The meesaging is fully configurabule and Ansi foreground 
+ * colors can be added.  Both ANSI 8 and ANSI 256 color are fully suported.
+ * Most APIs will return a promise. These APIs can be used using 
+ * `then(...)/catch(...)`
+ * 
+ * A Syslog class with a configured
+ * Syslog server target can also be used as the input into the formating 
+ * classes so that it may run independtly.
+ * 
+ * The RFC3164 Syslog logging format is ment to be used as a stream of log data 
+ * from a service or applacation. This class is designed to be used in this
+ * fashion where new messages are writen to the class as needed.
  * @requires moment
  * @version 0.0.0
  * @since 0.0.0
@@ -1034,7 +1052,18 @@ class RFC3164 {
 }
 
 /**
- * A class to work with RFC5424 formated syslog messages.
+ * A class to work with RFC5424 formated syslog messages. The meesaging is fully configurabule and Ansi foreground 
+ * colors can be added.  Both ANSI 8 and ANSI 256 color are fully suported.
+ * Most APIs will return a promise. These APIs can be used using 
+ * `then(...)/catch(...)`
+ * 
+ * A Syslog class with a configured
+ * Syslog server target can also be used as the input into the formating 
+ * classes so that it may run independtly.
+ * 
+ * The RFC5424 Syslog logging format is ment to be used as a stream of log data 
+ * from a service or applacation. This class is designed to be used in this
+ * fashion where new messages are writen to the class as needed.
  * @requires moment
  * @version 0.0.0
  * @since 0.0.0
@@ -1704,14 +1733,21 @@ class RFC5424 {
  * of system messages are designed to work with security systems.  Messages can
  * be saved to file (Saving to file if not part of this module but a LEEF 
  * formated mesage produced by this module can be saved externaly to it) or 
- * sent via Syslog.
+ * sent via Syslog. 
+ * Most APIs will return a promise. These APIs can be used using 
+ * `then(...)/catch(...)`
+ * 
+ * A Syslog class with a configured Syslog server target can also be used as 
+ * the input into the formating classes so that it may run independtly. The 
+ * LEEF format is designed to send event data to a SIEM system and should not 
+ * be as a logging stream. This class is ment to be used once per message.
  * @requires moment
  * @version 0.0.0
  * @since 0.0.0
  */
 class LEEF {
   /**
-   * Construct a new LEEF object with user options 
+   * Construct a new LEEF formating object with user options
    * @public
    * @param {object} [options] - Options object
    * @param {string} [options.vendor='unknown'] - The vendor of the system that
@@ -1862,13 +1898,20 @@ class LEEF {
  * be saved to file (Saving to file if not part of this module but a CEF 
  * formated mesage produced by this module can be saved externaly to it) or 
  * sent via Syslog.
+ * Most APIs will return a promise. These APIs can be used using 
+ * `then(...)/catch(...)`
+ * 
+ * A Syslog class with a configured Syslog server target can also be used as 
+ * the input into the formating classes so that it may run independtly. The CEF 
+ * format is designed to send event data to a SIEM system and should not be as 
+ * a logging stream. This class is ment to be used once per message.
  * @requires moment
  * @version 0.0.0
  * @since 0.0.0
  */
 class CEF {
   /**
-   * Construct a new CEF object with user options 
+   * Construct a new CEF formating object with user options 
    * @public
    * @param {object} [options] - Options object
    * @param {string} [options.deviceVendor='unknown'] - The vendor of the system 
@@ -2373,7 +2416,7 @@ module.exports = {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Sep 24 2018 06:41:35 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Sep 25 2018 18:22:00 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

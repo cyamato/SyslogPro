@@ -1,3 +1,12 @@
+
+
+
+
+
+
+  
+
+```
 /** Copyright (c) 2018 Craig Yamato */
 
 /**
@@ -35,7 +44,21 @@ const fs = require("fs");
 function rgbToAnsi (hex, extendedColor) {
   return new Promise((resolve, reject) => {
     let colorCode = 0;  // Var to hold color code
-    // Break HEX Code up into RGB
+
+```
+
+
+
+
+
+
+
+Break HEX Code up into RGB
+
+
+  
+
+```
     const hexParts = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     if (hexParts || typeof hex === 'number') {
       if (typeof hex === 'number') {
@@ -52,7 +75,21 @@ function rgbToAnsi (hex, extendedColor) {
         const b = parseInt(hexParts[3], 16);
         if (extendedColor) {
           if (r === g && g === b) {
-            // Gray Scale Color
+
+```
+
+
+
+
+
+
+
+Gray Scale Color
+
+
+  
+
+```
   	        if (r < 8) {
   		        colorCode = 16;
   	        } else if (r > 248) {
@@ -149,7 +186,21 @@ class Syslog {
     if (!options) {
       options = {};
     }
-    // Basic transport setup
+
+```
+
+
+
+
+
+
+
+Basic transport setup
+
+
+  
+
+```
     /** @type {string} */
     this.target = options.target || 'localhost';
     /** @type {string} */
@@ -175,7 +226,21 @@ class Syslog {
       /** @type {string} */
       this.tlsClientKey = options.tlsClientKey; 
     }
-    // Syslog Format
+
+```
+
+
+
+
+
+
+
+Syslog Format
+
+
+  
+
+```
     if (typeof options.format === 'string') {
       /** @type {string} */
       this.format = options.format.toLowerCase();
@@ -271,7 +336,21 @@ class Syslog {
           .then((result) => {
             const udpType = result.family === 4 ? 'udp4' : 'udp6';
             let client = dgram.createSocket(udpType);
-            // Turn msg in to a UTF8 buffer
+
+```
+
+
+
+
+
+
+
+Turn msg in to a UTF8 buffer
+
+
+  
+
+```
             let msgBuffer = Buffer.from(msg, 'utf8');
             client.send(msgBuffer, this.port, this.target, (error) => {
               client.close();
@@ -305,7 +384,21 @@ class Syslog {
               family: result.family
             };
             const client = net.createConnection(tcpOptions, () => {
-              // Turn msg in to a UTF8 buffer
+
+```
+
+
+
+
+
+
+
+Turn msg in to a UTF8 buffer
+
+
+  
+
+```
               let msgBuffer = Buffer.from(msg, 'utf8');
               client.write(msgBuffer, () => {
                 client.end();
@@ -344,7 +437,21 @@ class Syslog {
         host: this.target,
         port: this.port,
       };
-      // Load client cert and key if requested
+
+```
+
+
+
+
+
+
+
+Load client cert and key if requested
+
+
+  
+
+```
       if (typeof this.tlsClientKey === 'string' 
           && typeof this.tlsClientCert === 'string') {
         tlsOptions.key = fs.readFileSync(this.tlsClientKey);
@@ -362,7 +469,21 @@ class Syslog {
         reject(new Error(errMsg));
         return;
       }
-      // Load any server certs if provided
+
+```
+
+
+
+
+
+
+
+Load any server certs if provided
+
+
+  
+
+```
       let tlsCerts = this.tlsServerCerts.length;
       if (tlsCerts > 0) {
         let tlsOptionsCerts = [];
@@ -379,14 +500,42 @@ class Syslog {
         tlsOptions.rejectUnauthorized = true;
       }
       const client = tls.connect(tlsOptions, () => { 
-        // Turn msg in to a UTF8 buffer
+
+```
+
+
+
+
+
+
+
+Turn msg in to a UTF8 buffer
+
+
+  
+
+```
         let msgBuffer = Buffer.from(msg, 'utf8');
         client.write(msgBuffer, () => {
           client.end();
         });
       });
       client.setTimeout(this.tcpTimeout);
-      // client.on('data', (data) => {});
+
+```
+
+
+
+
+
+
+
+client.on('data', (data) => {});
+
+
+  
+
+```
       client.on('end', () => {
         resolve(msg);
       });
@@ -764,11 +913,53 @@ class RFC3164 {
       const newLineRegEx = /(\r|\n|(\r\n))/;
       const escapeCode = '\u001B';
       const resetColor = '\u001B[0m';
-      // The PRI is common to both RFC formats
+
+```
+
+
+
+
+
+
+
+The PRI is common to both RFC formats
+
+
+  
+
+```
       const pri = (this.facility * 8) + severity;
-      // Remove any newline character
+
+```
+
+
+
+
+
+
+
+Remove any newline character
+
+
+  
+
+```
       msg = msg.replace(newLineRegEx, ''); 
-      // Add requested color
+
+```
+
+
+
+
+
+
+
+Add requested color
+
+
+  
+
+```
       if (this.color) {
         options.msgColor = options.msgColor || 36;
         let colorCode = '[';
@@ -783,13 +974,41 @@ class RFC3164 {
         }
         msg = escapeCode + colorCode + msg + resetColor;
       }
-      // RegEx to find a leading 0 in the day of a DateTime for RFC3164
-      // RFC3164 uses BSD timeformat
+
+```
+
+
+
+
+
+
+
+RegEx to find a leading 0 in the day of a DateTime for RFC3164
+RFC3164 uses BSD timeformat
+
+
+  
+
+```
       const rfc3164DateRegEx = /((A|D|F|J|M|N|O|S)(a|c|e|p|o|u)(b|c|g|l|n|p|r|t|v|y)\s)0(\d\s\d\d:\d\d:\d\d)/;
       const timestamp = moment()
           .format('MMM DD hh:mm:ss')
           .replace(rfc3164DateRegEx, '$1 $5');
-      // Build message    
+
+```
+
+
+
+
+
+
+
+Build message    
+
+
+  
+
+```
       fmtMsg = '<' + pri + '>';
       fmtMsg += timestamp;
       fmtMsg += ' ' + this.hostname;
@@ -1378,11 +1597,53 @@ class RFC5424 {
       const newLineRegEx = /(\r|\n|(\r\n))/;
       const escapeCode = '\u001B';
       const resetColor = '\u001B[0m';
-      // The PRI is common to both RFC formats
+
+```
+
+
+
+
+
+
+
+The PRI is common to both RFC formats
+
+
+  
+
+```
       const pri = (facility * 8) + severity;
-      // Remove any newline character
+
+```
+
+
+
+
+
+
+
+Remove any newline character
+
+
+  
+
+```
       msg = msg.replace(newLineRegEx, ''); 
-      // Add requested color
+
+```
+
+
+
+
+
+
+
+Add requested color
+
+
+  
+
+```
       if (this.color) {
         options.msgColor = options.msgColor || 36;
         let colorCode = '[';
@@ -1397,7 +1658,21 @@ class RFC5424 {
         }
         msg = escapeCode + colorCode + msg + resetColor;
       }
-      // RFC5424 timestamp formating
+
+```
+
+
+
+
+
+
+
+RFC5424 timestamp formating
+
+
+  
+
+```
       let timestamp = '-';
       if (this.timestamp) {
         let timeQuality = '[timeQuality';
@@ -1440,14 +1715,42 @@ class RFC5424 {
         timeQuality += ']';
         msgStructuredData.push(timeQuality);
       }
-      // Build Structured Data string
+
+```
+
+
+
+
+
+
+
+Build Structured Data string
+
+
+  
+
+```
       let structuredData = '-';
       const sdElementCount = msgStructuredData.length;
       if (this.encludeStructuredData && sdElementCount > 0) {
         let sdElementNames = [];
         let sdElements = [];
         const sdElementNameRegEx = /(\[)(\S*)(\s|\])/;
-        // Loop to drop duplicates of the same SD Element name
+
+```
+
+
+
+
+
+
+
+Loop to drop duplicates of the same SD Element name
+
+
+  
+
+```
         for (let elementIndex=0; 
             elementIndex<sdElementCount; 
             elementIndex++) {
@@ -1461,7 +1764,21 @@ class RFC5424 {
         }
         structuredData = sdElements.join('');
       }
-      // Build the message
+
+```
+
+
+
+
+
+
+
+Build the message
+
+
+  
+
+```
       fmtMsg = '<' + pri + '>';
       fmtMsg += '1'; // Version number
       fmtMsg += ' ' + timestamp;
@@ -1811,7 +2128,21 @@ class LEEF {
       fmtMsg += '|' + this.eventId;
       fmtMsg += '|';
       
-      // Build LEEF Attrabuites
+
+```
+
+
+
+
+
+
+
+Build LEEF Attrabuites
+
+
+  
+
+```
       const Tab = '\x09';
       const leefAttribs = Object.entries(this.attrabutes);
       const leefAttribsLen = leefAttribs.length;
@@ -2360,3 +2691,9 @@ module.exports = {
   CEF: CEF,
   Syslog: Syslog
 };
+
+```
+
+
+
+
