@@ -1,6 +1,6 @@
 {
   "name": "syslog-pro",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Syslog client which options for UDP, TCP, and TLS transport and suport for both RFC-3164 and RFC-5424 including Structured Data.",
   "keywords": [
     "Syslog",

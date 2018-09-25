@@ -31,12 +31,12 @@ and the [DNS Promises API](https://nodejs.org/api/dns.html#dns_dns_promises_api)
 
 ### Installation
 ```shell
-  npm install --save SyslogPro
+  npm install --save syslog-pro
 ```
 
 ## Usage
 ```js
-  const SyslogPro = require('syslogpro');
+  const SyslogPro = require('syslog-pro');
   let syslog = new SyslogPro.Syslog({
     target: 'localhost',
     protocol: 'udp',
