@@ -27,7 +27,8 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              
+              <p>INDEX.JS</p>
+
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-comment">/** Copyright (c) 2018 Craig Yamato */</span>
@@ -37,10 +38,10 @@
  * Most APIs will return a promise. These APIs can be used using 
  * `then(...)/catch(...)`
  *
- * Syslog formating classes can be used as input into a Syslog class to be used 
- * simultatniusly to the same Syslog server.  The Syslog Class with a configured
- * Syslog server target can also be used as the input into each of the formating 
- * classes so that they may run independtly.
+ * Syslog formatting classes can be used as input into a Syslog class to be used 
+ * simultaneously to the same Syslog server.  The Syslog Class with a configured
+ * Syslog server target can also be used as the input into each of the formatting 
+ * classes so that they may run independently.
  * @author Craig Yamato &lt;craig@kentik.com&gt;
  * @copyright (c) 2018 - Craig Yamato
  * @version 0.1.0
@@ -61,7 +62,7 @@
  * @private
  * @param {string} hex - The color hex code in the form of #FFFFFF or Number of
  *     the ANSI color code (30-37 Standard &amp; 0-255 Extended)
- * @returns {Promise} - The formated ANSI color code
+ * @returns {Promise} - The formatted ANSI color code
  * @throws {Error} - A Format Error
  */</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">rgbToAnsi</span> (<span class="hljs-params">hex, extendedColor</span>) </span>{
@@ -152,11 +153,11 @@
 
 <span class="hljs-comment">/**
  * A class to work with syslog messages using UDP, TCP, or TLS transport.  
- * There is suport for Syslog message formating RFC-3164, RFC-5424 including 
+ * There is support for Syslog message formatting RFC-3164, RFC-5424 including 
  * Structured Data, IBM LEEF (Log Event Extended Format), and HP CEF (Common
  * Event Format).
- * Syslog formating classes can be used as input into a Syslog class to be used 
- * simultatniusly to the same Syslog server. * 
+ * Syslog formatting classes can be used as input into a Syslog class to be used 
+ * simultaneously to the same Syslog server. * 
  * @requires moment
  * @version 0.0.0
  * @since 0.0.0
@@ -169,27 +170,27 @@
    * @since 0.0.0
    * @this Syslog
    * @param {object} [options] - Options object
-   * &gt;&gt;&gt;Transport Configuraton
+   * &gt;&gt;&gt;Transport Configuration
    * @param {string} [options.target='localhost'] - The IP Address|FQDN of the 
-   *    Syslog Server, this option if set will take prasdents over any target 
-   *    set in a formating object
-   * @param {string} [options.protocol='udp'] - L4 transport portocol 
-   *    (udp|tcp|tls), this option if set will take prasdents over any transport 
-   *    set in a formating object
+   *    Syslog Server, this option if set will take presidents over any target 
+   *    set in a formatting object
+   * @param {string} [options.protocol='udp'] - L4 transport protocol 
+   *    (udp|tcp|tls), this option if set will take presidents over any transport 
+   *    set in a formatting object
    * @param {number} [options.port=514] - IP port, this option if set will take 
-   *    prasdents over any IP Port set in a formating object
+   *    presidents over any IP Port set in a formatting object
    * @param {number} [options.tcpTimeout=10000] - Ignored for all other 
-   *    transports, this option if set will take prasdents over any timeout 
-   *    set in a formating object
-   * @param {string[]} [options.tlsServerCerts] - Array of authrized TLS server
-   *    certificates file locations, this option if set will take prasdents 
-   *    over any certificates set in a formating object
+   *    transports, this option if set will take presidents over any timeout 
+   *    set in a formatting object
+   * @param {string[]} [options.tlsServerCerts] - Array of authorized TLS server
+   *    certificates file locations, this option if set will take presidents 
+   *    over any certificates set in a formatting object
    * @param {string} [options.tlsClientCert] - Client TLS certificate file 
    *    location that this client should use, this option if set will take 
-   *    prasdents over any certificates set in a formating object
+   *    presidents over any certificates set in a formatting object
    * @param {string} [options.tlsClientKey] - Client TLS key file 
    *    location that this client should use, this option if set will take 
-   *    prasdents over any certificates set in a formating object
+   *    presidents over any certificates set in a formatting object
    * &gt;&gt;&gt;Syslog Format Settings
    * @param {string} [options.format='none'] - Valid syslog format options for 
    *    this module are 'none', 'rfc3164', 'rfc5424', 'leef', 'cef'
@@ -200,7 +201,7 @@
    * @param {LEEF} [options.leef] - {@link module:SyslogPro~LEEF|IBM LEEF 
    *    (Log Event Extended Format) object} 
    * @param {CEF} [options.cef] - {@link module:SyslogPro~CEF|HP CEF 
-   *    (Common Event Format) formating object} 
+   *    (Common Event Format) formatting object} 
    */</span>
   <span class="hljs-keyword">constructor</span> (options) {
     <span class="hljs-keyword">this</span>.constructor__ = <span class="hljs-literal">true</span>;
@@ -313,9 +314,9 @@
   }
   
   <span class="hljs-comment">/**
-   * Add a TLS server certificate which can be used to authentacat the server 
-   * this syslog client is connecting too.  This function will valadate the
-   * input as a file location straing and add it to an array of certificates
+   * Add a TLS server certificate which can be used to authenticate the server 
+   * this syslog client is connecting too.  This function will validate the
+   * input as a file location string and add it to an array of certificates
    * @private
    * @version 0.0.0
    * @since 0.0.0
@@ -331,7 +332,7 @@
       } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> certs === <span class="hljs-string">'string'</span>) {
         <span class="hljs-keyword">this</span>.tlsServerCerts = [certs];
       } <span class="hljs-keyword">else</span> {
-        <span class="hljs-keyword">let</span> errMsg = <span class="hljs-string">'TYPE ERROR: Server Cert file loctions shoudl be a string'</span>;
+        <span class="hljs-keyword">let</span> errMsg = <span class="hljs-string">'TYPE ERROR: Server Cert file locations should be a string'</span>;
         errMsg += <span class="hljs-string">' or array of strings'</span>;
         reject(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(errMsg));
       }
@@ -341,8 +342,8 @@
   <span class="hljs-comment">/**
    * Send the Syslog message over UDP
    * @private
-   * @param {string} msg - The formated Syslog Message
-   * @returns {Promise} - The Syslog formated string sent
+   * @param {string} msg - The formatted Syslog Message
+   * @returns {Promise} - The Syslog formatted string sent
    * @throws {Error} - Network Error
    */</span>
   udpMessage (msg) {
@@ -383,8 +384,8 @@
   <span class="hljs-comment">/**
    * Send the Syslog message over TCP
    * @private
-   * @param {string} msg - The formated Syslog Message
-   * @returns {Promise} - The Syslog formated string sent
+   * @param {string} msg - The formatted Syslog Message
+   * @returns {Promise} - The Syslog formatted string sent
    * @throws {Error} - Timeout error for TCP and TLS connections
    * @throws {Error} - Network Error
    */</span>
@@ -442,8 +443,8 @@
   <span class="hljs-comment">/**
    * Send the Syslog message over TLS
    * @private
-   * @param {string} msg - The formated Syslog Message
-   * @returns {Promise} - The Syslog formated string sent
+   * @param {string} msg - The formatted Syslog Message
+   * @returns {Promise} - The Syslog formatted string sent
    * @throws {Error} - Timeout error for TCP and TLS connections
    * @throws {Error} - Network Error
    */</span>
@@ -534,22 +535,8 @@
           client.end();
         });
       });
-      client.setTimeout(<span class="hljs-keyword">this</span>.tcpTimeout);</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-11">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-11">&#182;</a>
-              </div>
-              <p>client.on(‘data’, (data) =&gt; {});</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>      client.on(<span class="hljs-string">'end'</span>, () =&gt; {
+      client.setTimeout(<span class="hljs-keyword">this</span>.tcpTimeout);
+      client.on(<span class="hljs-string">'end'</span>, () =&gt; {
         resolve(msg);
       });
       client.on(<span class="hljs-string">'timeout'</span>, () =&gt; {
@@ -566,8 +553,8 @@
    * Send the Syslog message to the selected target Syslog server using the 
    * selected transport.
    * @private
-   * @param {string} msg - The formated Syslog Message
-   * @returns {Promise} - The Syslog formated string sent
+   * @param {string} msg - The formatted Syslog Message
+   * @returns {Promise} - The Syslog formatted string sent
    * @throws {Error} - Timeout error for TCP and TLS connections
    * @throws {Error} - Network Error
    */</span>
@@ -603,7 +590,7 @@
               reject(reson);
             });
       } <span class="hljs-keyword">else</span> {
-        <span class="hljs-keyword">let</span> errorMsg = <span class="hljs-string">'FORMAT ERROR: Protocol not reconized, should be '</span>;
+        <span class="hljs-keyword">let</span> errorMsg = <span class="hljs-string">'FORMAT ERROR: Protocol not recognized, should be '</span>;
         errorMsg += <span class="hljs-string">'udp|tcp|tls'</span>;
         reject(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(errorMsg));
       }
@@ -612,38 +599,38 @@
 }
  
 <span class="hljs-comment">/**
- * A class to work with RFC3164 formated syslog messages. The meesaging is fully configurabule and Ansi foreground 
- * colors can be added.  Both ANSI 8 and ANSI 256 color are fully suported.
+ * A class to work with RFC3164 formatted syslog messages. The messaging is fully configurable and ANSI foreground 
+ * colors can be added.  Both ANSI 8 and ANSI 256 color are fully supported.
  * Most APIs will return a promise. These APIs can be used using 
  * `then(...)/catch(...)`
  * 
  * A Syslog class with a configured
- * Syslog server target can also be used as the input into the formating 
- * classes so that it may run independtly.
+ * Syslog server target can also be used as the input into the formatting 
+ * classes so that it may run independently.
  * 
- * The RFC3164 Syslog logging format is ment to be used as a stream of log data 
- * from a service or applacation. This class is designed to be used in this
- * fashion where new messages are writen to the class as needed.
+ * The RFC3164 Syslog logging format is meant to be used as a stream of log data 
+ * from a service or application. This class is designed to be used in this
+ * fashion where new messages are written to the class as needed.
  * @requires moment
  * @version 0.0.0
  * @since 0.0.0
  */</span>
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RFC3164</span> </span>{
   <span class="hljs-comment">/**
-   * Construct a new RFC3164 formated Syslog object with user options 
+   * Construct a new RFC3164 formatted Syslog object with user options 
    * @public
    * @this RFC3164
    * @param {object} [options] - Options object
-   * @param {string} [options.applacationName='NodeJSLogger'] - Applacation
+   * @param {string} [options.applacationName='NodeJSLogger'] - Application
    * @param {string} [options.hostname=os.hostname] - The name of this server
    * @param {number} [options.facility=23] - Facility code to use sending this 
    *    message 
    * @param {boolean} [options.color=false] - Apply color coding encoding tag 
    *    with syslog message text 
-   * @param {boolean} [options.extendedColor=false] - Use the extedned ANSI 
+   * @param {boolean} [options.extendedColor=false] - Use the extended ANSI 
    *    color set encoding tag with syslog message text 
    * @param {object} [options.colors] - User defended colors for 
-   *    severites
+   *    severities
    * @param {string} [options.colors.emergencyColor] - A RGB Hex coded color in the form 
    *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
@@ -900,14 +887,14 @@
     });
   }
   <span class="hljs-comment">/**
-   * Building a formated message.  Returns a promise with a formated message 
+   * Building a formatted message.  Returns a promise with a formatted message 
    * @public
    * @param {string} msg - The Syslog Message
    * @param {object} [options] - Options object
    * @param {number} [options.severity=7] - An array of structure 
    * @param {number} [options.colorCode=36] - The ANSI color code to use if 
    *    message coloration is selected
-   * @returns {Promise} A Syslog formated string acording to the selected RFC
+   * @returns {Promise} A Syslog formatted string according to the selected RFC
    * @throws {Error} A standard error object
    */</span>
   buildMessage (msg, options) {
@@ -921,7 +908,7 @@
         reject(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(errMsg));
         <span class="hljs-keyword">return</span>;
       }
-      <span class="hljs-keyword">let</span> fmtMsg = <span class="hljs-string">''</span>; <span class="hljs-comment">// Formated Syslog message string var</span>
+      <span class="hljs-keyword">let</span> fmtMsg = <span class="hljs-string">''</span>; <span class="hljs-comment">// Formatted Syslog message string var</span>
       <span class="hljs-keyword">const</span> newLine = <span class="hljs-string">'\n'</span>;
       <span class="hljs-keyword">const</span> newLineRegEx = <span class="hljs-regexp">/(\r|\n|(\r\n))/</span>;
       <span class="hljs-keyword">const</span> escapeCode = <span class="hljs-string">'\u001B'</span>;
@@ -930,11 +917,11 @@
         </li>
         
         
-        <li id="section-12">
+        <li id="section-11">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-12">&#182;</a>
+                <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
               <p>The PRI is common to both RFC formats</p>
 
@@ -945,11 +932,11 @@
         </li>
         
         
-        <li id="section-13">
+        <li id="section-12">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-13">&#182;</a>
+                <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
               <p>Remove any newline character</p>
 
@@ -960,11 +947,11 @@
         </li>
         
         
-        <li id="section-14">
+        <li id="section-13">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-14">&#182;</a>
+                <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
               <p>Add requested color</p>
 
@@ -980,7 +967,7 @@
           colorCode += options.msgColor;
           colorCode += <span class="hljs-string">'m'</span>; <span class="hljs-comment">// ANSI Color Closer</span>
         } <span class="hljs-keyword">else</span> {
-          colorCode = <span class="hljs-string">'[39m'</span>;  <span class="hljs-comment">// Use terminal's defualt color</span>
+          colorCode = <span class="hljs-string">'[39m'</span>;  <span class="hljs-comment">// Use terminal's default color</span>
         }
         msg = escapeCode + colorCode + msg + resetColor;
       }</pre></div></div>
@@ -988,14 +975,13 @@
         </li>
         
         
-        <li id="section-15">
+        <li id="section-14">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-15">&#182;</a>
+                <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
-              <p>RegEx to find a leading 0 in the day of a DateTime for RFC3164
-RFC3164 uses BSD timeformat</p>
+              <p>RegEx to find a leading 0 in the day of a DateTime for RFC3164 RFC3164 uses BSD timeformat</p>
 
             </div>
             
@@ -1007,13 +993,13 @@ RFC3164 uses BSD timeformat</p>
         </li>
         
         
-        <li id="section-16">
+        <li id="section-15">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-16">&#182;</a>
+                <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
-              <p>Build message    </p>
+              <p>Build message</p>
 
             </div>
             
@@ -1027,16 +1013,16 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * send a RFC5424 formated message.  Returns a promise with the formated 
+   * send a RFC5424 formatted message.  Returns a promise with the formatted 
    *    message that was sent.  If no server connection was defined when the 
-   *    class was created a defualt Syslog connector will be used.  
+   *    class was created a default Syslog connector will be used.  
    *    @see SyslogPro~Syslog
    * @public
-   * @param {string} msg - The unformated Syslog message to send
+   * @param {string} msg - The unformatted Syslog message to send
    * @param {object} [options] - Options object
    * @param {number} [options.severity=7] - An array of structure 
    * @param {number} [options.colorCode=36] - The ANSI color code to use if 
-   * @returns {Promise} A Syslog formated string acording to the selected RFC
+   * @returns {Promise} A Syslog formatted string according to the selected RFC
    * @throws {Error} A standard error object
    */</span>
   send (msg, options) {
@@ -1060,11 +1046,11 @@ RFC3164 uses BSD timeformat</p>
     });
   } 
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 0 (Emergency)
+   * Send a syslog message with a security level of 0 (Emergency)
    * @public
-   * @param {string} msg - The emergancy message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @param {string} msg - The emergency message to send to the Syslog server
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   emergency (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.send(msg, {
@@ -1073,21 +1059,21 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 0 (Emergency)
+   * Send a syslog message with a security level of 0 (Emergency)
    * @public
-   * @param {string} msg - The emergancy message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @param {string} msg - The emergency message to send to the Syslog server
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   emer (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.emergency(msg);
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 1 (Alert)
+   * Send a syslog message with a severity level of 1 (Alert)
    * @public
    * @param {string} msg - The alert message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   alert (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.send(msg, {
@@ -1096,11 +1082,11 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 2 (Critical)
+   * Send a syslog message with a severity level of 2 (Critical)
    * @public
    * @param {string} msg - The critical message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   critical (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.send(msg, {
@@ -1109,21 +1095,21 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 2 (Critical)
+   * Send a syslog message with a severity level of 2 (Critical)
    * @public
    * @param {string} msg - The critical message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   crit (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.critical(msg);
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 3 (Error)
+   * Send a syslog message with a severity level of 3 (Error)
    * @public
    * @param {string} msg - The error message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   error (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.send(msg, {
@@ -1132,21 +1118,21 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 3 (Error)
+   * Send a syslog message with a severity level of 3 (Error)
    * @public
    * @param {string} msg - The error message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   err (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.error(msg);
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 4 (Warning)
+   * Send a syslog message with a severity level of 4 (Warning)
    * @public
    * @param {string} msg - The warning message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   warning (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.send(msg, {
@@ -1155,21 +1141,21 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 4 (Warning)
+   * Send a syslog message with a severity level of 4 (Warning)
    * @public
    * @param {string} msg - The warning message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   warn (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.warning(msg);
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 5 (Notice)
+   * Send a syslog message with a severity level of 5 (Notice)
    * @public
    * @param {string} msg - The notice message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   notice (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.send(msg, {
@@ -1178,21 +1164,21 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 5 (Notice)
+   * Send a syslog message with a severity level of 5 (Notice)
    * @public
    * @param {string} msg - The notice message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   note (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.notice(msg);
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 6 (Informational)
+   * Send a syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   informational (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.send(msg, {
@@ -1201,31 +1187,31 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 6 (Informational)
+   * Send a syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   info (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.informational(msg);
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 6 (Informational)
+   * Send a syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   log (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.informational(msg);
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 7 (Debug)
+   * Send a syslog message with a severity level of 7 (Debug)
    * @public
    * @param {string} msg - The debug message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   debug (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.send(msg, {
@@ -1236,37 +1222,37 @@ RFC3164 uses BSD timeformat</p>
 }
 
 <span class="hljs-comment">/**
- * A class to work with RFC5424 formated syslog messages. The meesaging is fully configurabule and Ansi foreground 
- * colors can be added.  Both ANSI 8 and ANSI 256 color are fully suported.
+ * A class to work with RFC5424 formatted syslog messages. The messaging is fully configurable and ANSI foreground 
+ * colors can be added.  Both ANSI 8 and ANSI 256 color are fully supported.
  * Most APIs will return a promise. These APIs can be used using 
  * `then(...)/catch(...)`
  * 
  * A Syslog class with a configured
- * Syslog server target can also be used as the input into the formating 
- * classes so that it may run independtly.
+ * Syslog server target can also be used as the input into the formatting 
+ * classes so that it may run independently.
  * 
- * The RFC5424 Syslog logging format is ment to be used as a stream of log data 
- * from a service or applacation. This class is designed to be used in this
- * fashion where new messages are writen to the class as needed.
+ * The RFC5424 Syslog logging format is meant to be used as a stream of log data 
+ * from a service or application. This class is designed to be used in this
+ * fashion where new messages are written to the class as needed.
  * @requires moment
  * @version 0.0.0
  * @since 0.0.0
  */</span>
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RFC5424</span> </span>{
   <span class="hljs-comment">/**
-   * Construct a new RFC5424 formated Syslog object with user options 
+   * Construct a new RFC5424 formatted Syslog object with user options 
    * @public
    * @this RFC5424
    * @param {object} [options] - Options object
-   * @param {string} [options.applacationName='NodeJSLogger'] - Applacation
+   * @param {string} [options.applacationName='NodeJSLogger'] - Application
    * @param {string} [options.hostname=os.hostname] - The name of this server
    * @param {boolean} [options.timestamp=false] - Included a Timestamp
-   * @param {boolean} [options.timestampUTC=false] - RFC tandard is for 
+   * @param {boolean} [options.timestampUTC=false] - RFC standard is for 
    *    local time
    * @param {boolean} [options.timestampMS=false] - Timestamp with ms 
-   *    resoltuion
+   *    resolution
    * @param {boolean} [options.timestampTZ=true] - Should the timestamp
-   *    included timezone
+   *    included time zone
    * @param {boolean} [options.encludeStructuredData=false] - Included 
    *    any provided structured data
    * @param {boolean} [options.utf8BOM=true] - Included the UTF8 
@@ -1274,7 +1260,7 @@ RFC3164 uses BSD timeformat</p>
    * @param {boolean} [options.extendedColor=false] - Included the UTF8 
    *    encoding tag with syslog message text 
    * @param {object} [options.colors] - User defended colors for 
-   *    severites
+   *    severities
    * @param {string} [options.colors.emergencyColor] - A RGB Hex coded color in the form 
    *    of #FFFFFF or as or the ANSI color code number (30-37 Standard &amp; 0-255 
    *    Extended)
@@ -1566,7 +1552,7 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * Building a formated message.  Returns a promise with a formated message 
+   * Building a formatted message.  Returns a promise with a formatted message 
    * @public
    * @param {string} msg - The Syslog Message
    * @param {object} [options] - Options object
@@ -1577,12 +1563,12 @@ RFC3164 uses BSD timeformat</p>
    *    this message 
    * @param {string[]} [options.structuredData] - An array of structure 
    *    data strings conforming to the IETF/IANA defined SD-IDs or IANA 
-   *    registred SMI Network Management Private Enterprise Code SD-ID 
+   *    registered SMI Network Management Private Enterprise Code SD-ID 
    *    conforming to the format 
    *    [name@&lt;private enterprise number&gt; parameter=value] 
    * @param {number} [options.colorCode=36] - The ANSI color code to use if 
    *    message coloration is selected
-   * @returns {Promise} A Syslog formated string acording to the selected RFC
+   * @returns {Promise} A Syslog formatted string according to the selected RFC
    * @throws {Error} A standard error object
    */</span>
   buildMessage (msg, options) {
@@ -1609,11 +1595,11 @@ RFC3164 uses BSD timeformat</p>
         </li>
         
         
-        <li id="section-17">
+        <li id="section-16">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
+                <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
               <p>The PRI is common to both RFC formats</p>
 
@@ -1624,11 +1610,11 @@ RFC3164 uses BSD timeformat</p>
         </li>
         
         
-        <li id="section-18">
+        <li id="section-17">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-18">&#182;</a>
+                <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
               <p>Remove any newline character</p>
 
@@ -1639,11 +1625,11 @@ RFC3164 uses BSD timeformat</p>
         </li>
         
         
-        <li id="section-19">
+        <li id="section-18">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-19">&#182;</a>
+                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
               <p>Add requested color</p>
 
@@ -1659,7 +1645,7 @@ RFC3164 uses BSD timeformat</p>
           colorCode += options.msgColor;
           colorCode += <span class="hljs-string">'m'</span>; <span class="hljs-comment">// ANSI Color Closer</span>
         } <span class="hljs-keyword">else</span> {
-          colorCode = <span class="hljs-string">'[39m'</span>;  <span class="hljs-comment">// Use terminal's defualt color</span>
+          colorCode = <span class="hljs-string">'[39m'</span>;  <span class="hljs-comment">// Use terminal's default color</span>
         }
         msg = escapeCode + colorCode + msg + resetColor;
       }</pre></div></div>
@@ -1667,11 +1653,11 @@ RFC3164 uses BSD timeformat</p>
         </li>
         
         
-        <li id="section-20">
+        <li id="section-19">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-20">&#182;</a>
+                <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
               <p>RFC5424 timestamp formating</p>
 
@@ -1723,11 +1709,11 @@ RFC3164 uses BSD timeformat</p>
         </li>
         
         
-        <li id="section-21">
+        <li id="section-20">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-21">&#182;</a>
+                <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
               <p>Build Structured Data string</p>
 
@@ -1743,11 +1729,11 @@ RFC3164 uses BSD timeformat</p>
         </li>
         
         
-        <li id="section-22">
+        <li id="section-21">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-22">&#182;</a>
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <p>Loop to drop duplicates of the same SD Element name</p>
 
@@ -1770,11 +1756,11 @@ RFC3164 uses BSD timeformat</p>
         </li>
         
         
-        <li id="section-23">
+        <li id="section-22">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-23">&#182;</a>
+                <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
               <p>Build the message</p>
 
@@ -1798,13 +1784,13 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * send a RFC5424 formated message.  Returns a promise with the formated 
+   * send a RFC5424 formatted message.  Returns a promise with the formatted 
    *    message that was sent.  If no server connection was defined when the 
-   *    class was created a defualt Syslog connector will be used.  
+   *    class was created a default Syslog connector will be used.  
    *    @see SyslogPro~Syslog
    * @public
-   * @param {string} msg - The unformated Syslog message to send
-   * @returns {Promise} A Syslog formated string acording to the selected RFC
+   * @param {string} msg - The unformatted Syslog message to send
+   * @returns {Promise} A Syslog formatted string according to the selected RFC
    * @throws {Error} A standard error object
    */</span>
   send (msg, options) {
@@ -1828,11 +1814,11 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 0 (Emergency)
+   * Send a syslog message with a severity level of 0 (Emergency)
    * @public
-   * @param {string} msg - The emergancy message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @param {string} msg - The emergency message to send to the Syslog server
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   emergency (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.send(msg, {
@@ -1841,21 +1827,21 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 0 (Emergency)
+   * Send a syslog message with a severity level of 0 (Emergency)
    * @public
-   * @param {string} msg - The emergancy message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @param {string} msg - The emergency message to send to the Syslog server
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   emer (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.emergency(msg);
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 1 (Alert)
+   * Send a syslog message with a severity level of 1 (Alert)
    * @public
    * @param {string} msg - The alert message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   alert (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.send(msg, {
@@ -1864,11 +1850,11 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 2 (Critical)
+   * Send a syslog message with a severity level of 2 (Critical)
    * @public
    * @param {string} msg - The critical message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   critical (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.send(msg, {
@@ -1877,21 +1863,21 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 2 (Critical)
+   * Send a syslog message with a severity level of 2 (Critical)
    * @public
    * @param {string} msg - The critical message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   crit (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.critical(msg);
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 3 (Error)
+   * Send a syslog message with a severity level of 3 (Error)
    * @public
    * @param {string} msg - The error message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   error (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.send(msg, {
@@ -1900,21 +1886,21 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 3 (Error)
+   * Send a syslog message with a severity level of 3 (Error)
    * @public
    * @param {string} msg - The error message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   err (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.error(msg);
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 4 (Warning)
+   * Send a syslog message with a severity level of 4 (Warning)
    * @public
    * @param {string} msg - The warning message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   warning (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.send(msg, {
@@ -1923,21 +1909,21 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 4 (Warning)
+   * Send a syslog message with a severity level of 4 (Warning)
    * @public
    * @param {string} msg - The warning message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   warn (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.warning(msg);
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 5 (Notice)
+   * Send a syslog message with a severity level of 5 (Notice)
    * @public
    * @param {string} msg - The notice message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   notice (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.send(msg, {
@@ -1946,21 +1932,21 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 5 (Notice)
+   * Send a syslog message with a severity level of 5 (Notice)
    * @public
    * @param {string} msg - The notice message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   note (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.notice(msg);
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 6 (Informational)
+   * Send a syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   informational (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.send(msg, {
@@ -1969,31 +1955,31 @@ RFC3164 uses BSD timeformat</p>
     });
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 6 (Informational)
+   * Send a syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   info (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.informational(msg);
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 6 (Informational)
+   * Send a syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   log (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.informational(msg);
   }
   <span class="hljs-comment">/**
-   * Send a syslog message with a secerity level of 7 (Debug)
+   * Send a syslog message with a severity level of 7 (Debug)
    * @public
    * @param {string} msg - The debug message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */</span>
   debug (msg) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.send(msg, {
@@ -2007,34 +1993,34 @@ RFC3164 uses BSD timeformat</p>
  * A class to work with IBM LEEF (Log Event Extended Format) messages this form
  * of system messages are designed to work with security systems.  Messages can
  * be saved to file (Saving to file if not part of this module but a LEEF 
- * formated mesage produced by this module can be saved externaly to it) or 
+ * formatted message produced by this module can be saved externally to it) or 
  * sent via Syslog. 
  * Most APIs will return a promise. These APIs can be used using 
  * `then(...)/catch(...)`
  * 
  * A Syslog class with a configured Syslog server target can also be used as 
- * the input into the formating classes so that it may run independtly. The 
+ * the input into the formatting classes so that it may run independently. The 
  * LEEF format is designed to send event data to a SIEM system and should not 
- * be as a logging stream. This class is ment to be used once per message.
+ * be as a logging stream. This class is meant to be used once per message.
  * @requires moment
  * @version 0.0.0
  * @since 0.0.0
  */</span>
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LEEF</span> </span>{
   <span class="hljs-comment">/**
-   * Construct a new LEEF formating object with user options
+   * Construct a new LEEF formatting object with user options
    * @public
    * @param {object} [options] - Options object
    * @param {string} [options.vendor='unknown'] - The vendor of the system that
-   *    genrated the event being reported
+   *    generated the event being reported
    * @param {string} [options.product='unknown'] - The product name of the 
    *    system that genrated the event being reported
    * @param {string} [options.version='unknown'] - The version name of the 
    *    system that genrated the event being reported
    * @param {string} [options.eventId='unknown'] - The eventId of the 
    *    system that genrated the event being reported
-   * @param {object} [options.attrabute] - LEEF message attrabutes which 
-   *    defualts to all base attrabutes with null values, new attrabutes should
+   * @param {object} [options.attributes] - LEEF message attributes which 
+   *    defaults to all base attributes with null values, new attributes should
    *    be added as new elements to this object
    * @param {boolean} [options.syslogHeader='true'] - Should the LEEF message 
    *    include a Syslog header with Timestamp and source
@@ -2058,7 +2044,7 @@ RFC3164 uses BSD timeformat</p>
     <span class="hljs-keyword">this</span>.syslogHeader = <span class="hljs-keyword">typeof</span> options.syslogHeader === <span class="hljs-string">'boolean'</span> 
         ? options.syslogHeader : <span class="hljs-literal">true</span>;
     <span class="hljs-comment">/** @type {object} */</span>
-    <span class="hljs-keyword">this</span>.attrabutes = options.attrabutes || {
+    <span class="hljs-keyword">this</span>.attributes = options.attributes || {
       <span class="hljs-attr">cat</span>: <span class="hljs-literal">null</span>,
       <span class="hljs-attr">devTime</span>: <span class="hljs-literal">null</span>,
       <span class="hljs-attr">devTimeFormat</span>: <span class="hljs-literal">null</span>,
@@ -2116,9 +2102,9 @@ RFC3164 uses BSD timeformat</p>
     }
   }
   <span class="hljs-comment">/**
-   *Build a formated message
+   *Build a formatted message
    * @public
-   * @return {Promise} - string with formated message
+   * @return {Promise} - string with formatted message
    */</span>
   buildMessage () {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
@@ -2132,18 +2118,18 @@ RFC3164 uses BSD timeformat</p>
         </li>
         
         
-        <li id="section-24">
+        <li id="section-23">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-24">&#182;</a>
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
-              <p>Build LEEF Attrabuites</p>
+              <p>Build LEEF Attributes</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">const</span> Tab = <span class="hljs-string">'\x09'</span>;
-      <span class="hljs-keyword">const</span> leefAttribs = <span class="hljs-built_in">Object</span>.entries(<span class="hljs-keyword">this</span>.attrabutes);
+      <span class="hljs-keyword">const</span> leefAttribs = <span class="hljs-built_in">Object</span>.entries(<span class="hljs-keyword">this</span>.attributes);
       <span class="hljs-keyword">const</span> leefAttribsLen = leefAttribs.length;
       <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> attrib = <span class="hljs-number">0</span>; attrib &lt; leefAttribsLen; attrib++) {
         <span class="hljs-keyword">if</span> (leefAttribs[attrib][<span class="hljs-number">1</span>] !== <span class="hljs-literal">null</span>) {
@@ -2183,36 +2169,36 @@ RFC3164 uses BSD timeformat</p>
  * A class to work with HP CEF (Common Event Format) messages. This form
  * of system messages are designed to work with security systems.  Messages can
  * be saved to file (Saving to file if not part of this module but a CEF 
- * formated mesage produced by this module can be saved externaly to it) or 
+ * formatted message produced by this module can be saved externally to it) or 
  * sent via Syslog.
  * Most APIs will return a promise. These APIs can be used using 
  * `then(...)/catch(...)`
  * 
  * A Syslog class with a configured Syslog server target can also be used as 
- * the input into the formating classes so that it may run independtly. The CEF 
+ * the input into the formatting classes so that it may run independently. The CEF 
  * format is designed to send event data to a SIEM system and should not be as 
- * a logging stream. This class is ment to be used once per message.
+ * a logging stream. This class is meant to be used once per message.
  * @requires moment
  * @version 0.0.0
  * @since 0.0.0
  */</span>
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CEF</span> </span>{
   <span class="hljs-comment">/**
-   * Construct a new CEF formating object with user options 
+   * Construct a new CEF formatting object with user options 
    * @public
    * @param {object} [options] - Options object
    * @param {string} [options.deviceVendor='unknown'] - The vendor of the system 
-   *    that genrated the event being reported
+   *    that generated the event being reported
    * @param {string} [options.deviceProduct='unknown'] - The product name of the 
    *    system that genrated the event being reported
    * @param {string} [options.deviceVersion='unknown'] - The version name of the 
    *    system that genrated the event being reported
    * @param {string} [options.deviceEventClassId='unknown'] - The eventId of the 
    *    system that genrated the event being reported
-   * @param {string} [options.name='unknown'] - Name of the service genrating 
+   * @param {string} [options.name='unknown'] - Name of the service generating 
    *    the notice
    * @param {string} [options.severity='unknown'] - Severity of the notification
-   * @param {string} [options.extensions={}] - Any CEF Key=Value extentions
+   * @param {string} [options.extensions={}] - Any CEF Key=Value extensions
    * @param {Syslog} [options.server=false] - A {@link module:SyslogPro~Syslog|
    *    Syslog server connection} that should be used to send messages directly 
    *    from this class. @see SyslogPro~Syslog
@@ -2405,8 +2391,8 @@ RFC3164 uses BSD timeformat</p>
   <span class="hljs-comment">/**
    * Validate this CEF object
    * @public
-   * @return {Promise} - True if valadated
-   * @throws {Error} - First element to fail valadation
+   * @return {Promise} - True if validated
+   * @throws {Error} - First element to fail validation
    */</span>  
   validate () {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span> (<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {

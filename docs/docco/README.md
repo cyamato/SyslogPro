@@ -2,6 +2,7 @@
 
 
 
+INDEX.JS
 
 
   
@@ -14,10 +15,10 @@
  * Most APIs will return a promise. These APIs can be used using 
  * `then(...)/catch(...)`
  *
- * Syslog formating classes can be used as input into a Syslog class to be used 
- * simultatniusly to the same Syslog server.  The Syslog Class with a configured
- * Syslog server target can also be used as the input into each of the formating 
- * classes so that they may run independtly.
+ * Syslog formatting classes can be used as input into a Syslog class to be used 
+ * simultaneously to the same Syslog server.  The Syslog Class with a configured
+ * Syslog server target can also be used as the input into each of the formatting 
+ * classes so that they may run independently.
  * @author Craig Yamato <craig@kentik.com>
  * @copyright (c) 2018 - Craig Yamato
  * @version 0.1.0
@@ -38,7 +39,7 @@ const fs = require("fs");
  * @private
  * @param {string} hex - The color hex code in the form of #FFFFFF or Number of
  *     the ANSI color code (30-37 Standard & 0-255 Extended)
- * @returns {Promise} - The formated ANSI color code
+ * @returns {Promise} - The formatted ANSI color code
  * @throws {Error} - A Format Error
  */
 function rgbToAnsi (hex, extendedColor) {
@@ -131,11 +132,11 @@ Gray Scale Color
 
 /**
  * A class to work with syslog messages using UDP, TCP, or TLS transport.  
- * There is suport for Syslog message formating RFC-3164, RFC-5424 including 
+ * There is support for Syslog message formatting RFC-3164, RFC-5424 including 
  * Structured Data, IBM LEEF (Log Event Extended Format), and HP CEF (Common
  * Event Format).
- * Syslog formating classes can be used as input into a Syslog class to be used 
- * simultatniusly to the same Syslog server. * 
+ * Syslog formatting classes can be used as input into a Syslog class to be used 
+ * simultaneously to the same Syslog server. * 
  * @requires moment
  * @version 0.0.0
  * @since 0.0.0
@@ -148,27 +149,27 @@ class Syslog {
    * @since 0.0.0
    * @this Syslog
    * @param {object} [options] - Options object
-   * >>>Transport Configuraton
+   * >>>Transport Configuration
    * @param {string} [options.target='localhost'] - The IP Address|FQDN of the 
-   *    Syslog Server, this option if set will take prasdents over any target 
-   *    set in a formating object
-   * @param {string} [options.protocol='udp'] - L4 transport portocol 
-   *    (udp|tcp|tls), this option if set will take prasdents over any transport 
-   *    set in a formating object
+   *    Syslog Server, this option if set will take presidents over any target 
+   *    set in a formatting object
+   * @param {string} [options.protocol='udp'] - L4 transport protocol 
+   *    (udp|tcp|tls), this option if set will take presidents over any transport 
+   *    set in a formatting object
    * @param {number} [options.port=514] - IP port, this option if set will take 
-   *    prasdents over any IP Port set in a formating object
+   *    presidents over any IP Port set in a formatting object
    * @param {number} [options.tcpTimeout=10000] - Ignored for all other 
-   *    transports, this option if set will take prasdents over any timeout 
-   *    set in a formating object
-   * @param {string[]} [options.tlsServerCerts] - Array of authrized TLS server
-   *    certificates file locations, this option if set will take prasdents 
-   *    over any certificates set in a formating object
+   *    transports, this option if set will take presidents over any timeout 
+   *    set in a formatting object
+   * @param {string[]} [options.tlsServerCerts] - Array of authorized TLS server
+   *    certificates file locations, this option if set will take presidents 
+   *    over any certificates set in a formatting object
    * @param {string} [options.tlsClientCert] - Client TLS certificate file 
    *    location that this client should use, this option if set will take 
-   *    prasdents over any certificates set in a formating object
+   *    presidents over any certificates set in a formatting object
    * @param {string} [options.tlsClientKey] - Client TLS key file 
    *    location that this client should use, this option if set will take 
-   *    prasdents over any certificates set in a formating object
+   *    presidents over any certificates set in a formatting object
    * >>>Syslog Format Settings
    * @param {string} [options.format='none'] - Valid syslog format options for 
    *    this module are 'none', 'rfc3164', 'rfc5424', 'leef', 'cef'
@@ -179,7 +180,7 @@ class Syslog {
    * @param {LEEF} [options.leef] - {@link module:SyslogPro~LEEF|IBM LEEF 
    *    (Log Event Extended Format) object} 
    * @param {CEF} [options.cef] - {@link module:SyslogPro~CEF|HP CEF 
-   *    (Common Event Format) formating object} 
+   *    (Common Event Format) formatting object} 
    */
   constructor (options) {
     this.constructor__ = true;
@@ -294,9 +295,9 @@ Syslog Format
   }
   
   /**
-   * Add a TLS server certificate which can be used to authentacat the server 
-   * this syslog client is connecting too.  This function will valadate the
-   * input as a file location straing and add it to an array of certificates
+   * Add a TLS server certificate which can be used to authenticate the server 
+   * this syslog client is connecting too.  This function will validate the
+   * input as a file location string and add it to an array of certificates
    * @private
    * @version 0.0.0
    * @since 0.0.0
@@ -312,7 +313,7 @@ Syslog Format
       } else if (typeof certs === 'string') {
         this.tlsServerCerts = [certs];
       } else {
-        let errMsg = 'TYPE ERROR: Server Cert file loctions shoudl be a string';
+        let errMsg = 'TYPE ERROR: Server Cert file locations should be a string';
         errMsg += ' or array of strings';
         reject(new Error(errMsg));
       }
@@ -322,8 +323,8 @@ Syslog Format
   /**
    * Send the Syslog message over UDP
    * @private
-   * @param {string} msg - The formated Syslog Message
-   * @returns {Promise} - The Syslog formated string sent
+   * @param {string} msg - The formatted Syslog Message
+   * @returns {Promise} - The Syslog formatted string sent
    * @throws {Error} - Network Error
    */
   udpMessage (msg) {
@@ -365,8 +366,8 @@ Turn msg in to a UTF8 buffer
   /**
    * Send the Syslog message over TCP
    * @private
-   * @param {string} msg - The formated Syslog Message
-   * @returns {Promise} - The Syslog formated string sent
+   * @param {string} msg - The formatted Syslog Message
+   * @returns {Promise} - The Syslog formatted string sent
    * @throws {Error} - Timeout error for TCP and TLS connections
    * @throws {Error} - Network Error
    */
@@ -425,8 +426,8 @@ Turn msg in to a UTF8 buffer
   /**
    * Send the Syslog message over TLS
    * @private
-   * @param {string} msg - The formated Syslog Message
-   * @returns {Promise} - The Syslog formated string sent
+   * @param {string} msg - The formatted Syslog Message
+   * @returns {Promise} - The Syslog formatted string sent
    * @throws {Error} - Timeout error for TCP and TLS connections
    * @throws {Error} - Network Error
    */
@@ -499,7 +500,7 @@ Load any server certs if provided
         tlsOptions.ca = tlsOptionsCerts;
         tlsOptions.rejectUnauthorized = true;
       }
-      const client = tls.connect(tlsOptions, () => { 
+      const client = tls.connect(tlsOptions, () => {
 
 ```
 
@@ -521,21 +522,6 @@ Turn msg in to a UTF8 buffer
         });
       });
       client.setTimeout(this.tcpTimeout);
-
-```
-
-
-
-
-
-
-
-client.on('data', (data) => {});
-
-
-  
-
-```
       client.on('end', () => {
         resolve(msg);
       });
@@ -553,8 +539,8 @@ client.on('data', (data) => {});
    * Send the Syslog message to the selected target Syslog server using the 
    * selected transport.
    * @private
-   * @param {string} msg - The formated Syslog Message
-   * @returns {Promise} - The Syslog formated string sent
+   * @param {string} msg - The formatted Syslog Message
+   * @returns {Promise} - The Syslog formatted string sent
    * @throws {Error} - Timeout error for TCP and TLS connections
    * @throws {Error} - Network Error
    */
@@ -590,7 +576,7 @@ client.on('data', (data) => {});
               reject(reson);
             });
       } else {
-        let errorMsg = 'FORMAT ERROR: Protocol not reconized, should be ';
+        let errorMsg = 'FORMAT ERROR: Protocol not recognized, should be ';
         errorMsg += 'udp|tcp|tls';
         reject(new Error(errorMsg));
       }
@@ -599,38 +585,38 @@ client.on('data', (data) => {});
 }
  
 /**
- * A class to work with RFC3164 formated syslog messages. The meesaging is fully configurabule and Ansi foreground 
- * colors can be added.  Both ANSI 8 and ANSI 256 color are fully suported.
+ * A class to work with RFC3164 formatted syslog messages. The messaging is fully configurable and ANSI foreground 
+ * colors can be added.  Both ANSI 8 and ANSI 256 color are fully supported.
  * Most APIs will return a promise. These APIs can be used using 
  * `then(...)/catch(...)`
  * 
  * A Syslog class with a configured
- * Syslog server target can also be used as the input into the formating 
- * classes so that it may run independtly.
+ * Syslog server target can also be used as the input into the formatting 
+ * classes so that it may run independently.
  * 
- * The RFC3164 Syslog logging format is ment to be used as a stream of log data 
- * from a service or applacation. This class is designed to be used in this
- * fashion where new messages are writen to the class as needed.
+ * The RFC3164 Syslog logging format is meant to be used as a stream of log data 
+ * from a service or application. This class is designed to be used in this
+ * fashion where new messages are written to the class as needed.
  * @requires moment
  * @version 0.0.0
  * @since 0.0.0
  */
 class RFC3164 {
   /**
-   * Construct a new RFC3164 formated Syslog object with user options 
+   * Construct a new RFC3164 formatted Syslog object with user options 
    * @public
    * @this RFC3164
    * @param {object} [options] - Options object
-   * @param {string} [options.applacationName='NodeJSLogger'] - Applacation
+   * @param {string} [options.applacationName='NodeJSLogger'] - Application
    * @param {string} [options.hostname=os.hostname] - The name of this server
    * @param {number} [options.facility=23] - Facility code to use sending this 
    *    message 
    * @param {boolean} [options.color=false] - Apply color coding encoding tag 
    *    with syslog message text 
-   * @param {boolean} [options.extendedColor=false] - Use the extedned ANSI 
+   * @param {boolean} [options.extendedColor=false] - Use the extended ANSI 
    *    color set encoding tag with syslog message text 
    * @param {object} [options.colors] - User defended colors for 
-   *    severites
+   *    severities
    * @param {string} [options.colors.emergencyColor] - A RGB Hex coded color in the form 
    *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
    *    Extended)
@@ -887,14 +873,14 @@ class RFC3164 {
     });
   }
   /**
-   * Building a formated message.  Returns a promise with a formated message 
+   * Building a formatted message.  Returns a promise with a formatted message 
    * @public
    * @param {string} msg - The Syslog Message
    * @param {object} [options] - Options object
    * @param {number} [options.severity=7] - An array of structure 
    * @param {number} [options.colorCode=36] - The ANSI color code to use if 
    *    message coloration is selected
-   * @returns {Promise} A Syslog formated string acording to the selected RFC
+   * @returns {Promise} A Syslog formatted string according to the selected RFC
    * @throws {Error} A standard error object
    */
   buildMessage (msg, options) {
@@ -908,7 +894,7 @@ class RFC3164 {
         reject(new Error(errMsg));
         return;
       }
-      let fmtMsg = ''; // Formated Syslog message string var
+      let fmtMsg = ''; // Formatted Syslog message string var
       const newLine = '\n';
       const newLineRegEx = /(\r|\n|(\r\n))/;
       const escapeCode = '\u001B';
@@ -944,7 +930,7 @@ Remove any newline character
   
 
 ```
-      msg = msg.replace(newLineRegEx, ''); 
+      msg = msg.replace(newLineRegEx, '');
 
 ```
 
@@ -970,7 +956,7 @@ Add requested color
           colorCode += options.msgColor;
           colorCode += 'm'; // ANSI Color Closer
         } else {
-          colorCode = '[39m';  // Use terminal's defualt color
+          colorCode = '[39m';  // Use terminal's default color
         }
         msg = escapeCode + colorCode + msg + resetColor;
       }
@@ -983,8 +969,7 @@ Add requested color
 
 
 
-RegEx to find a leading 0 in the day of a DateTime for RFC3164
-RFC3164 uses BSD timeformat
+RegEx to find a leading 0 in the day of a DateTime for RFC3164 RFC3164 uses BSD timeformat
 
 
   
@@ -1003,7 +988,7 @@ RFC3164 uses BSD timeformat
 
 
 
-Build message    
+Build message
 
 
   
@@ -1019,16 +1004,16 @@ Build message
     });
   }
   /**
-   * send a RFC5424 formated message.  Returns a promise with the formated 
+   * send a RFC5424 formatted message.  Returns a promise with the formatted 
    *    message that was sent.  If no server connection was defined when the 
-   *    class was created a defualt Syslog connector will be used.  
+   *    class was created a default Syslog connector will be used.  
    *    @see SyslogPro~Syslog
    * @public
-   * @param {string} msg - The unformated Syslog message to send
+   * @param {string} msg - The unformatted Syslog message to send
    * @param {object} [options] - Options object
    * @param {number} [options.severity=7] - An array of structure 
    * @param {number} [options.colorCode=36] - The ANSI color code to use if 
-   * @returns {Promise} A Syslog formated string acording to the selected RFC
+   * @returns {Promise} A Syslog formatted string according to the selected RFC
    * @throws {Error} A standard error object
    */
   send (msg, options) {
@@ -1052,11 +1037,11 @@ Build message
     });
   } 
   /**
-   * Send a syslog message with a secerity level of 0 (Emergency)
+   * Send a syslog message with a security level of 0 (Emergency)
    * @public
-   * @param {string} msg - The emergancy message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @param {string} msg - The emergency message to send to the Syslog server
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   emergency (msg) {
     return this.send(msg, {
@@ -1065,21 +1050,21 @@ Build message
     });
   }
   /**
-   * Send a syslog message with a secerity level of 0 (Emergency)
+   * Send a syslog message with a security level of 0 (Emergency)
    * @public
-   * @param {string} msg - The emergancy message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @param {string} msg - The emergency message to send to the Syslog server
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   emer (msg) {
     return this.emergency(msg);
   }
   /**
-   * Send a syslog message with a secerity level of 1 (Alert)
+   * Send a syslog message with a severity level of 1 (Alert)
    * @public
    * @param {string} msg - The alert message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   alert (msg) {
     return this.send(msg, {
@@ -1088,11 +1073,11 @@ Build message
     });
   }
   /**
-   * Send a syslog message with a secerity level of 2 (Critical)
+   * Send a syslog message with a severity level of 2 (Critical)
    * @public
    * @param {string} msg - The critical message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   critical (msg) {
     return this.send(msg, {
@@ -1101,21 +1086,21 @@ Build message
     });
   }
   /**
-   * Send a syslog message with a secerity level of 2 (Critical)
+   * Send a syslog message with a severity level of 2 (Critical)
    * @public
    * @param {string} msg - The critical message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   crit (msg) {
     return this.critical(msg);
   }
   /**
-   * Send a syslog message with a secerity level of 3 (Error)
+   * Send a syslog message with a severity level of 3 (Error)
    * @public
    * @param {string} msg - The error message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   error (msg) {
     return this.send(msg, {
@@ -1124,21 +1109,21 @@ Build message
     });
   }
   /**
-   * Send a syslog message with a secerity level of 3 (Error)
+   * Send a syslog message with a severity level of 3 (Error)
    * @public
    * @param {string} msg - The error message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   err (msg) {
     return this.error(msg);
   }
   /**
-   * Send a syslog message with a secerity level of 4 (Warning)
+   * Send a syslog message with a severity level of 4 (Warning)
    * @public
    * @param {string} msg - The warning message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   warning (msg) {
     return this.send(msg, {
@@ -1147,21 +1132,21 @@ Build message
     });
   }
   /**
-   * Send a syslog message with a secerity level of 4 (Warning)
+   * Send a syslog message with a severity level of 4 (Warning)
    * @public
    * @param {string} msg - The warning message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   warn (msg) {
     return this.warning(msg);
   }
   /**
-   * Send a syslog message with a secerity level of 5 (Notice)
+   * Send a syslog message with a severity level of 5 (Notice)
    * @public
    * @param {string} msg - The notice message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   notice (msg) {
     return this.send(msg, {
@@ -1170,21 +1155,21 @@ Build message
     });
   }
   /**
-   * Send a syslog message with a secerity level of 5 (Notice)
+   * Send a syslog message with a severity level of 5 (Notice)
    * @public
    * @param {string} msg - The notice message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   note (msg) {
     return this.notice(msg);
   }
   /**
-   * Send a syslog message with a secerity level of 6 (Informational)
+   * Send a syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   informational (msg) {
     return this.send(msg, {
@@ -1193,31 +1178,31 @@ Build message
     });
   }
   /**
-   * Send a syslog message with a secerity level of 6 (Informational)
+   * Send a syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   info (msg) {
     return this.informational(msg);
   }
   /**
-   * Send a syslog message with a secerity level of 6 (Informational)
+   * Send a syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   log (msg) {
     return this.informational(msg);
   }
   /**
-   * Send a syslog message with a secerity level of 7 (Debug)
+   * Send a syslog message with a severity level of 7 (Debug)
    * @public
    * @param {string} msg - The debug message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   debug (msg) {
     return this.send(msg, {
@@ -1228,37 +1213,37 @@ Build message
 }
 
 /**
- * A class to work with RFC5424 formated syslog messages. The meesaging is fully configurabule and Ansi foreground 
- * colors can be added.  Both ANSI 8 and ANSI 256 color are fully suported.
+ * A class to work with RFC5424 formatted syslog messages. The messaging is fully configurable and ANSI foreground 
+ * colors can be added.  Both ANSI 8 and ANSI 256 color are fully supported.
  * Most APIs will return a promise. These APIs can be used using 
  * `then(...)/catch(...)`
  * 
  * A Syslog class with a configured
- * Syslog server target can also be used as the input into the formating 
- * classes so that it may run independtly.
+ * Syslog server target can also be used as the input into the formatting 
+ * classes so that it may run independently.
  * 
- * The RFC5424 Syslog logging format is ment to be used as a stream of log data 
- * from a service or applacation. This class is designed to be used in this
- * fashion where new messages are writen to the class as needed.
+ * The RFC5424 Syslog logging format is meant to be used as a stream of log data 
+ * from a service or application. This class is designed to be used in this
+ * fashion where new messages are written to the class as needed.
  * @requires moment
  * @version 0.0.0
  * @since 0.0.0
  */
 class RFC5424 {
   /**
-   * Construct a new RFC5424 formated Syslog object with user options 
+   * Construct a new RFC5424 formatted Syslog object with user options 
    * @public
    * @this RFC5424
    * @param {object} [options] - Options object
-   * @param {string} [options.applacationName='NodeJSLogger'] - Applacation
+   * @param {string} [options.applacationName='NodeJSLogger'] - Application
    * @param {string} [options.hostname=os.hostname] - The name of this server
    * @param {boolean} [options.timestamp=false] - Included a Timestamp
-   * @param {boolean} [options.timestampUTC=false] - RFC tandard is for 
+   * @param {boolean} [options.timestampUTC=false] - RFC standard is for 
    *    local time
    * @param {boolean} [options.timestampMS=false] - Timestamp with ms 
-   *    resoltuion
+   *    resolution
    * @param {boolean} [options.timestampTZ=true] - Should the timestamp
-   *    included timezone
+   *    included time zone
    * @param {boolean} [options.encludeStructuredData=false] - Included 
    *    any provided structured data
    * @param {boolean} [options.utf8BOM=true] - Included the UTF8 
@@ -1266,7 +1251,7 @@ class RFC5424 {
    * @param {boolean} [options.extendedColor=false] - Included the UTF8 
    *    encoding tag with syslog message text 
    * @param {object} [options.colors] - User defended colors for 
-   *    severites
+   *    severities
    * @param {string} [options.colors.emergencyColor] - A RGB Hex coded color in the form 
    *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255 
    *    Extended)
@@ -1558,7 +1543,7 @@ class RFC5424 {
     });
   }
   /**
-   * Building a formated message.  Returns a promise with a formated message 
+   * Building a formatted message.  Returns a promise with a formatted message 
    * @public
    * @param {string} msg - The Syslog Message
    * @param {object} [options] - Options object
@@ -1569,12 +1554,12 @@ class RFC5424 {
    *    this message 
    * @param {string[]} [options.structuredData] - An array of structure 
    *    data strings conforming to the IETF/IANA defined SD-IDs or IANA 
-   *    registred SMI Network Management Private Enterprise Code SD-ID 
+   *    registered SMI Network Management Private Enterprise Code SD-ID 
    *    conforming to the format 
    *    [name@<private enterprise number> parameter=value] 
    * @param {number} [options.colorCode=36] - The ANSI color code to use if 
    *    message coloration is selected
-   * @returns {Promise} A Syslog formated string acording to the selected RFC
+   * @returns {Promise} A Syslog formatted string according to the selected RFC
    * @throws {Error} A standard error object
    */
   buildMessage (msg, options) {
@@ -1628,7 +1613,7 @@ Remove any newline character
   
 
 ```
-      msg = msg.replace(newLineRegEx, ''); 
+      msg = msg.replace(newLineRegEx, '');
 
 ```
 
@@ -1654,7 +1639,7 @@ Add requested color
           colorCode += options.msgColor;
           colorCode += 'm'; // ANSI Color Closer
         } else {
-          colorCode = '[39m';  // Use terminal's defualt color
+          colorCode = '[39m';  // Use terminal's default color
         }
         msg = escapeCode + colorCode + msg + resetColor;
       }
@@ -1797,13 +1782,13 @@ Build the message
     });
   }
   /**
-   * send a RFC5424 formated message.  Returns a promise with the formated 
+   * send a RFC5424 formatted message.  Returns a promise with the formatted 
    *    message that was sent.  If no server connection was defined when the 
-   *    class was created a defualt Syslog connector will be used.  
+   *    class was created a default Syslog connector will be used.  
    *    @see SyslogPro~Syslog
    * @public
-   * @param {string} msg - The unformated Syslog message to send
-   * @returns {Promise} A Syslog formated string acording to the selected RFC
+   * @param {string} msg - The unformatted Syslog message to send
+   * @returns {Promise} A Syslog formatted string according to the selected RFC
    * @throws {Error} A standard error object
    */
   send (msg, options) {
@@ -1827,11 +1812,11 @@ Build the message
     });
   }
   /**
-   * Send a syslog message with a secerity level of 0 (Emergency)
+   * Send a syslog message with a severity level of 0 (Emergency)
    * @public
-   * @param {string} msg - The emergancy message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @param {string} msg - The emergency message to send to the Syslog server
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   emergency (msg) {
     return this.send(msg, {
@@ -1840,21 +1825,21 @@ Build the message
     });
   }
   /**
-   * Send a syslog message with a secerity level of 0 (Emergency)
+   * Send a syslog message with a severity level of 0 (Emergency)
    * @public
-   * @param {string} msg - The emergancy message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @param {string} msg - The emergency message to send to the Syslog server
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   emer (msg) {
     return this.emergency(msg);
   }
   /**
-   * Send a syslog message with a secerity level of 1 (Alert)
+   * Send a syslog message with a severity level of 1 (Alert)
    * @public
    * @param {string} msg - The alert message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   alert (msg) {
     return this.send(msg, {
@@ -1863,11 +1848,11 @@ Build the message
     });
   }
   /**
-   * Send a syslog message with a secerity level of 2 (Critical)
+   * Send a syslog message with a severity level of 2 (Critical)
    * @public
    * @param {string} msg - The critical message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   critical (msg) {
     return this.send(msg, {
@@ -1876,21 +1861,21 @@ Build the message
     });
   }
   /**
-   * Send a syslog message with a secerity level of 2 (Critical)
+   * Send a syslog message with a severity level of 2 (Critical)
    * @public
    * @param {string} msg - The critical message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   crit (msg) {
     return this.critical(msg);
   }
   /**
-   * Send a syslog message with a secerity level of 3 (Error)
+   * Send a syslog message with a severity level of 3 (Error)
    * @public
    * @param {string} msg - The error message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   error (msg) {
     return this.send(msg, {
@@ -1899,21 +1884,21 @@ Build the message
     });
   }
   /**
-   * Send a syslog message with a secerity level of 3 (Error)
+   * Send a syslog message with a severity level of 3 (Error)
    * @public
    * @param {string} msg - The error message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   err (msg) {
     return this.error(msg);
   }
   /**
-   * Send a syslog message with a secerity level of 4 (Warning)
+   * Send a syslog message with a severity level of 4 (Warning)
    * @public
    * @param {string} msg - The warning message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   warning (msg) {
     return this.send(msg, {
@@ -1922,21 +1907,21 @@ Build the message
     });
   }
   /**
-   * Send a syslog message with a secerity level of 4 (Warning)
+   * Send a syslog message with a severity level of 4 (Warning)
    * @public
    * @param {string} msg - The warning message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   warn (msg) {
     return this.warning(msg);
   }
   /**
-   * Send a syslog message with a secerity level of 5 (Notice)
+   * Send a syslog message with a severity level of 5 (Notice)
    * @public
    * @param {string} msg - The notice message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   notice (msg) {
     return this.send(msg, {
@@ -1945,21 +1930,21 @@ Build the message
     });
   }
   /**
-   * Send a syslog message with a secerity level of 5 (Notice)
+   * Send a syslog message with a severity level of 5 (Notice)
    * @public
    * @param {string} msg - The notice message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   note (msg) {
     return this.notice(msg);
   }
   /**
-   * Send a syslog message with a secerity level of 6 (Informational)
+   * Send a syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   informational (msg) {
     return this.send(msg, {
@@ -1968,31 +1953,31 @@ Build the message
     });
   }
   /**
-   * Send a syslog message with a secerity level of 6 (Informational)
+   * Send a syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   info (msg) {
     return this.informational(msg);
   }
   /**
-   * Send a syslog message with a secerity level of 6 (Informational)
+   * Send a syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   log (msg) {
     return this.informational(msg);
   }
   /**
-   * Send a syslog message with a secerity level of 7 (Debug)
+   * Send a syslog message with a severity level of 7 (Debug)
    * @public
    * @param {string} msg - The debug message to send to the Syslog server
-   * @returns {Promise} - The formated syslog message sent to the Syslog server
-   * @throws {Error} - Any bubbled up error
+   * @returns {Promise} - The formatted syslog message sent to the Syslog server
+   * @throws {Error} - Any bubbled-up error
    */
   debug (msg) {
     return this.send(msg, {
@@ -2006,34 +1991,34 @@ Build the message
  * A class to work with IBM LEEF (Log Event Extended Format) messages this form
  * of system messages are designed to work with security systems.  Messages can
  * be saved to file (Saving to file if not part of this module but a LEEF 
- * formated mesage produced by this module can be saved externaly to it) or 
+ * formatted message produced by this module can be saved externally to it) or 
  * sent via Syslog. 
  * Most APIs will return a promise. These APIs can be used using 
  * `then(...)/catch(...)`
  * 
  * A Syslog class with a configured Syslog server target can also be used as 
- * the input into the formating classes so that it may run independtly. The 
+ * the input into the formatting classes so that it may run independently. The 
  * LEEF format is designed to send event data to a SIEM system and should not 
- * be as a logging stream. This class is ment to be used once per message.
+ * be as a logging stream. This class is meant to be used once per message.
  * @requires moment
  * @version 0.0.0
  * @since 0.0.0
  */
 class LEEF {
   /**
-   * Construct a new LEEF formating object with user options
+   * Construct a new LEEF formatting object with user options
    * @public
    * @param {object} [options] - Options object
    * @param {string} [options.vendor='unknown'] - The vendor of the system that
-   *    genrated the event being reported
+   *    generated the event being reported
    * @param {string} [options.product='unknown'] - The product name of the 
    *    system that genrated the event being reported
    * @param {string} [options.version='unknown'] - The version name of the 
    *    system that genrated the event being reported
    * @param {string} [options.eventId='unknown'] - The eventId of the 
    *    system that genrated the event being reported
-   * @param {object} [options.attrabute] - LEEF message attrabutes which 
-   *    defualts to all base attrabutes with null values, new attrabutes should
+   * @param {object} [options.attributes] - LEEF message attributes which 
+   *    defaults to all base attributes with null values, new attributes should
    *    be added as new elements to this object
    * @param {boolean} [options.syslogHeader='true'] - Should the LEEF message 
    *    include a Syslog header with Timestamp and source
@@ -2057,7 +2042,7 @@ class LEEF {
     this.syslogHeader = typeof options.syslogHeader === 'boolean' 
         ? options.syslogHeader : true;
     /** @type {object} */
-    this.attrabutes = options.attrabutes || {
+    this.attributes = options.attributes || {
       cat: null,
       devTime: null,
       devTimeFormat: null,
@@ -2115,9 +2100,9 @@ class LEEF {
     }
   }
   /**
-   *Build a formated message
+   *Build a formatted message
    * @public
-   * @return {Promise} - string with formated message
+   * @return {Promise} - string with formatted message
    */
   buildMessage () {
     return new Promise((resolve, reject) => {
@@ -2137,14 +2122,14 @@ class LEEF {
 
 
 
-Build LEEF Attrabuites
+Build LEEF Attributes
 
 
   
 
 ```
       const Tab = '\x09';
-      const leefAttribs = Object.entries(this.attrabutes);
+      const leefAttribs = Object.entries(this.attributes);
       const leefAttribsLen = leefAttribs.length;
       for (let attrib = 0; attrib < leefAttribsLen; attrib++) {
         if (leefAttribs[attrib][1] !== null) {
@@ -2184,36 +2169,36 @@ Build LEEF Attrabuites
  * A class to work with HP CEF (Common Event Format) messages. This form
  * of system messages are designed to work with security systems.  Messages can
  * be saved to file (Saving to file if not part of this module but a CEF 
- * formated mesage produced by this module can be saved externaly to it) or 
+ * formatted message produced by this module can be saved externally to it) or 
  * sent via Syslog.
  * Most APIs will return a promise. These APIs can be used using 
  * `then(...)/catch(...)`
  * 
  * A Syslog class with a configured Syslog server target can also be used as 
- * the input into the formating classes so that it may run independtly. The CEF 
+ * the input into the formatting classes so that it may run independently. The CEF 
  * format is designed to send event data to a SIEM system and should not be as 
- * a logging stream. This class is ment to be used once per message.
+ * a logging stream. This class is meant to be used once per message.
  * @requires moment
  * @version 0.0.0
  * @since 0.0.0
  */
 class CEF {
   /**
-   * Construct a new CEF formating object with user options 
+   * Construct a new CEF formatting object with user options 
    * @public
    * @param {object} [options] - Options object
    * @param {string} [options.deviceVendor='unknown'] - The vendor of the system 
-   *    that genrated the event being reported
+   *    that generated the event being reported
    * @param {string} [options.deviceProduct='unknown'] - The product name of the 
    *    system that genrated the event being reported
    * @param {string} [options.deviceVersion='unknown'] - The version name of the 
    *    system that genrated the event being reported
    * @param {string} [options.deviceEventClassId='unknown'] - The eventId of the 
    *    system that genrated the event being reported
-   * @param {string} [options.name='unknown'] - Name of the service genrating 
+   * @param {string} [options.name='unknown'] - Name of the service generating 
    *    the notice
    * @param {string} [options.severity='unknown'] - Severity of the notification
-   * @param {string} [options.extensions={}] - Any CEF Key=Value extentions
+   * @param {string} [options.extensions={}] - Any CEF Key=Value extensions
    * @param {Syslog} [options.server=false] - A {@link module:SyslogPro~Syslog|
    *    Syslog server connection} that should be used to send messages directly 
    *    from this class. @see SyslogPro~Syslog
@@ -2406,8 +2391,8 @@ class CEF {
   /**
    * Validate this CEF object
    * @public
-   * @return {Promise} - True if valadated
-   * @throws {Error} - First element to fail valadation
+   * @return {Promise} - True if validated
+   * @throws {Error} - First element to fail validation
    */  
   validate () {
     return new Promise ((resolve, reject) => {
@@ -2691,6 +2676,8 @@ module.exports = {
   CEF: CEF,
   Syslog: Syslog
 };
+
+
 
 ```
 

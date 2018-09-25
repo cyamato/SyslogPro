@@ -44,8 +44,8 @@ and the [DNS Promises API](https://nodejs.org/api/dns.html#dns_dns_promises_api)
   });
   syslog.rfc5424.info('My Message');
 ```
-  Optionaly you can create each class or class options to pass to SyslogPro
-  to create formated messages or use directly
+Optionally you can create each class or class options to pass to SyslogPro to 
+create formatted messages or use directly
   
 **RFC3164**
 ```js

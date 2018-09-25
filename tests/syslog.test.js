@@ -225,7 +225,7 @@ describe('LEEF Class Tests', () => {
       version: 'qweq',
       eventId: 'et',
       syslogHeader: false,
-      attrabutes: {
+      attributes: {
         cat: 'net'
       },
       server: syslog
@@ -1171,7 +1171,7 @@ describe('Base Syslog Class tests', () => {
           console.log(result);
         })
         .catch((reson) => {
-          let errorMsg = 'TYPE ERROR: Server Cert file loctions shoudl be a';
+          let errorMsg = 'TYPE ERROR: Server Cert file locations should be a';
           errorMsg += ' string or array of strings';
           expect(reson.message).toBe(errorMsg);
           done();
@@ -1251,7 +1251,7 @@ describe('Base Syslog Class tests', () => {
           console.log(result);
         })
         .catch((reson) => {
-          let errorMsg = 'FORMAT ERROR: Protocol not reconized, should be ';
+          let errorMsg = 'FORMAT ERROR: Protocol not recognized, should be ';
           errorMsg += 'udp|tcp|tls';
           expect(reson.message).toBe(errorMsg);
           done();
