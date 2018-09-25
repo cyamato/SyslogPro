@@ -16,15 +16,18 @@
     "Common Event Format",
     "Log Event Extended Format"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cyamato/SyslogPro.git"
-  },
   "author": {
     "name": "Craig Yamato",
     "email": "craig.yamato2@gmail.com",
     "url": "http://linkedin.com/in/cyamato"
   },
+  "maintainers": [
+    {
+      "name": "Craig Yamato",
+      "email": "craig.yamato2@gmail.com",
+      "url": "http://linkedin.com/in/cyamato"
+    }
+  ],
   "contributors": [
     {
       "name": "Craig Yamato",
@@ -32,7 +35,20 @@
       "url": "http://linkedin.com/in/cyamato"
     }
   ],
+  "homepage": "https://cyamato.github.io/SyslogPro/",
+  "bugs": { 
+    "url" : "https://github.com/cyamato/SyslogPro/issues"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cyamato/SyslogPro.git"
+  },
+  "directories": {
+    "doc": "./docs",
+    "example": "./example",
+    "test": "./test"
+  }
   "main": "index.js",
   "engines": {
     "node": ">=10.0.0"
