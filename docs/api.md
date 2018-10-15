@@ -10,13 +10,13 @@ API convention
 
 ## SyslogPro
 The SyslogPro module for sending syslog messages
-Most APIs will return a promise. These APIs can be used using 
+Most APIs will return a promise. These APIs can be used using
 `then(...)/catch(...)`
 
-Syslog formatting classes can be used as input into a Syslog class to be used 
+Syslog formatting classes can be used as input into a Syslog class to be used
 simultaneously to the same Syslog server.  The Syslog Class with a configured
-Syslog server target can also be used as the input into each of the formatting 
-classes so that they may run independently.
+Syslog server target can also be used as the input into each of the
+formatting classes so that they may run independently.
 
 **Version**: 0.1.0  
 **Author**: Craig Yamato <craig@kentik.com>  
@@ -113,11 +113,11 @@ classes so that they may run independently.
 <a name="module_SyslogPro..Syslog"></a>
 
 ### SyslogPro~Syslog
-A class to work with syslog messages using UDP, TCP, or TLS transport.  
-There is support for Syslog message formatting RFC-3164, RFC-5424 including 
+A class to work with syslog messages using UDP, TCP, or TLS transport.
+There is support for Syslog message formatting RFC-3164, RFC-5424 including
 Structured Data, IBM LEEF (Log Event Extended Format), and HP CEF (Common
 Event Format).
-Syslog formatting classes can be used as input into a Syslog class to be used 
+Syslog formatting classes can be used as input into a Syslog class to be used
 simultaneously to the same Syslog server. *
 
 **Kind**: inner class of [<code>SyslogPro</code>](#module_SyslogPro)  
@@ -149,18 +149,18 @@ Construct a new Syslog transport object with user options
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [options] | <code>object</code> |  | Options object >>>Transport Configuration |
-| [options.target] | <code>string</code> | <code>&quot;&#x27;localhost&#x27;&quot;</code> | The IP Address|FQDN of the     Syslog Server, this option if set will take presidents over any target     set in a formatting object |
-| [options.protocol] | <code>string</code> | <code>&quot;&#x27;udp&#x27;&quot;</code> | L4 transport protocol     (udp|tcp|tls), this option if set will take presidents over any transport     set in a formatting object |
-| [options.port] | <code>number</code> | <code>514</code> | IP port, this option if set will take     presidents over any IP Port set in a formatting object |
-| [options.tcpTimeout] | <code>number</code> | <code>10000</code> | Ignored for all other     transports, this option if set will take presidents over any timeout     set in a formatting object |
-| [options.tlsServerCerts] | <code>Array.&lt;string&gt;</code> |  | Array of authorized TLS server    certificates file locations, this option if set will take presidents     over any certificates set in a formatting object |
-| [options.tlsClientCert] | <code>string</code> |  | Client TLS certificate file     location that this client should use, this option if set will take     presidents over any certificates set in a formatting object |
-| [options.tlsClientKey] | <code>string</code> |  | Client TLS key file     location that this client should use, this option if set will take     presidents over any certificates set in a formatting object >>>Syslog Format Settings |
-| [options.format] | <code>string</code> | <code>&quot;&#x27;none&#x27;&quot;</code> | Valid syslog format options for     this module are 'none', 'rfc3164', 'rfc5424', 'leef', 'cef' |
+| [options.target] | <code>string</code> | <code>&quot;&#x27;localhost&#x27;&quot;</code> | The IP Address|FQDN of the    Syslog Server, this option if set will take presidents over any target    set in a formatting object |
+| [options.protocol] | <code>string</code> | <code>&quot;&#x27;udp&#x27;&quot;</code> | L4 transport protocol    (udp|tcp|tls), this option if set will take presidents over any    transport set in a formatting object |
+| [options.port] | <code>number</code> | <code>514</code> | IP port, this option if set will take    presidents over any IP Port set in a formatting object |
+| [options.tcpTimeout] | <code>number</code> | <code>10000</code> | Ignored for all other    transports, this option if set will take presidents over any timeout    set in a formatting object |
+| [options.tlsServerCerts] | <code>Array.&lt;string&gt;</code> |  | Array of authorized TLS server    certificates file locations, this option if set will take presidents    over any certificates set in a formatting object |
+| [options.tlsClientCert] | <code>string</code> |  | Client TLS certificate file    location that this client should use, this option if set will take    presidents over any certificates set in a formatting object |
+| [options.tlsClientKey] | <code>string</code> |  | Client TLS key file    location that this client should use, this option if set will take    presidents over any certificates set in a formatting object >>>Syslog Format Settings |
+| [options.format] | <code>string</code> | <code>&quot;&#x27;none&#x27;&quot;</code> | Valid syslog format options for    this module are 'none', 'rfc3164', 'rfc5424', 'leef', 'cef' |
 | [options.rfc5424] | <code>RFC3164</code> |  | {@link module:SyslogPro~RFC5424|    RFC5424 related settings} |
 | [options.rfc5424] | <code>RFC5424</code> |  | {@link module:SyslogPro~RFC5424|    RFC5424 related settings} |
-| [options.leef] | <code>LEEF</code> |  | {@link module:SyslogPro~LEEF|IBM LEEF     (Log Event Extended Format) object} |
-| [options.cef] | <code>CEF</code> |  | {@link module:SyslogPro~CEF|HP CEF     (Common Event Format) formatting object} |
+| [options.leef] | <code>LEEF</code> |  | {@link module:SyslogPro~LEEF|IBM LEEF    (Log Event Extended Format) object} |
+| [options.cef] | <code>CEF</code> |  | {@link module:SyslogPro~CEF|HP CEF    (Common Event Format) formatting object} |
 
 <a name="module_SyslogPro..Syslog+target"></a>
 
@@ -213,16 +213,16 @@ Construct a new Syslog transport object with user options
 <a name="module_SyslogPro..RFC3164"></a>
 
 ### SyslogPro~RFC3164
-A class to work with RFC3164 formatted syslog messages. The messaging is fully configurable and ANSI foreground 
-colors can be added.  Both ANSI 8 and ANSI 256 color are fully supported.
-Most APIs will return a promise. These APIs can be used using 
-`then(...)/catch(...)`
+A class to work with RFC3164 formatted syslog messages. The messaging is
+fully configurable and ANSI foreground colors can be added.  Both ANSI 8 and
+ANSI 256 color are fully supported. Most APIs will return a promise. These
+APIs can be used using `then(...)/catch(...)`
 
 A Syslog class with a configured
-Syslog server target can also be used as the input into the formatting 
+Syslog server target can also be used as the input into the formatting
 classes so that it may run independently.
 
-The RFC3164 Syslog logging format is meant to be used as a stream of log data 
+The RFC3164 Syslog logging format is meant to be used as a stream of log data
 from a service or application. This class is designed to be used in this
 fashion where new messages are written to the class as needed.
 
@@ -265,19 +265,19 @@ Construct a new RFC3164 formatted Syslog object with user options
 | [options] | <code>object</code> |  | Options object |
 | [options.applacationName] | <code>string</code> | <code>&quot;&#x27;NodeJSLogger&#x27;&quot;</code> | Application |
 | [options.hostname] | <code>string</code> | <code>&quot;os.hostname&quot;</code> | The name of this server |
-| [options.facility] | <code>number</code> | <code>23</code> | Facility code to use sending this     message |
-| [options.color] | <code>boolean</code> | <code>false</code> | Apply color coding encoding tag     with syslog message text |
-| [options.extendedColor] | <code>boolean</code> | <code>false</code> | Use the extended ANSI     color set encoding tag with syslog message text |
-| [options.colors] | <code>object</code> |  | User defended colors for     severities |
-| [options.colors.emergencyColor] | <code>string</code> |  | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [options.colors.alertColor] | <code>string</code> |  | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [options.colors.criticalColor] | <code>string</code> |  | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [options.colors.errorColor] | <code>string</code> |  | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [options.colors.warningColor] | <code>string</code> |  | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [options.colors.noticeColor] | <code>string</code> |  | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [options.colors.informationalColor] | <code>string</code> |  | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [options.colors.debugColor] | <code>string</code> |  | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [options.server] | <code>Syslog</code> | <code>false</code> | A {@link module:SyslogPro~Syslog|    Syslog server connection} that should be used to send messages directly     from this class. @see SyslogPro~Syslog |
+| [options.facility] | <code>number</code> | <code>23</code> | Facility code to use sending this    message |
+| [options.color] | <code>boolean</code> | <code>false</code> | Apply color coding encoding tag    with syslog message text |
+| [options.extendedColor] | <code>boolean</code> | <code>false</code> | Use the extended ANSI    color set encoding tag with syslog message text |
+| [options.colors] | <code>object</code> |  | User defended colors for    severities |
+| [options.colors.emergencyColor] | <code>string</code> |  | A RGB Hex coded color in    the form of #FFFFFF or as or the ANSI color code number (30-37 Standard    & 0-255 Extended) |
+| [options.colors.alertColor] | <code>string</code> |  | A RGB Hex coded color in the    form of #FFFFFF or as or the ANSI color code number (30-37 Standard &    0-255 Extended) |
+| [options.colors.criticalColor] | <code>string</code> |  | A RGB Hex coded color in    the form of #FFFFFF or as or the ANSI color code number (30-37 Standard    & 0-255 Extended) |
+| [options.colors.errorColor] | <code>string</code> |  | A RGB Hex coded color in the    form of #FFFFFF or as or the ANSI color code number (30-37 Standard &    0-255 Extended) |
+| [options.colors.warningColor] | <code>string</code> |  | A RGB Hex coded color in    the form of #FFFFFF or as or the ANSI color code number (30-37 Standard     & 0-255 Extended) |
+| [options.colors.noticeColor] | <code>string</code> |  | A RGB Hex coded color in the     form of #FFFFFF or as or the ANSI color code number (30-37 Standard &     0-255 Extended) |
+| [options.colors.informationalColor] | <code>string</code> |  | A RGB Hex coded color    in the form of #FFFFFF or as or the ANSI color code number (30-37    Standard & 0-255 Extended) |
+| [options.colors.debugColor] | <code>string</code> |  | A RGB Hex coded color in the    form of #FFFFFF or as or the ANSI color code number (30-37 Standard &    0-255 Extended) |
+| [options.server] | <code>Syslog</code> | <code>false</code> | A {@link module:SyslogPro~Syslog|    Syslog server connection} that should be used to send messages directly    from this class. @see SyslogPro~Syslog |
 
 <a name="module_SyslogPro..RFC3164+color"></a>
 
@@ -301,14 +301,14 @@ Sets the color to be used for messages at a set priority
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [colors.emergencyColor] | <code>string</code> | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [colors.alertColor] | <code>string</code> | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [colors.criticalColor] | <code>string</code> | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [colors.errorColor] | <code>string</code> | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [colors.warningColor] | <code>string</code> | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [colors.noticeColor] | <code>string</code> | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [colors.informationalColor] | <code>string</code> | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [colors.debugColor] | <code>string</code> | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
+| [colors.emergencyColor] | <code>string</code> | A RGB Hex coded color in the form    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255    Extended) |
+| [colors.alertColor] | <code>string</code> | A RGB Hex coded color in the form    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255    Extended) |
+| [colors.criticalColor] | <code>string</code> | A RGB Hex coded color in the form    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255    Extended) |
+| [colors.errorColor] | <code>string</code> | A RGB Hex coded color in the form    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255    Extended) |
+| [colors.warningColor] | <code>string</code> | A RGB Hex coded color in the form    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255    Extended) |
+| [colors.noticeColor] | <code>string</code> | A RGB Hex coded color in the form    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255    Extended) |
+| [colors.informationalColor] | <code>string</code> | A RGB Hex coded color in the    form of #FFFFFF or as or the ANSI color code number (30-37 Standard &    0-255 Extended) |
+| [colors.debugColor] | <code>string</code> | A RGB Hex coded color in the form    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255    Extended) |
 
 <a name="module_SyslogPro..RFC3164+buildMessage"></a>
 
@@ -328,13 +328,13 @@ Building a formatted message.  Returns a promise with a formatted message
 | msg | <code>string</code> |  | The Syslog Message |
 | [options] | <code>object</code> |  | Options object |
 | [options.severity] | <code>number</code> | <code>7</code> | An array of structure |
-| [options.colorCode] | <code>number</code> | <code>36</code> | The ANSI color code to use if     message coloration is selected |
+| [options.colorCode] | <code>number</code> | <code>36</code> | The ANSI color code to use if    message coloration is selected |
 
 <a name="module_SyslogPro..RFC3164+send"></a>
 
 #### rfC3164.send(msg, [options]) ⇒ <code>Promise</code>
-send a RFC5424 formatted message.  Returns a promise with the formatted 
-   message that was sent.  If no server connection was defined when the 
+send a RFC5424 formatted message.  Returns a promise with the formatted
+   message that was sent.  If no server connection was defined when the
    class was created a default Syslog connector will be used.
 
 **Kind**: instance method of [<code>RFC3164</code>](#module_SyslogPro..RFC3164)  
@@ -555,7 +555,7 @@ Send a syslog message with a severity level of 6 (Informational)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| msg | <code>string</code> | The informational message to send to the Syslog server |
+| msg | <code>string</code> | The informational message to send to the Syslog    server |
 
 <a name="module_SyslogPro..RFC3164+info"></a>
 
@@ -572,7 +572,7 @@ Send a syslog message with a severity level of 6 (Informational)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| msg | <code>string</code> | The informational message to send to the Syslog server |
+| msg | <code>string</code> | The informational message to send to the Syslog    server |
 
 <a name="module_SyslogPro..RFC3164+log"></a>
 
@@ -589,7 +589,7 @@ Send a syslog message with a severity level of 6 (Informational)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| msg | <code>string</code> | The informational message to send to the Syslog server |
+| msg | <code>string</code> | The informational message to send to the Syslog    server |
 
 <a name="module_SyslogPro..RFC3164+debug"></a>
 
@@ -611,16 +611,17 @@ Send a syslog message with a severity level of 7 (Debug)
 <a name="module_SyslogPro..RFC5424"></a>
 
 ### SyslogPro~RFC5424
-A class to work with RFC5424 formatted syslog messages. The messaging is fully configurable and ANSI foreground 
-colors can be added.  Both ANSI 8 and ANSI 256 color are fully supported.
-Most APIs will return a promise. These APIs can be used using 
+A class to work with RFC5424 formatted syslog messages. The messaging is
+fully configurable and ANSI foreground  * colors can be added.  Both ANSI 8
+and ANSI 256 color are fully supported.
+Most APIs will return a promise. These APIs can be used using
 `then(...)/catch(...)`
 
 A Syslog class with a configured
-Syslog server target can also be used as the input into the formatting 
+Syslog server target can also be used as the input into the formatting
 classes so that it may run independently.
 
-The RFC5424 Syslog logging format is meant to be used as a stream of log data 
+The RFC5424 Syslog logging format is meant to be used as a stream of log data
 from a service or application. This class is designed to be used in this
 fashion where new messages are written to the class as needed.
 
@@ -670,23 +671,23 @@ Construct a new RFC5424 formatted Syslog object with user options
 | [options.applacationName] | <code>string</code> | <code>&quot;&#x27;NodeJSLogger&#x27;&quot;</code> | Application |
 | [options.hostname] | <code>string</code> | <code>&quot;os.hostname&quot;</code> | The name of this server |
 | [options.timestamp] | <code>boolean</code> | <code>false</code> | Included a Timestamp |
-| [options.timestampUTC] | <code>boolean</code> | <code>false</code> | RFC standard is for     local time |
-| [options.timestampMS] | <code>boolean</code> | <code>false</code> | Timestamp with ms     resolution |
+| [options.timestampUTC] | <code>boolean</code> | <code>false</code> | RFC standard is for    local time |
+| [options.timestampMS] | <code>boolean</code> | <code>false</code> | Timestamp with ms    resolution |
 | [options.timestampTZ] | <code>boolean</code> | <code>true</code> | Should the timestamp    included time zone |
-| [options.encludeStructuredData] | <code>boolean</code> | <code>false</code> | Included     any provided structured data |
+| [options.encludeStructuredData] | <code>boolean</code> | <code>false</code> | Included    any provided structured data |
 | [options.utf8BOM] | <code>boolean</code> | <code>true</code> | Included the UTF8 |
 | [options.color] | <code>boolean</code> | <code>false</code> | Included the UTF8 |
-| [options.extendedColor] | <code>boolean</code> | <code>false</code> | Included the UTF8     encoding tag with syslog message text |
-| [options.colors] | <code>object</code> |  | User defended colors for     severities |
-| [options.colors.emergencyColor] | <code>string</code> |  | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [options.colors.alertColor] | <code>string</code> |  | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [options.colors.criticalColor] | <code>string</code> |  | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [options.colors.errorColor] | <code>string</code> |  | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [options.colors.warningColor] | <code>string</code> |  | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [options.colors.noticeColor] | <code>string</code> |  | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [options.colors.informationalColor] | <code>string</code> |  | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [options.colors.debugColor] | <code>string</code> |  | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [options.server] | <code>Syslog</code> | <code>false</code> | A {@link module:SyslogPro~Syslog|    Syslog server connection} that should be used to send messages directly     from this class. @see SyslogPro~Syslog |
+| [options.extendedColor] | <code>boolean</code> | <code>false</code> | Included the UTF8    encoding tag with syslog message text |
+| [options.colors] | <code>object</code> |  | User defended colors for    severities |
+| [options.colors.emergencyColor] | <code>string</code> |  | A RGB Hex coded color in    the form of #FFFFFF or as or the ANSI color code number (30-37 Standard    & 0-255 Extended) |
+| [options.colors.alertColor] | <code>string</code> |  | A RGB Hex coded color in the    form of #FFFFFF or as or the ANSI color code number (30-37 Standard &    0-255 Extended) |
+| [options.colors.criticalColor] | <code>string</code> |  | A RGB Hex coded color in    the form of #FFFFFF or as or the ANSI color code number (30-37 Standard    & 0-255 Extended) |
+| [options.colors.errorColor] | <code>string</code> |  | A RGB Hex coded color in the    form of #FFFFFF or as or the ANSI color code number (30-37 Standard &    0-255 Extended) |
+| [options.colors.warningColor] | <code>string</code> |  | A RGB Hex coded color in    the form of #FFFFFF or as or the ANSI color code number (30-37 Standard    & 0-255 Extended) |
+| [options.colors.noticeColor] | <code>string</code> |  | A RGB Hex coded color in the    form of #FFFFFF or as or the ANSI color code number (30-37 Standard &    0-255 Extended) |
+| [options.colors.informationalColor] | <code>string</code> |  | A RGB Hex coded color    in the form of #FFFFFF or as or the ANSI color code number (30-37    Standard & 0-255 Extended) |
+| [options.colors.debugColor] | <code>string</code> |  | A RGB Hex coded color in the    form of #FFFFFF or as or the ANSI color code number (30-37 Standard &    0-255 Extended) |
+| [options.server] | <code>Syslog</code> | <code>false</code> | A {@link module:SyslogPro~Syslog|    Syslog server connection} that should be used to send messages directly    from this class. @see SyslogPro~Syslog |
 
 <a name="module_SyslogPro..RFC5424+timestamp"></a>
 
@@ -734,14 +735,14 @@ Sets the color to be used for messages at a set priority
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [colors.emergencyColor] | <code>string</code> | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [colors.alertColor] | <code>string</code> | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [colors.criticalColor] | <code>string</code> | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [colors.errorColor] | <code>string</code> | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [colors.warningColor] | <code>string</code> | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [colors.noticeColor] | <code>string</code> | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [colors.informationalColor] | <code>string</code> | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
-| [colors.debugColor] | <code>string</code> | A RGB Hex coded color in the form     of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255     Extended) |
+| [colors.emergencyColor] | <code>string</code> | A RGB Hex coded color in the form    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255    Extended) |
+| [colors.alertColor] | <code>string</code> | A RGB Hex coded color in the form    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255    Extended) |
+| [colors.criticalColor] | <code>string</code> | A RGB Hex coded color in the form    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255    Extended) |
+| [colors.errorColor] | <code>string</code> | A RGB Hex coded color in the form    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255    Extended) |
+| [colors.warningColor] | <code>string</code> | A RGB Hex coded color in the form    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255    Extended) |
+| [colors.noticeColor] | <code>string</code> | A RGB Hex coded color in the form    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255    Extended) |
+| [colors.informationalColor] | <code>string</code> | A RGB Hex coded color in the    form of #FFFFFF or as or the ANSI color code number (30-37 Standard &    0-255 Extended) |
+| [colors.debugColor] | <code>string</code> | A RGB Hex coded color in the form    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255    Extended) |
 
 <a name="module_SyslogPro..RFC5424+buildMessage"></a>
 
@@ -761,16 +762,16 @@ Building a formatted message.  Returns a promise with a formatted message
 | msg | <code>string</code> |  | The Syslog Message |
 | [options] | <code>object</code> |  | Options object |
 | [options.severity] | <code>number</code> | <code>7</code> | An array of structure |
-| [options.facility] | <code>number</code> | <code>23</code> | Facility code to use sending this     message |
-| [options.pid] | <code>string</code> | <code>&quot;&#x27;-&#x27;&quot;</code> | The process id of the service sending     this message |
-| [options.structuredData] | <code>Array.&lt;string&gt;</code> |  | An array of structure     data strings conforming to the IETF/IANA defined SD-IDs or IANA     registered SMI Network Management Private Enterprise Code SD-ID     conforming to the format     [name@<private enterprise number> parameter=value] |
-| [options.colorCode] | <code>number</code> | <code>36</code> | The ANSI color code to use if     message coloration is selected |
+| [options.facility] | <code>number</code> | <code>23</code> | Facility code to use sending this    message |
+| [options.pid] | <code>string</code> | <code>&quot;&#x27;-&#x27;&quot;</code> | The process id of the service sending    this message |
+| [options.structuredData] | <code>Array.&lt;string&gt;</code> |  | An array of structure    data strings conforming to the IETF/IANA defined SD-IDs or IANA    registered SMI Network Management Private Enterprise Code SD-ID    conforming to the format    [name@<private enterprise number> parameter=value] |
+| [options.colorCode] | <code>number</code> | <code>36</code> | The ANSI color code to use if    message coloration is selected |
 
 <a name="module_SyslogPro..RFC5424+send"></a>
 
 #### rfC5424.send(msg) ⇒ <code>Promise</code>
-send a RFC5424 formatted message.  Returns a promise with the formatted 
-   message that was sent.  If no server connection was defined when the 
+send a RFC5424 formatted message.  Returns a promise with the formatted
+   message that was sent.  If no server connection was defined when the
    class was created a default Syslog connector will be used.
 
 **Kind**: instance method of [<code>RFC5424</code>](#module_SyslogPro..RFC5424)  
@@ -988,7 +989,7 @@ Send a syslog message with a severity level of 6 (Informational)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| msg | <code>string</code> | The informational message to send to the Syslog server |
+| msg | <code>string</code> | The informational message to send to the Syslog    server |
 
 <a name="module_SyslogPro..RFC5424+info"></a>
 
@@ -1005,7 +1006,7 @@ Send a syslog message with a severity level of 6 (Informational)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| msg | <code>string</code> | The informational message to send to the Syslog server |
+| msg | <code>string</code> | The informational message to send to the Syslog    server |
 
 <a name="module_SyslogPro..RFC5424+log"></a>
 
@@ -1022,7 +1023,7 @@ Send a syslog message with a severity level of 6 (Informational)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| msg | <code>string</code> | The informational message to send to the Syslog server |
+| msg | <code>string</code> | The informational message to send to the Syslog    server |
 
 <a name="module_SyslogPro..RFC5424+debug"></a>
 
@@ -1046,15 +1047,15 @@ Send a syslog message with a severity level of 7 (Debug)
 ### SyslogPro~LEEF
 A class to work with IBM LEEF (Log Event Extended Format) messages this form
 of system messages are designed to work with security systems.  Messages can
-be saved to file (Saving to file if not part of this module but a LEEF 
-formatted message produced by this module can be saved externally to it) or 
-sent via Syslog. 
-Most APIs will return a promise. These APIs can be used using 
+be saved to file (Saving to file if not part of this module but a LEEF
+formatted message produced by this module can be saved externally to it) or
+sent via Syslog.
+Most APIs will return a promise. These APIs can be used using
 `then(...)/catch(...)`
 
-A Syslog class with a configured Syslog server target can also be used as 
-the input into the formatting classes so that it may run independently. The 
-LEEF format is designed to send event data to a SIEM system and should not 
+A Syslog class with a configured Syslog server target can also be used as
+the input into the formatting classes so that it may run independently. The
+LEEF format is designed to send event data to a SIEM system and should not
 be as a logging stream. This class is meant to be used once per message.
 
 **Kind**: inner class of [<code>SyslogPro</code>](#module_SyslogPro)  
@@ -1083,12 +1084,12 @@ Construct a new LEEF formatting object with user options
 | --- | --- | --- | --- |
 | [options] | <code>object</code> |  | Options object |
 | [options.vendor] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | The vendor of the system that    generated the event being reported |
-| [options.product] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | The product name of the     system that genrated the event being reported |
-| [options.version] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | The version name of the     system that genrated the event being reported |
-| [options.eventId] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | The eventId of the     system that genrated the event being reported |
-| [options.attributes] | <code>object</code> |  | LEEF message attributes which     defaults to all base attributes with null values, new attributes should    be added as new elements to this object |
-| [options.syslogHeader] | <code>boolean</code> | <code>&#x27;true&#x27;</code> | Should the LEEF message     include a Syslog header with Timestamp and source |
-| [options.server] | <code>Syslog</code> | <code>false</code> | A {@link module:SyslogPro~Syslog|    Syslog server connection} that should be used to send messages directly     from this class. @see SyslogPro~Syslog |
+| [options.product] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | The product name of the    system that genrated the event being reported |
+| [options.version] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | The version name of the    system that genrated the event being reported |
+| [options.eventId] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | The eventId of the    system that genrated the event being reported |
+| [options.attributes] | <code>object</code> |  | LEEF message attributes which    defaults to all base attributes with null values, new attributes should    be added as new elements to this object |
+| [options.syslogHeader] | <code>boolean</code> | <code>&#x27;true&#x27;</code> | Should the LEEF message    include a Syslog header with Timestamp and source |
+| [options.server] | <code>Syslog</code> | <code>false</code> | A {@link module:SyslogPro~Syslog|    Syslog server connection} that should be used to send messages directly    from this class. @see SyslogPro~Syslog |
 
 <a name="module_SyslogPro..LEEF+vendor"></a>
 
@@ -1130,23 +1131,23 @@ Build a formatted message
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [options] | <code>Syslog</code> | <code>false</code> | A {@link module:SyslogPro~Syslog|    Syslog server connection} that should be used to send messages directly     from this class. @see SyslogPro~Syslog |
+| [options] | <code>Syslog</code> | <code>false</code> | A {@link module:SyslogPro~Syslog|    Syslog server connection} that should be used to send messages directly    from this class. @see SyslogPro~Syslog |
 
 <a name="module_SyslogPro..CEF"></a>
 
 ### SyslogPro~CEF
 A class to work with HP CEF (Common Event Format) messages. This form
 of system messages are designed to work with security systems.  Messages can
-be saved to file (Saving to file if not part of this module but a CEF 
-formatted message produced by this module can be saved externally to it) or 
+be saved to file (Saving to file if not part of this module but a CEF
+formatted message produced by this module can be saved externally to it) or
 sent via Syslog.
-Most APIs will return a promise. These APIs can be used using 
+Most APIs will return a promise. These APIs can be used using
 `then(...)/catch(...)`
 
-A Syslog class with a configured Syslog server target can also be used as 
-the input into the formatting classes so that it may run independently. The CEF 
-format is designed to send event data to a SIEM system and should not be as 
-a logging stream. This class is meant to be used once per message.
+A Syslog class with a configured Syslog server target can also be used as
+the input into the formatting classes so that it may run independently. The
+CEF format is designed to send event data to a SIEM system and should not be
+as a logging stream. This class is meant to be used once per message.
 
 **Kind**: inner class of [<code>SyslogPro</code>](#module_SyslogPro)  
 **Requires**: <code>module:moment</code>  
@@ -1175,14 +1176,14 @@ Construct a new CEF formatting object with user options
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [options] | <code>object</code> |  | Options object |
-| [options.deviceVendor] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | The vendor of the system     that generated the event being reported |
-| [options.deviceProduct] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | The product name of the     system that genrated the event being reported |
-| [options.deviceVersion] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | The version name of the     system that genrated the event being reported |
-| [options.deviceEventClassId] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | The eventId of the     system that genrated the event being reported |
-| [options.name] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | Name of the service generating     the notice |
+| [options.deviceVendor] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | The vendor of the system    that generated the event being reported |
+| [options.deviceProduct] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | The product name of the    system that genrated the event being reported |
+| [options.deviceVersion] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | The version name of the    system that genrated the event being reported |
+| [options.deviceEventClassId] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | The eventId of the    system that genrated the event being reported |
+| [options.name] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | Name of the service generating    the notice |
 | [options.severity] | <code>string</code> | <code>&quot;&#x27;unknown&#x27;&quot;</code> | Severity of the notification |
 | [options.extensions] | <code>string</code> | <code>&quot;{}&quot;</code> | Any CEF Key=Value extensions |
-| [options.server] | <code>Syslog</code> | <code>false</code> | A {@link module:SyslogPro~Syslog|    Syslog server connection} that should be used to send messages directly     from this class. @see SyslogPro~Syslog |
+| [options.server] | <code>Syslog</code> | <code>false</code> | A {@link module:SyslogPro~Syslog|    Syslog server connection} that should be used to send messages directly    from this class. @see SyslogPro~Syslog |
 
 <a name="module_SyslogPro..CEF+deviceVendor"></a>
 
@@ -1240,7 +1241,7 @@ Build a CEF formated string
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [options] | <code>Syslog</code> | <code>false</code> | A {@link module:SyslogPro~Syslog|    Syslog server connection} that should be used to send messages directly     from this class. @see SyslogPro~Syslog |
+| [options] | <code>Syslog</code> | <code>false</code> | A {@link module:SyslogPro~Syslog|    Syslog server connection} that should be used to send messages directly    from this class. @see SyslogPro~Syslog |
 
 
 *docs autogenerated via [jsdoc2md]

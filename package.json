@@ -1,6 +1,6 @@
 {
   "name": "syslog-pro",
-  "version": "0.1.2",
+  "version": "0.1.1",
   "description": "A Syslog client which options for UDP, TCP, and TLS transport and suport for both RFC-3164 and RFC-5424 including Structured Data.",
   "keywords": [
     "Syslog",
@@ -57,14 +57,18 @@
     "moment": "^2.22.2"
   },
   "devDependencies": {
+    "ajv": "^6.5.4",
     "coveralls": "^3.0.2",
     "docco": "^0.8.0",
     "docdash": "^1.0.0",
+    "eslint": "^5.6.1",
+    "eslint-config-strongloop": "^2.1.0",
     "jest": "^23.5.0",
     "jsdoc": "^3.5.5",
     "jsdoc-to-markdown": "^4.0.1"
   },
   "scripts": {
+    "pretest": "eslint .",
     "test": "jest --colors --expand --logHeapUsage --runInBand && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "docs": "jsdoc *.js -c ./jsdoc.json; jsdoc2md --template ./jsdoc2md/api.hbs --files *.js > ./docs/api.md; docco --output ./docs/docco --layout plain-markdown *.js && mv ./docs/docco/index.html ./docs/docco/README.md; docco --output ./docs/docco *.js",
     "jsdoc": "jsdoc *.js -c ./jsdoc.json",
