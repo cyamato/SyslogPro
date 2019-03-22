@@ -1267,7 +1267,7 @@ class RFC5424 {
    *    resolution
    * @param {boolean} [options.timestampTZ=true] - Should the timestamp
    *    included time zone
-   * @param {boolean} [options.encludeStructuredData=false] - Included
+   * @param {boolean} [options.includeStructuredData=false] - Included
    *    any provided structured data
    * @param {boolean} [options.utf8BOM=true] - Included the UTF8
    * @param {boolean} [options.color=false] - Included the UTF8
@@ -1333,11 +1333,11 @@ class RFC5424 {
     } else {
       this.timestampMS = false;
     }
-    if (options.encludeStructuredData) {
+    if (options.includeStructuredData) {
       /** @type {boolean} */
-      this.encludeStructuredData = true;
+      this.includeStructuredData = true;
     } else {
-      this.encludeStructuredData = false;
+      this.includeStructuredData = false;
     }
     if (typeof options.utf8BOM === 'undefined' || options.utf8BOM) {
       /** @type {boolean} */
@@ -1740,7 +1740,7 @@ Build Structured Data string
 ```
       let structuredData = '-';
       const sdElementCount = msgStructuredData.length;
-      if (this.encludeStructuredData && sdElementCount > 0) {
+      if (this.includeStructuredData && sdElementCount > 0) {
         let sdElementNames = [];
         let sdElements = [];
         const sdElementNameRegEx = /(\[)(\S*)(\s|\])/;

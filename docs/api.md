@@ -65,7 +65,7 @@ formatting classes so that they may run independently.
         * [.timestampUTC](#module_SyslogPro..RFC5424+timestampUTC) : <code>boolean</code>
         * [.timestampTZ](#module_SyslogPro..RFC5424+timestampTZ) : <code>boolean</code>
         * [.timestampMS](#module_SyslogPro..RFC5424+timestampMS) : <code>boolean</code>
-        * [.encludeStructuredData](#module_SyslogPro..RFC5424+encludeStructuredData) : <code>boolean</code>
+        * [.includeStructuredData](#module_SyslogPro..RFC5424+includeStructuredData) : <code>boolean</code>
         * [.utf8BOM](#module_SyslogPro..RFC5424+utf8BOM) : <code>boolean</code>
         * [.color](#module_SyslogPro..RFC5424+color) : <code>boolean</code>
         * [.extendedColor](#module_SyslogPro..RFC5424+extendedColor) : <code>boolean</code>
@@ -636,7 +636,7 @@ fashion where new messages are written to the class as needed.
     * [.timestampUTC](#module_SyslogPro..RFC5424+timestampUTC) : <code>boolean</code>
     * [.timestampTZ](#module_SyslogPro..RFC5424+timestampTZ) : <code>boolean</code>
     * [.timestampMS](#module_SyslogPro..RFC5424+timestampMS) : <code>boolean</code>
-    * [.encludeStructuredData](#module_SyslogPro..RFC5424+encludeStructuredData) : <code>boolean</code>
+    * [.includeStructuredData](#module_SyslogPro..RFC5424+includeStructuredData) : <code>boolean</code>
     * [.utf8BOM](#module_SyslogPro..RFC5424+utf8BOM) : <code>boolean</code>
     * [.color](#module_SyslogPro..RFC5424+color) : <code>boolean</code>
     * [.extendedColor](#module_SyslogPro..RFC5424+extendedColor) : <code>boolean</code>
@@ -674,7 +674,7 @@ Construct a new RFC5424 formatted Syslog object with user options
 | [options.timestampUTC] | <code>boolean</code> | <code>false</code> | RFC standard is for    local time |
 | [options.timestampMS] | <code>boolean</code> | <code>false</code> | Timestamp with ms    resolution |
 | [options.timestampTZ] | <code>boolean</code> | <code>true</code> | Should the timestamp    included time zone |
-| [options.encludeStructuredData] | <code>boolean</code> | <code>false</code> | Included    any provided structured data |
+| [options.includeStructuredData] | <code>boolean</code> | <code>false</code> | Included    any provided structured data |
 | [options.utf8BOM] | <code>boolean</code> | <code>true</code> | Included the UTF8 |
 | [options.color] | <code>boolean</code> | <code>false</code> | Included the UTF8 |
 | [options.extendedColor] | <code>boolean</code> | <code>false</code> | Included the UTF8    encoding tag with syslog message text |
@@ -705,9 +705,9 @@ Construct a new RFC5424 formatted Syslog object with user options
 
 #### rfC5424.timestampMS : <code>boolean</code>
 **Kind**: instance property of [<code>RFC5424</code>](#module_SyslogPro..RFC5424)  
-<a name="module_SyslogPro..RFC5424+encludeStructuredData"></a>
+<a name="module_SyslogPro..RFC5424+includeStructuredData"></a>
 
-#### rfC5424.encludeStructuredData : <code>boolean</code>
+#### rfC5424.includeStructuredData : <code>boolean</code>
 **Kind**: instance property of [<code>RFC5424</code>](#module_SyslogPro..RFC5424)  
 <a name="module_SyslogPro..RFC5424+utf8BOM"></a>
 

@@ -65,7 +65,7 @@ create formatted messages or use directly
   let rfc5424 = new SyslogPro.RFC5424({
     applicationName: 'MyApp',
     timestamp: true,
-    encludeStructuredData: true
+    includeStructuredData: true
     color: true,
     extendedColor: true,
     server: {
