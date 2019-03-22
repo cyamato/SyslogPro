@@ -263,7 +263,7 @@ Construct a new RFC3164 formatted Syslog object with user options
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [options] | <code>object</code> |  | Options object |
-| [options.applacationName] | <code>string</code> | <code>&quot;&#x27;NodeJSLogger&#x27;&quot;</code> | Application |
+| [options.applicationName] | <code>string</code> | <code>&quot;&#x27;NodeJSLogger&#x27;&quot;</code> | Application |
 | [options.hostname] | <code>string</code> | <code>&quot;os.hostname&quot;</code> | The name of this server |
 | [options.facility] | <code>number</code> | <code>23</code> | Facility code to use sending this    message |
 | [options.color] | <code>boolean</code> | <code>false</code> | Apply color coding encoding tag    with syslog message text |
@@ -668,7 +668,7 @@ Construct a new RFC5424 formatted Syslog object with user options
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [options] | <code>object</code> |  | Options object |
-| [options.applacationName] | <code>string</code> | <code>&quot;&#x27;NodeJSLogger&#x27;&quot;</code> | Application |
+| [options.applicationName] | <code>string</code> | <code>&quot;&#x27;NodeJSLogger&#x27;&quot;</code> | Application |
 | [options.hostname] | <code>string</code> | <code>&quot;os.hostname&quot;</code> | The name of this server |
 | [options.timestamp] | <code>boolean</code> | <code>false</code> | Included a Timestamp |
 | [options.timestampUTC] | <code>boolean</code> | <code>false</code> | RFC standard is for    local time |

@@ -475,7 +475,7 @@ class RFC3164 {
    * @public
    * @this RFC3164
    * @param {object} [options] - Options object
-   * @param {string} [options.applacationName='NodeJSLogger'] - Application
+   * @param {string} [options.applicationName='NodeJSLogger'] - Application
    * @param {string} [options.hostname=os.hostname] - The name of this server
    * @param {number} [options.facility=23] - Facility code to use sending this
    *    message
@@ -518,7 +518,11 @@ class RFC3164 {
     this.constructor__ = true;
     options = options || {};
     this.hostname = options.hostname || os.hostname();
-    this.applacationName = options.applacationName || '';
+    if (options.applicationName) {
+      this.applicationName = options.applicationName;
+    } else {
+      this.applicationName = options.applacationName || '';
+    }
     this.facility = options.facility || 23;
     if (options.color) {
       /** @type {boolean} */
@@ -797,7 +801,7 @@ class RFC3164 {
       fmtMsg = '<' + pri + '>';
       fmtMsg += timestamp;
       fmtMsg += ' ' + this.hostname;
-      fmtMsg += ' ' + this.applacationName;
+      fmtMsg += ' ' + this.applicationName;
       fmtMsg += ' ' + msg;
       fmtMsg += newLine;
       resolve(fmtMsg);
@@ -1039,7 +1043,7 @@ class RFC5424 {
    * @public
    * @this RFC5424
    * @param {object} [options] - Options object
-   * @param {string} [options.applacationName='NodeJSLogger'] - Application
+   * @param {string} [options.applicationName='NodeJSLogger'] - Application
    * @param {string} [options.hostname=os.hostname] - The name of this server
    * @param {boolean} [options.timestamp=false] - Included a Timestamp
    * @param {boolean} [options.timestampUTC=false] - RFC standard is for
@@ -1089,7 +1093,11 @@ class RFC5424 {
     this.constructor__ = true;
     options = options || {};
     this.hostname = options.hostname || os.hostname();
-    this.applacationName = options.applacationName || '';
+    if (options.applicationName) {
+      this.applicationName = options.applicationName;
+    } else {
+      this.applicationName = options.applacationName || '';
+    }
     if (typeof options.timestamp === 'undefined' || options.timestamp) {
       /** @type {boolean} */
       this.timestamp = true;
@@ -1474,7 +1482,7 @@ class RFC5424 {
       fmtMsg += '1'; // Version number
       fmtMsg += ' ' + timestamp;
       fmtMsg += ' ' + this.hostname;
-      fmtMsg += ' ' + this.applacationName;
+      fmtMsg += ' ' + this.applicationName;
       fmtMsg += ' ' + pid;
       fmtMsg += ' ' + id;
       fmtMsg += ' ' + structuredData;
@@ -3374,4 +3382,3 @@ module.exports = {
   CEF: CEF,
   Syslog: Syslog,
 };
-
