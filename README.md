@@ -82,7 +82,7 @@ create formatted messages or use directly
     product: 'doohickey1000',
     version: 'alpha',
     eventId: 'hack',
-    attrabutes: {
+    attributes: {
       cat: 'CC Databreach'
     },
     server: {
