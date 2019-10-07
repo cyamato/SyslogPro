@@ -90,7 +90,7 @@ afterAll(() => {
 
 // CEF Class Tests
 describe('CEF Class Tests', () => {
-  test('CEF Validate with bad extension type ERROR', (done) => {
+  test('CEF Validate with bad extension type ERROR', () => {
     let syslogOptions = {
       port:global.tcpServerPort+100,
       protocol: 'tcp'
@@ -102,18 +102,15 @@ describe('CEF Class Tests', () => {
       }
     });
     expect.assertions(1);
-    return cef.validate({})
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errorMsg = 'TYPE ERROR: CEF Key deviceAction value type was '; 
-          errorMsg += 'expected to be string';
-          expect(reson.message).toBe(errorMsg);
-          done();
-        });
+    try {
+      cef.validate({});
+    } catch (reason) {
+      let errorMsg = 'TYPE ERROR: CEF Key deviceAction value type was '; 
+      errorMsg += 'expected to be string';
+      expect(reason.message).toBe(errorMsg);
+    }
   });
-  test('CEF Validate with bad extension value length ERROR', (done) => {
+  test('CEF Validate with bad extension value length ERROR', () => {
     let cef = new SyslogPro.CEF({
       extensions: {
         myNewExt: 'test',
@@ -122,75 +119,54 @@ describe('CEF Class Tests', () => {
       severity: 6
     });
     expect.assertions(1);
-    return cef.validate({})
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errorMsg = 'FORMAT ERROR: CEF Extention Key applicationProtocol '; 
-          errorMsg += 'value length is to long; max length is 31';
-          expect(reson.message).toBe(errorMsg);
-          done();
-        });
+    try {
+      cef.validate({});
+    } catch(reason) {
+      let errorMsg = 'FORMAT ERROR: CEF Extention Key applicationProtocol '; 
+      errorMsg += 'value length is to long; max length is 31';
+      expect(reason.message).toBe(errorMsg);
+    }
   });
-  test('CEF Validate with bad Severity ERROR', (done) => {
+  test('CEF Validate with bad Severity ERROR', () => {
     let cef = new SyslogPro.CEF();
     cef.severity = 'BAD';
     expect.assertions(1);
-    return cef.validate()
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errMsg = 'TYPE ERROR: CEF Severity not set correctly';
-          expect(reson.message).toBe(errMsg);
-          done();
-        });
+    try {
+      cef.validate();
+    } catch(reason) {
+      let errMsg = 'TYPE ERROR: CEF Severity not set correctly';
+      expect(reason.message).toBe(errMsg);
+    }
   });
-  test('CEF Validate with bad device information ERROR', (done) => {
+  test('CEF Validate with bad device information ERROR', () => {
     let cef = new SyslogPro.CEF();
     cef.deviceProduct = {};
     expect.assertions(1);
-    return cef.validate()
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errMsg = 'TYPE ERROR: CEF Device Info must be a string';
-          expect(reson.message).toBe(errMsg);
-          done();
-        });
+    try {
+      cef.validate();
+    } catch(reason) {
+      let errMsg = 'TYPE ERROR: CEF Device Info must be a string';
+      expect(reason.message).toBe(errMsg);
+    }
   });
-  test('CEF Validate and Send A UDP Message to ::1', (done) => {
+  test('CEF Validate and Send A UDP Message to ::1', async () => {
     let cef = new SyslogPro.CEF(
       {
         extensions: {
           deviceAction: 'block'
-        }    
+        }
       }
     );
-    expect.assertions(1);
-    return cef.validate()
-        .then((result) => {
-          cef.send({
-            target: '::1',
-            port:global.udpServerPort
-          })
-              .then((result) => {
-                let validateMsg = 'CEF:0|Unknown|Unknown|Unknown|Unknown|Unknown';
-                validateMsg += '|Unknown|deviceAction=block ';
-                expect(result).toBe(validateMsg);
-                done();
-              })
-              .catch((reson) => {
-                console.log(reson);
-              });
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+    let result = cef.validate();
+    result = await cef.send({
+      target: '::1',
+      port:global.udpServerPort
+    });
+    let validateMsg = 'CEF:0|Unknown|Unknown|Unknown|Unknown|Unknown';
+    validateMsg += '|Unknown|deviceAction=block ';
+    expect(result).toBe(validateMsg);
   });
-  test('CEF Send over TCP with bad port ERROR', (done) => {
+  test('CEF Send over TCP with bad port ERROR', async () => {
     let syslog = new SyslogPro.Syslog({
       target: '127.0.0.1',
       port: global.tcpServerPort+100,
@@ -200,20 +176,17 @@ describe('CEF Class Tests', () => {
       server: syslog
     });
     expect.assertions(1);
-    return cef.send({})
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          expect(reson.message).toBe('connect ECONNREFUSED 127.0.0.1:8101');
-          done();
-        });
+    try {
+      await cef.send({});
+    } catch (reason) {
+      expect(reason.message).toBe('connect ECONNREFUSED 127.0.0.1:8101');
+    }
   });
 });
 
 // LEEF Class Test
 describe('LEEF Class Tests', () => {
-  test('LEEF Send over TLS with bad port ERROR', (done) => {
+  test('LEEF Send over TLS with bad port ERROR', async () => {
     let syslog = new SyslogPro.Syslog({
       port: global.tlsBasicServerPort+100,
       protocol: 'tls',
@@ -231,28 +204,18 @@ describe('LEEF Class Tests', () => {
       server: syslog
     });
     expect.assertions(1);
-    return leef.send()
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          expect(reson.message).toBe('connect ECONNREFUSED 127.0.0.1:8102');
-          done();
-        });
+    try {
+      await leef.send();
+    } catch(reason) {
+      expect(reason.message).toBe('connect ECONNREFUSED 127.0.0.1:8102');
+    }
   });
-  test('LEEF Send', (done) => {
+  test('LEEF Send', async () => {
     let leef = new SyslogPro.LEEF();
-    expect.assertions(1);
-    return leef.send()
-        .then((result) => {
-          expect(result).toBe('LEEF:2.0|unknown|unknown|unknown|unknown|');
-          done();
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+    const result = await leef.send();
+    expect(result).toBe('LEEF:2.0|unknown|unknown|unknown|unknown|');
   });
-  test('LEEF Send with Auth TLS options', (done) => {
+  test('LEEF Send with Auth TLS options', async () => {
     let syslogOptions = {
       port: global.tlsAuthServerPort,
       protocol: 'tls',
@@ -264,110 +227,53 @@ describe('LEEF Class Tests', () => {
       server: syslogOptions
     });
     expect.assertions(1);
-    return leef.send()
-        .then((result) => {
-          expect(result).toBe('LEEF:2.0|unknown|unknown|unknown|unknown|');
-          done();
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+    const result = await leef.send();
+    expect(result).toBe('LEEF:2.0|unknown|unknown|unknown|unknown|');
   });
 });
 
 // RFC5424 Class Test
 describe('RFC5424 Class Tests', () => {
-  test('RFC5424 Sending critical - debug Severity Messages', (done) => {
+  test('RFC5424 Sending critical - debug Severity Messages', async () => {
     let rfc5424 = new SyslogPro.RFC5424();
-    expect.assertions(7);
-    rfc5424.debug('test')
-        .then((result) => {
-          expect(result).toMatch(/<191>1 /);   
-          rfc5424.log('test')
-              .then((result) => {
-                expect(result).toMatch(/<190>1 /);   
-                rfc5424.info('test')
-                    .then((result) => {
-                      expect(result).toMatch(/<190>1 /);      
-                      rfc5424.note('test')
-                          .then((result) => {
-                            expect(result).toMatch(/<189>1 /);      
-                            rfc5424.warn('test')
-                                .then((result) => {
-                                  expect(result).toMatch(/<188>1 /);      
-                                  rfc5424.err('test')
-                                      .then((result) => {
-                                        expect(result).toMatch(/<187>1 /);      
-                                        rfc5424.crit('test')
-                                            .then((result) => {
-                                              expect(result).toMatch(/<186>1 /);   
-                                              done();
-                                            })
-                                            .catch((reson) => {
-                                              console.log(reson);
-                                            });
-                                      })
-                                      .catch((reson) => {
-                                        console.log(reson);
-                                      });
-                                })
-                                .catch((reson) => {
-                                  console.log(reson);
-                                });
-                          })
-                          .catch((reson) => {
-                            console.log(reson);
-                          });
-                    })
-                    .catch((reson) => {
-                      console.log(reson);
-                    });
-              })
-              .catch((reson) => {
-                console.log(reson);
-              });
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+    let result = await rfc5424.debug('test')
+    expect(result).toMatch(/<191>1 /);
+    result = await rfc5424.log('test');
+    expect(result).toMatch(/<190>1 /);
+    result = await rfc5424.info('test');
+    expect(result).toMatch(/<190>1 /);
+    result = await rfc5424.note('test');
+    expect(result).toMatch(/<189>1 /);
+    result = await rfc5424.warn('test');
+    expect(result).toMatch(/<188>1 /);
+    result = await rfc5424.err('test');
+    expect(result).toMatch(/<187>1 /);
+    result = await rfc5424.crit('test');
+    expect(result).toMatch(/<186>1 /);
   });
-  test('RFC5424 Sending emergency - alert Severity Messages', (done) => {
+  test('RFC5424 Sending emergency - alert Severity Messages', async () => {
     let syslog = new SyslogPro.Syslog();
     let rfc5424 = new SyslogPro.RFC5424({
       server: syslog
     });
     expect.assertions(2);
-    rfc5424.alert('test')
-        .then((result) => {
-          expect(result).toMatch(/<185>1 /);   
-          rfc5424.emer('test')
-              .then((result) => {
-                expect(result).toMatch(/<184>1 /);   
-                done();
-              })
-              .catch((reson) => {
-                console.log(reson);
-              });
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+    let result = await rfc5424.alert('test')
+    expect(result).toMatch(/<185>1 /);
+    result = await rfc5424.emer('test')
+    expect(result).toMatch(/<184>1 /);
   });
-  test('RFC5424 Send with a bad message type ERROR', (done) => {
+  test('RFC5424 Send with a bad message type ERROR', async () => {
     let rfc5424 = new SyslogPro.RFC5424();
     expect.assertions(1);
-    rfc5424.send([])
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errMsg = 'FORMAT ERROR: Syslog message must be a string ';
-          errMsg += 'msgSeverity must be a number between 0 and 7';
-          expect(reson.message).toBe(errMsg);
-          done();
-        });
+    try {
+      await rfc5424.send([]);
+    } catch(reason) {
+      let errMsg = 'FORMAT ERROR: Syslog message must be a string ';
+      errMsg += 'msgSeverity must be a number between 0 and 7';
+      expect(reason.message).toBe(errMsg);
+    }
   });
-  test('RFC5424 Send with a bad port number ERROR', (done) => {
+  test('RFC5424 Send with a bad port number ERROR', async () => {
     let rfc5424 = new SyslogPro.RFC5424({
       utf8BOM: false,
       timestampUTC: true,
@@ -391,18 +297,14 @@ describe('RFC5424 Class Tests', () => {
       }
     });
     expect.assertions(1);
-    rfc5424.send('hello')
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errMsg = 'connect ECONNREFUSED 127.0.0.1:8101';
-          expect(reson.message).toBe(errMsg);
-          done();
-        });
+    try {
+      await rfc5424.send('hello');
+    } catch(reason) {
+      let errMsg = 'connect ECONNREFUSED 127.0.0.1:8101';
+      expect(reason.message).toBe(errMsg);
+    }
   });
-  test('RFC5424 BuildMessage with Timestamp options', (done) => {
-    expect.assertions(9);
+  test('RFC5424 BuildMessage with Timestamp options', () => {
     let rfc5424 = new SyslogPro.RFC5424({
       color: true,
       timestamp: false,
@@ -410,144 +312,97 @@ describe('RFC5424 Class Tests', () => {
       timestampTZ: false,
       timestampMS: false,
     });
-    rfc5424.buildMessage('hello')
-        .then((result) => {
-          expect(result).toMatch(/<190>1 - /);
-          let rfc5424 = new SyslogPro.RFC5424({
-            color: true,
-            extendedColor: true,
-            timestamp: true,
-            timestampUTC: false,
-            timestampTZ: false,
-            timestampMS: false,
-          });
-          rfc5424.buildMessage('hello',{
-            msgColor: 50
-          })
-              .then((result) => {
-                let resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} /;
-                expect(result).toMatch(resultMsg);
-                let rfc5424 = new SyslogPro.RFC5424({
-                  includeStructuredData: true,
-                  color: true,
-                  extendedColor: false,
-                  timestamp: true,
-                  timestampUTC: false,
-                  timestampTZ: false,
-                  timestampMS: true,
-                });
-                rfc5424.buildMessage('hello', {
-                  msgColor: 30,
-                  msgStructuredData: [
-                    '[ourSDID@32473 test=test]',
-                    '[ourSDID@32473 test=test]'
-                  ]
-                })
-                    .then((result) => {
-                      let resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6} /;
-                      expect(result).toMatch(resultMsg);
-                      let rfc5424 = new SyslogPro.RFC5424({
-                        timestamp: true,
-                        timestampUTC: false,
-                        timestampTZ: true,
-                        timestampMS: true,
-                      });
-                      rfc5424.buildMessage('hello')
-                          .then((result) => {
-                            let resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}\+/;
-                            expect(result).toMatch(resultMsg);
-                            let rfc5424 = new SyslogPro.RFC5424({
-                              timestamp: true,
-                              timestampUTC: false,
-                              timestampTZ: true,
-                              timestampMS: false,
-                            });
-                            rfc5424.buildMessage('hello')
-                                .then((result) => {
-                                  let resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+/;
-                                  expect(result).toMatch(resultMsg);
-                                  let rfc5424 = new SyslogPro.RFC5424({
-                                    timestamp: true,
-                                    timestampUTC: true,
-                                    timestampTZ: false,
-                                    timestampMS: false,
-                                  });
-                                  rfc5424.buildMessage('hello')
-                                      .then((result) => {
-                                        let resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} /;
-                                        expect(result).toMatch(resultMsg);
-                                        let rfc5424 = new SyslogPro.RFC5424({
-                                          timestamp: true,
-                                          timestampUTC: true,
-                                          timestampTZ: false,
-                                          timestampMS: true,
-                                        });
-                                        rfc5424.buildMessage('hello')
-                                            .then((result) => {
-                                              let resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6} /;
-                                              expect(result).toMatch(resultMsg);
-                                              let rfc5424 = new SyslogPro.RFC5424({
-                                                timestamp: true,
-                                                timestampUTC: true,
-                                                timestampTZ: true,
-                                                timestampMS: true,
-                                              });
-                                              rfc5424.buildMessage('hello')
-                                                  .then((result) => {
-                                                    let resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}\+/;
-                                                    expect(result).toMatch(resultMsg);
-                                                    let rfc5424 = new SyslogPro.RFC5424({
-                                                      timestamp: true,
-                                                      timestampUTC: true,
-                                                      timestampTZ: true,
-                                                      timestampMS: false,
-                                                    });
-                                                    rfc5424.buildMessage('hello')
-                                                        .then((result) => {
-                                                          let resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+/;
-                                                          expect(result).toMatch(resultMsg);
-                                                          done();
-                                                        })
-                                                        .catch((reson) => {
-                                                          console.log(reson);
-                                                        });
-                                                  })
-                                                  .catch((reson) => {
-                                                    console.log(reson);
-                                                  });
-                                            })
-                                            .catch((reson) => {
-                                              console.log(reson);
-                                            });
-                                      })
-                                      .catch((reson) => {
-                                        console.log(reson);
-                                      });
-                                })
-                                .catch((reson) => {
-                                  console.log(reson);
-                                });
-                          })
-                          .catch((reson) => {
-                            console.log(reson);
-                          });
-                    })
-                    .catch((reson) => {
-                      console.log(reson);
-                    });
-              })
-              .catch((reson) => {
-                console.log(reson);
-              });
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+    let result = rfc5424.buildMessage('hello');
+    expect(result).toMatch(/<190>1 - /);
+    rfc5424 = new SyslogPro.RFC5424({
+      color: true,
+      extendedColor: true,
+      timestamp: true,
+      timestampUTC: false,
+      timestampTZ: false,
+      timestampMS: false,
+    });
+    result = rfc5424.buildMessage('hello',{
+      msgColor: 50
+    })
+    let resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} /;
+    expect(result).toMatch(resultMsg);
+    rfc5424 = new SyslogPro.RFC5424({
+      includeStructuredData: true,
+      color: true,
+      extendedColor: false,
+      timestamp: true,
+      timestampUTC: false,
+      timestampTZ: false,
+      timestampMS: true,
+    });
+    result = rfc5424.buildMessage('hello', {
+      msgColor: 30,
+      msgStructuredData: [
+        '[ourSDID@32473 test=test]',
+        '[ourSDID@32473 test=test]'
+      ]
+    });
+    resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6} /;
+    expect(result).toMatch(resultMsg);
+    rfc5424 = new SyslogPro.RFC5424({
+      timestamp: true,
+      timestampUTC: false,
+      timestampTZ: true,
+      timestampMS: true,
+    });
+    result = rfc5424.buildMessage('hello');
+    resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}\+/;
+    expect(result).toMatch(resultMsg);
+    rfc5424 = new SyslogPro.RFC5424({
+      timestamp: true,
+      timestampUTC: false,
+      timestampTZ: true,
+      timestampMS: false,
+    });
+    result = rfc5424.buildMessage('hello');
+    resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+/;
+    expect(result).toMatch(resultMsg);
+    rfc5424 = new SyslogPro.RFC5424({
+      timestamp: true,
+      timestampUTC: true,
+      timestampTZ: false,
+      timestampMS: false,
+    });
+    result = rfc5424.buildMessage('hello');
+    resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} /;
+    expect(result).toMatch(resultMsg);
+    rfc5424 = new SyslogPro.RFC5424({
+      timestamp: true,
+      timestampUTC: true,
+      timestampTZ: false,
+      timestampMS: true,
+    });
+    result = rfc5424.buildMessage('hello');
+    resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6} /;
+    expect(result).toMatch(resultMsg);
+    rfc5424 = new SyslogPro.RFC5424({
+      timestamp: true,
+      timestampUTC: true,
+      timestampTZ: true,
+      timestampMS: true,
+    });
+    result = rfc5424.buildMessage('hello');
+    resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}\+/;
+    expect(result).toMatch(resultMsg);
+    rfc5424 = new SyslogPro.RFC5424({
+      timestamp: true,
+      timestampUTC: true,
+      timestampTZ: true,
+      timestampMS: false,
+    });
+    result = rfc5424.buildMessage('hello');
+    resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+/;
+    expect(result).toMatch(resultMsg);
   });
-  test('RFC5424 SetColors', (done) => {
-    expect.assertions(1);
+  test('RFC5424 SetColors', () => {
     let rfc5424 = new SyslogPro.RFC5424();
-    rfc5424.setColor({
+    const result = rfc5424.setColor({
           emergencyColor: 30,
           alertColor: 30,
           criticalColor: 30,
@@ -557,202 +412,131 @@ describe('RFC5424 Class Tests', () => {
           informationalColor: 30,
           debugColor: 30
       },
-      false)
-        .then((result) => {
-          expect(result).toBe(true);
-          done();
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+      false);
+    expect(result).toBe(true);
   });
-  test('RFC5424 SetColors with color type ERROR', (done) => {
+  test('RFC5424 SetColors with color type ERROR', () => {
     expect.assertions(8);
     let rfc5424 = new SyslogPro.RFC5424();
-    rfc5424.setColor({
-      emergencyColor: {}
-    }, false)
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errorMsg = 'TYPE ERROR: ';
-          errorMsg += 'emergencyColor';
-          errorMsg += ' Not in RGB color hex or color code';
-          expect(reson.message).toBe(errorMsg);
-          rfc5424.setColor({
-            alertColor: {}
-          }, false)
-              .then((result) => {
-                console.log(result);
-              })
-              .catch((reson) => {
-                let errorMsg = 'TYPE ERROR: ';
-                errorMsg += 'alertColor';
-                errorMsg += ' Not in RGB color hex or color code';
-                expect(reson.message).toBe(errorMsg);
-                rfc5424.setColor({
-                  criticalColor: {}
-                }, false)
-                    .then((result) => {
-                      console.log(result);
-                    })
-                    .catch((reson) => {
-                      let errorMsg = 'TYPE ERROR: ';
-                      errorMsg += 'criticalColor';
-                      errorMsg += ' Not in RGB color hex or color code';
-                      expect(reson.message).toBe(errorMsg);
-                      rfc5424.setColor({
-                        errorColor: {}
-                      }, false)
-                          .then((result) => {
-                            console.log(result);
-                          })
-                          .catch((reson) => {
-                            let errorMsg = 'TYPE ERROR: ';
-                            errorMsg += 'errorColor';
-                            errorMsg += ' Not in RGB color hex or color code';
-                            expect(reson.message).toBe(errorMsg);
-                            rfc5424.setColor({
-                              warningColor: {}
-                            }, false)
-                                .then((result) => {
-                                  console.log(result);
-                                })
-                                .catch((reson) => {
-                                  let errorMsg = 'TYPE ERROR: ';
-                                  errorMsg += 'warningColor';
-                                  errorMsg += ' Not in RGB color hex or color code';
-                                  expect(reson.message).toBe(errorMsg);
-                                  rfc5424.setColor({
-                                    noticeColor: {}
-                                  }, false)
-                                      .then((result) => {
-                                        console.log(result);
-                                      })
-                                      .catch((reson) => {
-                                        let errorMsg = 'TYPE ERROR: ';
-                                        errorMsg += 'noticeColor';
-                                        errorMsg += ' Not in RGB color hex or color code';
-                                        expect(reson.message).toBe(errorMsg);
-                                        rfc5424.setColor({
-                                          informationalColor: {}
-                                        }, false)
-                                            .then((result) => {
-                                              console.log(result);
-                                            })
-                                            .catch((reson) => {
-                                              let errorMsg = 'TYPE ERROR: ';
-                                              errorMsg += 'informationalColor';
-                                              errorMsg += ' Not in RGB color hex or color code';
-                                              expect(reson.message).toBe(errorMsg);
-                                              rfc5424.setColor({
-                                                debugColor: {}
-                                              }, false)
-                                                  .then((result) => {
-                                                    console.log(result);
-                                                  })
-                                                  .catch((reson) => {
-                                                    let errorMsg = 'TYPE ERROR: ';
-                                                    errorMsg += 'debugColor';
-                                                    errorMsg += ' Not in RGB color hex or color code';
-                                                    expect(reson.message).toBe(errorMsg);
-                                                    done();
-                                                  });
-                                            });
-                                      });
-                                });
-                          });
-                    });
-              });
-        });
+    try {
+      rfc5424.setColor({
+        emergencyColor: {}
+      }, false);
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: ';
+      errorMsg += 'emergencyColor';
+      errorMsg += ' Not in RGB color hex or color code';
+      expect(reason.message).toBe(errorMsg);
+    }
+    try {
+      rfc5424.setColor({
+        alertColor: {}
+      }, false);
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: ';
+      errorMsg += 'alertColor';
+      errorMsg += ' Not in RGB color hex or color code';
+      expect(reason.message).toBe(errorMsg);
+    }
+    try {
+      rfc5424.setColor({
+        criticalColor: {}
+      }, false);
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: ';
+      errorMsg += 'criticalColor';
+      errorMsg += ' Not in RGB color hex or color code';
+      expect(reason.message).toBe(errorMsg);
+    }
+    try {
+      rfc5424.setColor({
+        errorColor: {}
+      }, false);
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: ';
+      errorMsg += 'errorColor';
+      errorMsg += ' Not in RGB color hex or color code';
+      expect(reason.message).toBe(errorMsg);
+    }
+    try {
+      rfc5424.setColor({
+        warningColor: {}
+      }, false);
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: ';
+      errorMsg += 'warningColor';
+      errorMsg += ' Not in RGB color hex or color code';
+      expect(reason.message).toBe(errorMsg);
+    }
+    try {
+      rfc5424.setColor({
+        noticeColor: {}
+      }, false);
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: ';
+      errorMsg += 'noticeColor';
+      errorMsg += ' Not in RGB color hex or color code';
+      expect(reason.message).toBe(errorMsg);
+    }
+    try {
+      rfc5424.setColor({
+        informationalColor: {}
+      }, false);
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: ';
+      errorMsg += 'informationalColor';
+      errorMsg += ' Not in RGB color hex or color code';
+      expect(reason.message).toBe(errorMsg);
+    }
+    try {
+      rfc5424.setColor({
+        debugColor: {}
+      }, false);
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: ';
+      errorMsg += 'debugColor';
+      errorMsg += ' Not in RGB color hex or color code';
+      expect(reason.message).toBe(errorMsg);
+    }
   });
-  test('RFC5424 buildMessage color options', (done) => {
-    expect.assertions(2);
+  test('RFC5424 buildMessage color options', () => {
     let rfc5424 = new SyslogPro.RFC5424({
       color: true,
       extendedColor: true
     });
-    rfc5424.buildMessage('test', {
+    let result = rfc5424.buildMessage('test', {
       msgColor: 30
     })
-        .then((result) => {
-          expect(result).toMatch(/<190>1 .+(\u001b\[38;5;30mtest\u001b\[0m\n)/);
-          rfc5424.extendedColor = false;
-          rfc5424.buildMessage('test', {
-            msgColor: {}
-          })
-              .then((result) => {
-                expect(result).toMatch(/<190>1 .+(\u001b\[39mtest\u001b\[0m\n)/);
-                done();
-              })
-              .catch((reson) => {
-                console.log(reson);
-              });
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+    expect(result).toMatch(/<190>1 .+(\u001b\[38;5;30mtest\u001b\[0m\n)/);
+    rfc5424.extendedColor = false;
+    result = rfc5424.buildMessage('test', {
+      msgColor: {}
+    });
+    expect(result).toMatch(/<190>1 .+(\u001b\[39mtest\u001b\[0m\n)/);
   });
 });
 
 // RFC3164 Class Test
 describe('RFC3164 Class Tests', () => {
-  test('RFC3164 Sending critical - debug Severity Messages', (done) => {
+  test('RFC3164 Sending critical - debug Severity Messages', async () => {
     let rfc3164 = new SyslogPro.RFC3164();
     expect.assertions(7);
-    rfc3164.debug('test')
-        .then((result) => {
-          expect(result).toMatch(/<191>J|F|M|A|S|O|N|D/);   
-          rfc3164.log('test')
-              .then((result) => {
-                expect(result).toMatch(/<190>J|F|M|A|S|O|N|D/);   
-                rfc3164.info('test')
-                    .then((result) => {
-                      expect(result).toMatch(/<190>J|F|M|A|S|O|N|D/);      
-                      rfc3164.note('test')
-                          .then((result) => {
-                            expect(result).toMatch(/<189>J|F|M|A|S|O|N|D/);      
-                            rfc3164.warn('test')
-                                .then((result) => {
-                                  expect(result).toMatch(/<188>J|F|M|A|S|O|N|D/);      
-                                  rfc3164.err('test')
-                                      .then((result) => {
-                                        expect(result).toMatch(/<187>J|F|M|A|S|O|N|D/);      
-                                        rfc3164.crit('test')
-                                            .then((result) => {
-                                              expect(result).toMatch(/<186>J|F|M|A|S|O|N|D/);   
-                                              done();
-                                            })
-                                            .catch((reson) => {
-                                              console.log(reson);
-                                            });
-                                      })
-                                      .catch((reson) => {
-                                        console.log(reson);
-                                      });
-                                })
-                                .catch((reson) => {
-                                  console.log(reson);
-                                });
-                          })
-                          .catch((reson) => {
-                            console.log(reson);
-                          });
-                    })
-                    .catch((reson) => {
-                      console.log(reson);
-                    });
-              })
-              .catch((reson) => {
-                console.log(reson);
-              });
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+    let result = await rfc3164.debug('test');
+    expect(result).toMatch(/<191>J|F|M|A|S|O|N|D/);
+    result = await rfc3164.log('test');
+    expect(result).toMatch(/<190>J|F|M|A|S|O|N|D/);
+    result = await rfc3164.info('test');
+    expect(result).toMatch(/<190>J|F|M|A|S|O|N|D/);
+    result = await rfc3164.note('test');
+    expect(result).toMatch(/<189>J|F|M|A|S|O|N|D/);
+    result = await rfc3164.warn('test');
+    expect(result).toMatch(/<188>J|F|M|A|S|O|N|D/);
+    result = await rfc3164.err('test');
+    expect(result).toMatch(/<187>J|F|M|A|S|O|N|D/);
+    result = await rfc3164.crit('test')
+    expect(result).toMatch(/<186>J|F|M|A|S|O|N|D/);
   });
-  test('RFC3164 Sending TCP emergency - alert Severity Messages', (done) => {
+  test('RFC3164 Sending TCP emergency - alert Severity Messages', async () => {
     let syslog = new SyslogPro.Syslog({
       protocol: 'tcp',
       port: global.tcpServerPort
@@ -760,38 +544,23 @@ describe('RFC3164 Class Tests', () => {
     let rfc3164 = new SyslogPro.RFC3164({
       server: syslog
     });
-    expect.assertions(2);
-    rfc3164.alert('test')
-        .then((result) => {
-          expect(result).toMatch(/<185>J|F|M|A|S|O|N|D/);   
-          rfc3164.emer('test')
-              .then((result) => {
-                expect(result).toMatch(/<184>J|F|M|A|S|O|N|D/);   
-                done();
-              })
-              .catch((reson) => {
-                console.log(reson);
-              });
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+    let result = await rfc3164.alert('test');
+    expect(result).toMatch(/<185>J|F|M|A|S|O|N|D/);
+    result = await rfc3164.emer('test');
+    expect(result).toMatch(/<184>J|F|M|A|S|O|N|D/);
   });
-  test('RFC3164 Send with a bad message type ERROR', (done) => {
+  test('RFC3164 Send with a bad message type ERROR', async () => {
     let rfc3164 = new SyslogPro.RFC3164();
     expect.assertions(1);
-    rfc3164.send([])
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errMsg = 'FORMAT ERROR: Syslog message must be a string ';
-          errMsg += 'msgSeverity must be a number between 0 and 7';
-          expect(reson.message).toBe(errMsg);
-          done();
-        });
+    try {
+      await rfc3164.send([]);
+    } catch(reason) {
+      let errMsg = 'FORMAT ERROR: Syslog message must be a string ';
+      errMsg += 'msgSeverity must be a number between 0 and 7';
+      expect(reason.message).toBe(errMsg);
+    }
   });
-  test('RFC3164 Send with a bad port number ERROR', (done) => {
+  test('RFC3164 Send with a bad port number ERROR', async () => {
     let rfc3164 = new SyslogPro.RFC3164({
       colors: {
           emergencyColor: 30,
@@ -810,228 +579,171 @@ describe('RFC3164 Class Tests', () => {
       }
     });
     expect.assertions(1);
-    rfc3164.send('hello')
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errMsg = 'connect ECONNREFUSED 127.0.0.1:8101';
-          expect(reson.message).toBe(errMsg);
-          done();
-        });
+    try {
+      await rfc3164.send('hello');
+    } catch(reason) {
+      let errMsg = 'connect ECONNREFUSED 127.0.0.1:8101';
+      expect(reason.message).toBe(errMsg);
+    }
   });
-  test('RFC3164 SetColors', (done) => {
-    expect.assertions(1);
+  test('RFC3164 SetColors', () => {
     let rfc3164 = new SyslogPro.RFC3164();
-    rfc3164.setColor({
-          emergencyColor: 30,
-          alertColor: 30,
-          criticalColor: 30,
-          errorColor: 30,
-          warningColor:30,
-          noticeColor: 30,
-          informationalColor: 30,
-          debugColor: 30
-      },
-      false)
-        .then((result) => {
-          expect(result).toBe(true);
-          done();
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+    const result = rfc3164.setColor({
+        emergencyColor: 30,
+        alertColor: 30,
+        criticalColor: 30,
+        errorColor: 30,
+        warningColor:30,
+        noticeColor: 30,
+        informationalColor: 30,
+        debugColor: 30
+    },
+    false);
+    expect(result).toBe(true);
   });
-  test('RFC3164 SetColors with color type ERROR', (done) => {
+  test('RFC3164 SetColors with color type ERROR', () => {
     expect.assertions(8);
     let rfc3164 = new SyslogPro.RFC3164();
-    rfc3164.setColor({
-      emergencyColor: {}
-    }, false)
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errorMsg = 'TYPE ERROR: ';
-          errorMsg += 'emergencyColor';
-          errorMsg += ' Not in RGB color hex or color code';
-          expect(reson.message).toBe(errorMsg);
-          rfc3164.setColor({
-            alertColor: {}
-          }, false)
-              .then((result) => {
-                console.log(result);
-              })
-              .catch((reson) => {
-                let errorMsg = 'TYPE ERROR: ';
-                errorMsg += 'alertColor';
-                errorMsg += ' Not in RGB color hex or color code';
-                expect(reson.message).toBe(errorMsg);
-                rfc3164.setColor({
-                  criticalColor: {}
-                }, false)
-                    .then((result) => {
-                      console.log(result);
-                    })
-                    .catch((reson) => {
-                      let errorMsg = 'TYPE ERROR: ';
-                      errorMsg += 'criticalColor';
-                      errorMsg += ' Not in RGB color hex or color code';
-                      expect(reson.message).toBe(errorMsg);
-                      rfc3164.setColor({
-                        errorColor: {}
-                      }, false)
-                          .then((result) => {
-                            console.log(result);
-                          })
-                          .catch((reson) => {
-                            let errorMsg = 'TYPE ERROR: ';
-                            errorMsg += 'errorColor';
-                            errorMsg += ' Not in RGB color hex or color code';
-                            expect(reson.message).toBe(errorMsg);
-                            rfc3164.setColor({
-                              warningColor: {}
-                            }, false)
-                                .then((result) => {
-                                  console.log(result);
-                                })
-                                .catch((reson) => {
-                                  let errorMsg = 'TYPE ERROR: ';
-                                  errorMsg += 'warningColor';
-                                  errorMsg += ' Not in RGB color hex or color code';
-                                  expect(reson.message).toBe(errorMsg);
-                                  rfc3164.setColor({
-                                    noticeColor: {}
-                                  }, false)
-                                      .then((result) => {
-                                        console.log(result);
-                                      })
-                                      .catch((reson) => {
-                                        let errorMsg = 'TYPE ERROR: ';
-                                        errorMsg += 'noticeColor';
-                                        errorMsg += ' Not in RGB color hex or color code';
-                                        expect(reson.message).toBe(errorMsg);
-                                        rfc3164.setColor({
-                                          informationalColor: {}
-                                        }, false)
-                                            .then((result) => {
-                                              console.log(result);
-                                            })
-                                            .catch((reson) => {
-                                              let errorMsg = 'TYPE ERROR: ';
-                                              errorMsg += 'informationalColor';
-                                              errorMsg += ' Not in RGB color hex or color code';
-                                              expect(reson.message).toBe(errorMsg);
-                                              rfc3164.setColor({
-                                                debugColor: {}
-                                              }, false)
-                                                  .then((result) => {
-                                                    console.log(result);
-                                                  })
-                                                  .catch((reson) => {
-                                                    let errorMsg = 'TYPE ERROR: ';
-                                                    errorMsg += 'debugColor';
-                                                    errorMsg += ' Not in RGB color hex or color code';
-                                                    expect(reson.message).toBe(errorMsg);
-                                                    done();
-                                                  });
-                                            });
-                                      });
-                                });
-                          });
-                    });
-              });
-        });
+    try {
+      rfc3164.setColor({
+        emergencyColor: {}
+      }, false);
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: ';
+      errorMsg += 'emergencyColor';
+      errorMsg += ' Not in RGB color hex or color code';
+      expect(reason.message).toBe(errorMsg);
+    }
+    try {
+      rfc3164.setColor({
+        alertColor: {}
+      }, false);
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: ';
+      errorMsg += 'alertColor';
+      errorMsg += ' Not in RGB color hex or color code';
+      expect(reason.message).toBe(errorMsg);
+    }
+    try {
+      rfc3164.setColor({
+        criticalColor: {}
+      }, false);
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: ';
+      errorMsg += 'criticalColor';
+      errorMsg += ' Not in RGB color hex or color code';
+      expect(reason.message).toBe(errorMsg);
+    }
+    try {
+      rfc3164.setColor({
+        errorColor: {}
+      }, false);
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: ';
+      errorMsg += 'errorColor';
+      errorMsg += ' Not in RGB color hex or color code';
+      expect(reason.message).toBe(errorMsg);
+    }
+    try {
+      rfc3164.setColor({
+        warningColor: {}
+      }, false);
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: ';
+      errorMsg += 'warningColor';
+      errorMsg += ' Not in RGB color hex or color code';
+      expect(reason.message).toBe(errorMsg);
+    }
+    try {
+      rfc3164.setColor({
+        noticeColor: {}
+      }, false);
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: ';
+      errorMsg += 'noticeColor';
+      errorMsg += ' Not in RGB color hex or color code';
+      expect(reason.message).toBe(errorMsg);
+    }
+    try {
+      rfc3164.setColor({
+        informationalColor: {}
+      }, false);
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: ';
+      errorMsg += 'informationalColor';
+      errorMsg += ' Not in RGB color hex or color code';
+      expect(reason.message).toBe(errorMsg);
+    }
+    try {
+      rfc3164.setColor({
+        debugColor: {}
+      }, false);
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: ';
+      errorMsg += 'debugColor';
+      errorMsg += ' Not in RGB color hex or color code';
+      expect(reason.message).toBe(errorMsg);
+    }
   });
-  test('RFC3164 buildMessage color options', (done) => {
-    expect.assertions(3);
+  test('RFC3164 buildMessage color options', () => {
     let rfc3164 = new SyslogPro.RFC3164({
       color: true,
       extendedColor: true
     });
-    rfc3164.buildMessage('test', {
+    let result = rfc3164.buildMessage('test', {
       msgColor: 30
-    })
-        .then((result) => {
-          expect(result).toMatch(/<190>(J|F|M|A|S|O|N|D).+(\u001b\[38;5;30mtest\u001b\[0m\n)/);
-          rfc3164.extendedColor = false;
-          rfc3164.buildMessage('test', {
-            msgColor: {}
-          })
-              .then((result) => {
-                expect(result).toMatch(/<190>(J|F|M|A|S|O|N|D).+(\u001b\[39mtest\u001b\[0m\n)/);
-                rfc3164.buildMessage('test', {
-                })
-                    .then((result) => {
-                      expect(result).toMatch(/<190>(J|F|M|A|S|O|N|D).+(\u001b\[36mtest\u001b\[0m\n)/);
-                      done();
-                    })
-                    .catch((reson) => {
-                      console.log(reson);
-                    });
-              })
-              .catch((reson) => {
-                console.log(reson);
-              });
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+    });
+    expect(result).toMatch(/<190>(J|F|M|A|S|O|N|D).+(\u001b\[38;5;30mtest\u001b\[0m\n)/);
+    rfc3164.extendedColor = false;
+    result = rfc3164.buildMessage('test', {
+      msgColor: {}
+    });
+    expect(result).toMatch(/<190>(J|F|M|A|S|O|N|D).+(\u001b\[39mtest\u001b\[0m\n)/);
+    result = rfc3164.buildMessage('test', {
+    });
+    expect(result).toMatch(/<190>(J|F|M|A|S|O|N|D).+(\u001b\[36mtest\u001b\[0m\n)/);
   });
 });
 
 // Base Syslog Class Test
 describe('Base Syslog Class tests', () => {
-  test('Syslog Send UDP with DNS Error', (done) => {
+  test('Syslog Send UDP with DNS Error', async () => {
     let syslog = new SyslogPro.Syslog({
       target: 'noteareal.dns',
       protocol: 'udp',
       port: global.udpServerPort
     });
     expect.assertions(1);
-    syslog.send('test')
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          expect(reson.message).toBe('getaddrinfo ENOTFOUND noteareal.dns');
-          done();
-        });
-  });  
-  test('Syslog Send UDP with bad message type Error', (done) => {
-    let syslog = new SyslogPro.Syslog({
-      target: 'noteareal.dns',
-      protocol: 'udp',
-      port: global.udpServerPort
-    });
-    expect.assertions(1);
-    syslog.send({})
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errorMsg = 'TYPE ERROR: Syslog message must be a string';
-          expect(reson.message).toBe(errorMsg);
-          done();
-        });
+    try {
+      await syslog.send('test');
+    } catch(reason) {
+      expect(reason.message).toBe('getaddrinfo ENOTFOUND noteareal.dns');
+    }
   });
-  test('Syslog Send UDP with IPv6 target', (done) => {
+  test('Syslog Send UDP with bad message type Error', async () => {
+    let syslog = new SyslogPro.Syslog({
+      target: 'noteareal.dns',
+      protocol: 'udp',
+      port: global.udpServerPort
+    });
+    expect.assertions(1);
+    try {
+      await syslog.send({});
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: Syslog message must be a string';
+      expect(reason.message).toBe(errorMsg);
+    }
+  });
+  test('Syslog Send UDP with IPv6 target', async () => {
     let syslog = new SyslogPro.Syslog({
       target: '127.0.0.1',
       protocol: 'udp',
       port: global.udpServerPort
     });
-    expect.assertions(1);
-    syslog.send('test')
-        .then((result) => {
-          expect(result).toBe('test');
-          done();
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+    const result = await syslog.send('test');
+    expect(result).toBe('test');
   });
-  test('Syslog Send TLS with timeout Error', (done) => {
+  test('Syslog Send TLS with timeout Error', async () => {
     let syslog = new SyslogPro.Syslog({
       protocol: 'tls',
       port: global.tlsBasicServerPort,
@@ -1039,17 +751,14 @@ describe('Base Syslog Class tests', () => {
       tcpTimeout: 1
     });
     expect.assertions(1);
-    syslog.send('test')
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errorMsg = 'TIMEOUT ERROR: Syslog server TLS timeout';
-          expect(reson.message).toBe(errorMsg);
-          done();
-        });    
+    try {
+      await syslog.send('test');
+    } catch(reason) {
+      let errorMsg = 'TIMEOUT ERROR: Syslog server TLS timeout';
+      expect(reason.message).toBe(errorMsg);
+    }
   });
-  test('Syslog Send TLS with server cert location type Error', (done) => {
+  test('Syslog Send TLS with server cert location type Error', async () => {
     let syslog = new SyslogPro.Syslog({
       protocol: 'tls',
       port: global.tlsBasicServerPort,
@@ -1057,18 +766,15 @@ describe('Base Syslog Class tests', () => {
       tcpTimeout: 1
     });
     expect.assertions(1);
-    syslog.send('test')
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errorMsg = 'TYPE ERROR: TLS Server Cert is not a file';
-          errorMsg += 'location string';
-          expect(reson.message).toBe(errorMsg);
-          done();
-        });    
+    try {
+      await syslog.send('test');
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: TLS Server Cert is not a file';
+      errorMsg += 'location string';
+      expect(reason.message).toBe(errorMsg);
+    }
   });
-  test('Syslog Send TLS with client cert location type Error', (done) => {
+  test('Syslog Send TLS with client cert location type Error', async () => {
     let syslog = new SyslogPro.Syslog({
       protocol: 'tls',
       port: global.tlsBasicServerPort,
@@ -1078,18 +784,15 @@ describe('Base Syslog Class tests', () => {
       tcpTimeout: 1
     });
     expect.assertions(1);
-    syslog.send('test')
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errorMsg = 'TYPE ERROR: TLS Client Cert is not a file';
-          errorMsg += 'location string';
-          expect(reson.message).toBe(errorMsg);
-          done();
-        });    
+    try {
+      await syslog.send('test');
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: TLS Client Cert is not a file';
+      errorMsg += 'location string';
+      expect(reason.message).toBe(errorMsg);
+    }
   });
-  test('Syslog Send TLS with client key location type Error', (done) => {
+  test('Syslog Send TLS with client key location type Error', async () => {
     let syslog = new SyslogPro.Syslog({
       protocol: 'tls',
       port: global.tlsBasicServerPort,
@@ -1099,113 +802,90 @@ describe('Base Syslog Class tests', () => {
       tcpTimeout: 1
     });
     expect.assertions(1);
-    syslog.send('test')
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errorMsg = 'TYPE ERROR: TLS Client Key is not a file';
-          errorMsg += 'location string';
-          expect(reson.message).toBe(errorMsg);
-          done();
-        });    
+    try {
+      await syslog.send('test');
+    } catch(reason) {
+      let errorMsg = 'TYPE ERROR: TLS Client Key is not a file';
+      errorMsg += 'location string';
+      expect(reason.message).toBe(errorMsg);
+    }
   });
-  test('Syslog Send TLS with no server certs', (done) => {
+  test('Syslog Send TLS with no server certs', async () => {
     let syslog = new SyslogPro.Syslog({
       protocol: 'tls',
       port: 443,
       target: 'cloud.positon.org',  // Public test server
     });
-    expect.assertions(1);
-    syslog.send('test')
-        .then((result) => {
-          expect(result).toBe('test');
-          done();
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });    
+    const result = await syslog.send('test');
+    expect(result).toBe('test');
   });
-  test('Syslog Send TCP with DNS Error', (done) => {
+  test('Syslog Send TCP with DNS Error', async () => {
     let syslog = new SyslogPro.Syslog({
       target: 'noteareal.dns',
       protocol: 'tcp',
       port: global.tcpServerPort
     });
     expect.assertions(1);
-    syslog.send('test')
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          expect(reson.message).toBe('getaddrinfo ENOTFOUND noteareal.dns');
-          done();
-        });
-  });  
-  test('Syslog Send TCP with timeout Error', (done) => {
+    try {
+      await syslog.send('test');
+    } catch(reason) {
+      expect(reason.message).toBe('getaddrinfo ENOTFOUND noteareal.dns');
+    }
+  });
+  test('Syslog Send TCP with timeout Error', async () => {
     let syslog = new SyslogPro.Syslog({
       protocol: 'tcp',
       target: 'portquiz.net',  // Public test server
       tcpTimeout: 1
     });
     expect.assertions(1);
-    syslog.send('test')
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errorMsg = 'TIMEOUT ERROR: Syslog server TCP timeout';
-          expect(reson.message).toBe(errorMsg);
-          done();
-        });    
+    try {
+      await syslog.send('test');
+    } catch(reason) {
+      let errorMsg = 'TIMEOUT ERROR: Syslog server TCP timeout';
+      expect(reason.message).toBe(errorMsg);
+    }
   });
-  test('Syslog addTlsServerCerts server cert location type Error', (done) => {
+  test('Syslog addTlsServerCerts server cert location type Error', () => {
     let syslog = new SyslogPro.Syslog({
       protocol: 'tls',
       port: global.tlsBasicServerPort,
       tcpTimeout: 1
     });
     expect.assertions(1);
-    syslog.addTlsServerCerts(6)
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errorMsg = 'TYPE ERROR: Server Cert file locations should be a';
-          errorMsg += ' string or array of strings';
-          expect(reson.message).toBe(errorMsg);
-          done();
-        });    
+    try {
+      syslog.addTlsServerCerts(6);
+    } catch (reason) {
+      let errorMsg = 'TYPE ERROR: Server Cert file locations should be a';
+      errorMsg += ' string or array of strings';
+      expect(reason.message).toBe(errorMsg);
+    }
   });
-  test('Syslog constructor with format cef but no object', (done) => {
+  test('Syslog constructor with format cef but no object', () => {
     let syslog = new SyslogPro.Syslog({
       format: 'cef'
     });
     expect(syslog.cef.constructor__).toBe(true);
-    done();
   });
-  test('Syslog constructor with format leef but no object', (done) => {
+  test('Syslog constructor with format leef but no object', () => {
     let syslog = new SyslogPro.Syslog({
       format: 'leef'
     });
     expect(syslog.leef.constructor__).toBe(true);
-    done();
   });
-  test('Syslog constructor with format rfc5424 but no object', (done) => {
+  test('Syslog constructor with format rfc5424 but no object', () => {
     let syslog = new SyslogPro.Syslog({
       format: 'rfc5424'
     });
     expect(syslog.rfc5424.constructor__).toBe(true);
-    done();
   });
-  test('Syslog constructor with format rfc3164 but no object', (done) => {
+  test('Syslog constructor with format rfc3164 but no object', () => {
     let syslog = new SyslogPro.Syslog({
       format: 'rfc3164'
     });
     expect(syslog.rfc3164.constructor__).toBe(true);
-    done();
   });
-  test('Syslog constructor with format objects', (done) => {
+  test('Syslog constructor with format objects', () => {
     let rfc3164 = new SyslogPro.RFC3164();
     let rfc5424 = new SyslogPro.RFC5424();
     let leef = new SyslogPro.LEEF();
@@ -1221,9 +901,8 @@ describe('Base Syslog Class tests', () => {
     expect(syslog.rfc5424.constructor__).toBe(true);
     expect(syslog.leef.constructor__).toBe(true);
     expect(syslog.cef.constructor__).toBe(true);
-    done();
   });
-  test('Syslog constructor with format objects configs', (done) => {
+  test('Syslog constructor with format objects configs', () => {
     let rfc3164 = {};
     let rfc5424 = {};
     let leef = {};
@@ -1239,126 +918,63 @@ describe('Base Syslog Class tests', () => {
     expect(syslog.rfc5424.constructor__).toBe(true);
     expect(syslog.leef.constructor__).toBe(true);
     expect(syslog.cef.constructor__).toBe(true);
-    done();
   });
-  test('Syslog Send with Protocol selection Error', (done) => {
+  test('Syslog Send with Protocol selection Error', async () => {
     let syslog = new SyslogPro.Syslog({
       protocol: 'bad'
     });
     expect.assertions(1);
-    syslog.send('test')
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          let errorMsg = 'FORMAT ERROR: Protocol not recognized, should be ';
-          errorMsg += 'udp|tcp|tls';
-          expect(reson.message).toBe(errorMsg);
-          done();
-        });    
+    try {
+      await syslog.send('test');
+    } catch(reason) {
+      let errorMsg = 'FORMAT ERROR: Protocol not recognized, should be ';
+      errorMsg += 'udp|tcp|tls';
+      expect(reason.message).toBe(errorMsg);
+    }
   });
 });
 
 // RGB to ANSI Color Function Test
 describe('RGB to ANSI Color Function Tests', () => {
-  test('RgbToAnsi Non Extended Colors hex v === 2', (done) => {
-    expect.assertions(1);
-    SyslogPro.RgbToAnsi('#ffffff', false)
-        .then((result) => {
-          expect(result).toBe(90);
-          done();
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+  test('RgbToAnsi Non Extended Colors hex v === 2', () => {
+    const result = SyslogPro.RgbToAnsi('#ffffff', false);
+    expect(result).toBe(90);
   });
-  test('RgbToAnsi Non Extended Colors hex v === 0', (done) => {
-    expect.assertions(1);
-    SyslogPro.RgbToAnsi('#000000', false)
-        .then((result) => {
-          expect(result).toBe(30);
-          done();
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+  test('RgbToAnsi Non Extended Colors hex v === 0', () => {
+    const result = SyslogPro.RgbToAnsi('#000000', false);
+    expect(result).toBe(30);
   });
-  test('RgbToAnsi Non Extended Colors hex v === 1', (done) => {
-    expect.assertions(1);
-    SyslogPro.RgbToAnsi('#640000', false)
-        .then((result) => {
-          expect(result).toBe(30);
-          done();
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+  test('RgbToAnsi Non Extended Colors hex v === 1', () => {
+    const result = SyslogPro.RgbToAnsi('#640000', false);
+    expect(result).toBe(30);
   });
-  test('RegToAnsi Extended Colors #640000', (done) => {
-    expect.assertions(1);
-    SyslogPro.RgbToAnsi('#640000', true)
-        .then((result) => {
-          expect(result).toBe(88);
-          done();
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+  test('RegToAnsi Extended Colors #640000', () => {
+    const result = SyslogPro.RgbToAnsi('#640000', true);
+    expect(result).toBe(88);
   });
-  test('RegToAnsi Extended Colors #050505', (done) => {
-    expect.assertions(1);
-    SyslogPro.RgbToAnsi('#050505', true)
-        .then((result) => {
-          expect(result).toBe(16);
-          done();
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+  test('RegToAnsi Extended Colors #050505', () => {
+    const result = SyslogPro.RgbToAnsi('#050505', true);
+    expect(result).toBe(16);
   });
-  test('RegToAnsi Extended Colors #646464', (done) => {
-    expect.assertions(1);
-    SyslogPro.RgbToAnsi('#646464', true)
-        .then((result) => {
-          expect(result).toBe(241);
-          done();
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+  test('RegToAnsi Extended Colors #646464', () => {
+    const result = SyslogPro.RgbToAnsi('#646464', true)
+    expect(result).toBe(241);
   });
-  test('RegToAnsi Extended Colors #f9f9f9', (done) => {
-    expect.assertions(1);
-    SyslogPro.RgbToAnsi('#f9f9f9', true)
-        .then((result) => {
-          expect(result).toBe(231);
-          done();
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+  test('RegToAnsi Extended Colors #f9f9f9', () => {
+    const result = SyslogPro.RgbToAnsi('#f9f9f9', true);
+    expect(result).toBe(231);
   });
-  test('RegToAnsi Extended Colors 100', (done) => {
-    expect.assertions(1);
-    SyslogPro.RgbToAnsi(100, true)
-        .then((result) => {
-          expect(result).toBe(100);
-          done();
-        })
-        .catch((reson) => {
-          console.log(reson);
-        });
+  test('RegToAnsi Extended Colors 100', () => {
+    const result = SyslogPro.RgbToAnsi(100, true);
+    expect(result).toBe(100);
   });
-  test('RegToAnsi Extended Colors 300 out of range Error', (done) => {
+  test('RegToAnsi Extended Colors 300 out of range Error', () => {
     expect.assertions(1);
-    SyslogPro.RgbToAnsi(300, true)
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((reson) => {
-          expect(reson.message).toBe('FORMAT ERROR: Color code not in range');
-          done();
-        });
+    try {
+      SyslogPro.RgbToAnsi(300, true);
+    } catch(reason) {
+      expect(reason.message).toBe('FORMAT ERROR: Color code not in range');
+    }
   });
 });
 
