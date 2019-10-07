@@ -50,7 +50,7 @@ create formatted messages or use directly
 **RFC3164**
 ```js
   let rfc3164 = new SyslogPro.RFC3164({
-    applacationName: 'MyApp',
+    applicationName: 'MyApp',
     color: true,
     extendedColor: true,
     server: {
@@ -63,9 +63,9 @@ create formatted messages or use directly
 **RFC5424**
 ```js
   let rfc5424 = new SyslogPro.RFC5424({
-    applacationName: 'MyApp',
+    applicationName: 'MyApp',
     timestamp: true,
-    encludeStructuredData: true
+    includeStructuredData: true
     color: true,
     extendedColor: true,
     server: {

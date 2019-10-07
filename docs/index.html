@@ -85,7 +85,7 @@ and the <a href="https://nodejs.org/api/dns.html#dns_dns_promises_api">DNS Promi
 create formatted messages or use directly</p>
 <p><strong>RFC3164</strong></p>
 <pre class="prettyprint source lang-js"><code>  let rfc3164 = new SyslogPro.RFC3164({
-    applacationName: 'MyApp',
+    applicationName: 'MyApp',
     color: true,
     extendedColor: true,
     server: {
@@ -94,9 +94,9 @@ create formatted messages or use directly</p>
   });
   rfc3164.info('My Message');</code></pre><p><strong>RFC5424</strong></p>
 <pre class="prettyprint source lang-js"><code>  let rfc5424 = new SyslogPro.RFC5424({
-    applacationName: 'MyApp',
+    applicationName: 'MyApp',
     timestamp: true,
-    encludeStructuredData: true
+    includeStructuredData: true
     color: true,
     extendedColor: true,
     server: {

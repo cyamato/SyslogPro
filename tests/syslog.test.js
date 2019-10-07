@@ -373,7 +373,7 @@ describe('RFC5424 Class Tests', () => {
       timestampUTC: true,
       timestampTZ: false,
       timestampMS: true,
-      encludeStructuredData: true,
+      includeStructuredData: true,
       colors: {
           emergencyColor: 30,
           alertColor: 30,
@@ -428,7 +428,7 @@ describe('RFC5424 Class Tests', () => {
                 let resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} /;
                 expect(result).toMatch(resultMsg);
                 let rfc5424 = new SyslogPro.RFC5424({
-                  encludeStructuredData: true,
+                  includeStructuredData: true,
                   color: true,
                   extendedColor: false,
                   timestamp: true,
