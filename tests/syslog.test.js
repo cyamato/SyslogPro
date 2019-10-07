@@ -400,6 +400,17 @@ describe('RFC5424 Class Tests', () => {
     resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+/;
     expect(result).toMatch(resultMsg);
   });
+  test('RFC5424 BuildMessage with Timestamp options to set date', () => {
+    const rfc5424 = new SyslogPro.RFC5424({
+      color: true,
+      timestampUTC: true,
+      timestampTZ: true,
+      timestampMS: true,
+    });
+    const timestamp = new Date('2020-01-01T01:23:45.678Z');
+    const result = rfc5424.buildMessage('hello', { timestamp });
+    expect(result.startsWith('<190>1 2020-01-01T01:23:45.678000+00:00 ')).toBe(true);
+  });
   test('RFC5424 SetColors', () => {
     let rfc5424 = new SyslogPro.RFC5424();
     const result = rfc5424.setColor({
@@ -702,6 +713,13 @@ describe('RFC3164 Class Tests', () => {
     result = rfc3164.buildMessage('test', {
     });
     expect(result).toMatch(/<190>(J|F|M|A|S|O|N|D).+(\u001b\[36mtest\u001b\[0m\n)/);
+  });
+  test('RFC3164 BuildMessage with Timestamp options to set date', () => {
+    const rfc3164 = new SyslogPro.RFC3164();
+    const timestamp = new Date(2020, 0, 1, 1, 23, 45);
+    const result = rfc3164.buildMessage('hello', { timestamp });
+    console.log(result);
+    expect(result.startsWith('<190>Jan  1 01:23:45 ')).toBe(true);
   });
 });
 
