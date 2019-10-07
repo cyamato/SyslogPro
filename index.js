@@ -669,6 +669,7 @@ class RFC3164 extends RFC {
    * @param {number} [options.severity=7] - An array of structure
    * @param {number} [options.colorCode=36] - The ANSI color code to use if
    *    message coloration is selected
+   * @param {Date} [options.timestamp=null] - The timestamp to use
    * @returns {Promise} A Syslog formatted string according to the selected RFC
    * @throws {Error} A standard error object
    */
@@ -709,7 +710,7 @@ class RFC3164 extends RFC {
     // uses BSD timeformat
     const rfc3164DateRegEx =
 /((A|D|F|J|M|N|O|S)(a|c|e|p|o|u)(b|c|g|l|n|p|r|t|v|y)\s)0(\d\s\d\d:\d\d:\d\d)/;
-    const timestamp = moment()
+    const timestamp = moment(options.timestamp)
       .format('MMM DD hh:mm:ss')
       .replace(rfc3164DateRegEx, '$1 $5');
     // Build message
@@ -1102,6 +1103,7 @@ class RFC5424 extends RFC {
    *    [name@<private enterprise number> parameter=value]
    * @param {number} [options.colorCode=36] - The ANSI color code to use if
    *    message coloration is selected
+   * @param {Date} [options.timestamp=null] - The timestamp to use
    * @returns {string} A Syslog formatted string according to the selected RFC
    * @throws {Error} A standard error object
    */
@@ -1144,21 +1146,29 @@ class RFC5424 extends RFC {
     }
     // RFC5424 timestamp formating
     let timestamp = '-';
-    if (this.timestamp) {
+    if (this.timestamp || options.timestamp) {
       let timeQuality = '[timeQuality';
       if (this.timestampUTC) {
         timeQuality += ' tzKnown=1';
         if (this.timestampMS) {
           if (this.timestampTZ) {
-            timestamp = moment().utc().format('YYYY-MM-DDThh:mm:ss.SSSSSSZ');
+            timestamp = moment(options.timestamp)
+              .utc()
+              .format('YYYY-MM-DDThh:mm:ss.SSSSSSZ');
           } else {
-            timestamp = moment().utc().format('YYYY-MM-DDThh:mm:ss.SSSSSS');
+            timestamp = moment(options.timestamp)
+              .utc()
+              .format('YYYY-MM-DDThh:mm:ss.SSSSSS');
           }
         } else {
           if (this.timestampTZ) {
-            timestamp = moment().utc().format('YYYY-MM-DDThh:mm:ssZ');
+            timestamp = moment(options.timestamp)
+              .utc()
+              .format('YYYY-MM-DDThh:mm:ssZ');
           } else {
-            timestamp = moment().utc().format('YYYY-MM-DDThh:mm:ss');
+            timestamp = moment(options.timestamp)
+              .utc()
+              .format('YYYY-MM-DDThh:mm:ss');
           }
         }
       } else {
@@ -1167,18 +1177,21 @@ class RFC5424 extends RFC {
           if (this.timestampMS) {
             timeQuality += ' isSynced=1';
             timeQuality += ' syncAccuracy=0';
-            timestamp = moment().format('YYYY-MM-DDThh:mm:ss.SSSSSSZ');
+            timestamp = moment(options.timestamp)
+              .format('YYYY-MM-DDThh:mm:ss.SSSSSSZ');
           } else {
-            timestamp = moment().format('YYYY-MM-DDThh:mm:ssZ');
+            timestamp = moment(options.timestamp)
+              .format('YYYY-MM-DDThh:mm:ssZ');
           }
         } else {
           timeQuality += ' tzKnown=0';
           if (this.timestampMS) {
             timeQuality += ' isSynced=1';
             timeQuality += ' syncAccuracy=0';
-            timestamp = moment().format('YYYY-MM-DDThh:mm:ss.SSSSSS');
+            timestamp = moment(options.timestamp)
+              .format('YYYY-MM-DDThh:mm:ss.SSSSSS');
           } else {
-            timestamp = moment().format('YYYY-MM-DDThh:mm:ss');
+            timestamp = moment(options.timestamp).format('YYYY-MM-DDThh:mm:ss');
           }
         }
       }
