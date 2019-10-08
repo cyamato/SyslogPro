@@ -94,6 +94,7 @@ type SyslogOptions = {
   leef?: LEEF | LEEFOptions;
   port?: number;
   protocol?: string;
+  rejectUnauthorized?: boolean;
   rfc3164?: RFC3164 | RFC3164Options;
   rfc5424?: RFC5424 | RFC5424Options;
   target?: string;
@@ -120,6 +121,7 @@ export class Syslog {
   leef: any;
   port: number;
   protocol: string;
+  rejectUnauthorized: boolean;
   rfc3164: any;
   rfc5424: any;
   target: string;
@@ -155,6 +157,8 @@ export class Syslog {
    * @param {string} [options.tlsClientKey] - Client TLS key file
    *    location that this client should use, this option if set will take
    *    presidents over any certificates set in a formatting object
+   * @param {string} [options.rejectUnauthorized] - If not false, the server
+   *    certificate is verified against the list of supplied CAs.
    * >>>Syslog Format Settings
    * @param {string} [options.format='none'] - Valid syslog format options for
    *    this module are 'none', 'rfc3164', 'rfc5424', 'leef', 'cef'
@@ -197,6 +201,7 @@ export class Syslog {
       /** @type {string} */
       this.tlsClientKey = options.tlsClientKey;
     }
+    this.rejectUnauthorized = options.rejectUnauthorized !== false;
     // Syslog Format
     if (typeof options.format === 'string') {
       /** @type {string} */
@@ -385,8 +390,8 @@ export class Syslog {
         tlsOptionsCerts.push(cert);
       }
       tlsOptions.ca = tlsOptionsCerts;
-      tlsOptions.rejectUnauthorized = true;
     }
+    tlsOptions.rejectUnauthorized = this.rejectUnauthorized;
     const client = tls.connect(tlsOptions, () => {
       // Turn msg in to a UTF8 buffer
       let msgBuffer = Buffer.from(msg, 'utf8');
