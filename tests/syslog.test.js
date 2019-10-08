@@ -852,6 +852,15 @@ describe('Base Syslog Class tests', () => {
     const result = await syslog.send('test');
     expect(result).toBe('test');
   });
+  test('Syslog Send TLS without rejectUnauthorized', async () => {
+    let syslog = new SyslogPro.Syslog({
+      protocol: 'tls',
+      port: global.tlsBasicServerPort,
+      rejectUnauthorized: false
+    });
+    const result = await syslog.send('test');
+    expect(result).toBe('test');
+  });
   test('Syslog Send TCP with DNS Error', async () => {
     let syslog = new SyslogPro.Syslog({
       target: 'noteareal.dns',
