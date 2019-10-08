@@ -669,8 +669,10 @@ class RFC3164 extends RFC {
    * @param {number} [options.severity=7] - An array of structure
    * @param {number} [options.colorCode=36] - The ANSI color code to use if
    *    message coloration is selected
-   * @param {Date} [options.timestamp=null] - The timestamp to use
-   * @returns {Promise} A Syslog formatted string according to the selected RFC
+   * @param {Date} [options.timestamp] - The timestamp to use
+   * @param {string} [options.hostname] - The hostname
+   * @param {string} [options.applicationName] - The application name
+   * @returns {string} A Syslog formatted string according to the selected RFC
    * @throws {Error} A standard error object
    */
   buildMessage(msg, options) {
@@ -713,11 +715,13 @@ class RFC3164 extends RFC {
     const timestamp = moment(options.timestamp)
       .format('MMM DD hh:mm:ss')
       .replace(rfc3164DateRegEx, '$1 $5');
+    const hostname = options.hostname || this.hostname;
+    const applicationName = options.applicationName || this.applicationName;
     // Build message
     fmtMsg = '<' + pri + '>';
     fmtMsg += timestamp;
-    fmtMsg += ' ' + this.hostname;
-    fmtMsg += ' ' + this.applicationName;
+    fmtMsg += ' ' + hostname;
+    fmtMsg += ' ' + applicationName;
     fmtMsg += ' ' + msg;
     fmtMsg += newLine;
     return fmtMsg;
@@ -1103,7 +1107,9 @@ class RFC5424 extends RFC {
    *    [name@<private enterprise number> parameter=value]
    * @param {number} [options.colorCode=36] - The ANSI color code to use if
    *    message coloration is selected
-   * @param {Date} [options.timestamp=null] - The timestamp to use
+   * @param {Date} [options.timestamp] - The timestamp to use
+   * @param {string} [options.hostname] - The hostname
+   * @param {string} [options.applicationName] - The application name
    * @returns {string} A Syslog formatted string according to the selected RFC
    * @throws {Error} A standard error object
    */
@@ -1117,6 +1123,8 @@ class RFC5424 extends RFC {
       throw new Error(errMsg);
     }
     let facility = options.facility || 23;
+    let hostname = options.hostname || this.hostname;
+    let applicationName = options.applicationName || this.applicationName;
     let pid = options.pid || '-';
     let id = options.id || '-';
     let msgStructuredData = options.msgStructuredData || [];
@@ -1223,8 +1231,8 @@ class RFC5424 extends RFC {
     fmtMsg = '<' + pri + '>';
     fmtMsg += '1'; // Version number
     fmtMsg += ' ' + timestamp;
-    fmtMsg += ' ' + this.hostname;
-    fmtMsg += ' ' + this.applicationName;
+    fmtMsg += ' ' + hostname;
+    fmtMsg += ' ' + applicationName;
     fmtMsg += ' ' + pid;
     fmtMsg += ' ' + id;
     fmtMsg += ' ' + structuredData;

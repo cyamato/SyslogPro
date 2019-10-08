@@ -411,6 +411,14 @@ describe('RFC5424 Class Tests', () => {
     const result = rfc5424.buildMessage('hello', { timestamp });
     expect(result.startsWith('<190>1 2020-01-01T01:23:45.678000+00:00 ')).toBe(true);
   });
+  test('RFC5424 BuildMessage with hostname and applicationName options', () => {
+    const rfc5424 = new SyslogPro.RFC5424();
+    const result = rfc5424.buildMessage('hello', {
+      hostname: 'hostname',
+      applicationName: 'applicationName'
+    });
+    expect(result).toMatch(/^<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+\d{2}:\d{2} hostname applicationName - - - BOMhello\n$/);
+  });
   test('RFC5424 SetColors', () => {
     let rfc5424 = new SyslogPro.RFC5424();
     const result = rfc5424.setColor({
@@ -718,8 +726,15 @@ describe('RFC3164 Class Tests', () => {
     const rfc3164 = new SyslogPro.RFC3164();
     const timestamp = new Date(2020, 0, 1, 1, 23, 45);
     const result = rfc3164.buildMessage('hello', { timestamp });
-    console.log(result);
     expect(result.startsWith('<190>Jan  1 01:23:45 ')).toBe(true);
+  });
+  test('RFC3164 BuildMessage with hostname and applicationName options', () => {
+    const rfc3164 = new SyslogPro.RFC3164();
+    const result = rfc3164.buildMessage('hello', {
+      hostname: 'hostname',
+      applicationName: 'applicationName'
+    });
+    expect(result).toMatch(/^<190>[A-Z][a-z]{2} [ \d]\d \d{2}:\d{2}:\d{2} hostname applicationName hello\n$/);
   });
 });
 
