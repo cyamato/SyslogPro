@@ -16,12 +16,12 @@
  * @exports CEF
  * @module SyslogPro
  */
-'use strict';
-const moment = require('moment');
-const os = require('os');
-const dns = require('dns');
+import moment from 'moment';
+import * as os from 'os';
+import * as dns from 'dns';
+import * as fs from 'fs';
+import * as tls from 'tls'; // eslint-disable-line no-unused-vars
 let dnsPromises = dns.promises;
-const fs = require('fs');
 
 /**
  * Format the ANSI foreground color code from a RGB hex code or ANSI color code
@@ -88,6 +88,21 @@ function rgbToAnsi(hex,
   }
 }
 
+type SyslogOptions = {
+  cef?: CEF | CEFOptions;
+  format?: string;
+  leef?: LEEF | LEEFOptions;
+  port?: number;
+  protocol?: string;
+  rfc3164?: RFC3164 | RFC3164Options;
+  rfc5424?: RFC5424 | RFC5424Options;
+  target?: string;
+  tcpTimeout?: number;
+  tlsServerCerts?: string | string[];
+  tlsClientCert?: string;
+  tlsClientKey?: string;
+};
+
 /**
  * A class to work with syslog messages using UDP, TCP, or TLS transport.
  * There is support for Syslog message formatting RFC-3164, RFC-5424 including
@@ -99,7 +114,19 @@ function rgbToAnsi(hex,
  * @version 0.0.0
  * @since 0.0.0
  */
-class Syslog {
+export class Syslog {
+  cef: any;
+  format: string;
+  leef: any;
+  port: number;
+  protocol: string;
+  rfc3164: any;
+  rfc5424: any;
+  target: string;
+  tcpTimeout: number;
+  tlsServerCerts: string | string[];
+  tlsClientCert: string;
+  tlsClientKey: string;
   /**
    * Construct a new Syslog transport object with user options
    * @public
@@ -140,8 +167,7 @@ class Syslog {
    * @param {CEF} [options.cef] - {@link module:SyslogPro~CEF|HP CEF
    *    (Common Event Format) formatting object}
    */
-  constructor(options) {
-    this.constructor__ = true;
+  constructor(options?: SyslogOptions) {
     if (!options) {
       options = {};
     }
@@ -179,35 +205,35 @@ class Syslog {
       this.format = options.format || 'none';
     }
     if (options.rfc3164) {
-      if (options.rfc3164.constructor__) {
+      if (options.rfc3164 instanceof RFC3164) {
         /** @type {RFC3164} */
         this.rfc3164 = options.rfc3164;
       } else {
-        this.rfc3164 = new RFC3164(options);
+        this.rfc3164 = new RFC3164(options.rfc3164);
       }
     }
     if (options.rfc5424) {
-      if (options.rfc5424.constructor__) {
+      if (options.rfc5424 instanceof RFC5424) {
         /** @type {RFC5424} */
         this.rfc5424 = options.rfc5424;
       } else {
-        this.rfc5424 = new RFC5424(options);
+        this.rfc5424 = new RFC5424(options.rfc5424);
       }
     }
     if (options.leef) {
-      if (options.leef.constructor__) {
+      if (options.leef instanceof LEEF) {
         /** @type {LEEF} */
         this.leef = options.leef;
       } else {
-        this.leef = new LEEF(options);
+        this.leef = new LEEF(options.leef);
       }
     }
     if (options.cef) {
-      if (options.cef.constructor__) {
+      if (options.cef instanceof CEF) {
         /** @type {CEF} */
         this.cef = options.cef;
       } else {
-        this.cef = new CEF(options);
+        this.cef = new CEF(options.cef);
       }
     }
     if (this.format === 'rfc3164' && !this.rfc3164) {
@@ -325,7 +351,7 @@ class Syslog {
    */
   async tlsMessage(msg) {
     const tls = require('tls');
-    const tlsOptions = {
+    const tlsOptions: tls.ConnectionOptions = {
       host: this.target,
       port: this.port,
     };
@@ -414,7 +440,16 @@ class Syslog {
 /**
  * The base class of RFC formartted syslog messages.
  */
-class RFC {
+export class RFC {
+  alertColor: number;
+  criticalColor: number;
+  emergencyColor: number;
+  errorColor: number;
+  extendedColor: boolean;
+  debugColor: number;
+  informationalColor: number;
+  noticeColor: number;
+  warningColor: number;
   /**
    * Sets the color to be used for messages at a set priority
    * @public
@@ -538,6 +573,25 @@ class RFC {
   }
 }
 
+type RFC3164Options = {
+  applicationName?: string;
+  color?: boolean;
+  colors?: {
+    alertColor?: number;
+    criticalColor?: number;
+    emergencyColor?: number;
+    errorColor?: number;
+    debugColor?: number;
+    informationalColor?: number;
+    noticeColor?: number;
+    warningColor?: number;
+  };
+  extendedColor?: boolean;
+  facility?: number;
+  hostname?: string;
+  server?: Syslog | SyslogOptions;
+};
+
 /**
  * A class to work with RFC3164 formatted syslog messages. The messaging is
  * fully configurable and ANSI foreground colors can be added.  Both ANSI 8 and
@@ -554,7 +608,12 @@ class RFC {
  * @version 0.0.0
  * @since 0.0.0
  */
-class RFC3164 extends RFC {
+export class RFC3164 extends RFC {
+  applicationName: string;
+  color: boolean;
+  facility: number;
+  hostname: string;
+  server: Syslog;
   /**
    * Construct a new RFC3164 formatted Syslog object with user options
    * @public
@@ -598,17 +657,11 @@ class RFC3164 extends RFC {
    *    Syslog server connection} that should be used to send messages directly
    *    from this class. @see SyslogPro~Syslog
    */
-  constructor(options) {
+  constructor(options?: RFC3164Options) {
     super();
-    /** @private @type {boolean} */
-    this.constructor__ = true;
     options = options || {};
     this.hostname = options.hostname || os.hostname();
-    if (options.applicationName) {
-      this.applicationName = options.applicationName;
-    } else {
-      this.applicationName = options.applacationName || '';
-    }
+    this.applicationName = options.applicationName || '';
     this.facility = options.facility || 23;
     if (options.color) {
       /** @type {boolean} */
@@ -623,11 +676,11 @@ class RFC3164 extends RFC {
       this.extendedColor = false;
     }
     if (options.server) {
-      if (!options.server.constructor__) {
+      if (options.server instanceof Syslog) {
         /** @private @type {Syslog} */
-        this.server = new Syslog(options.server);
-      } else {
         this.server = options.server;
+      } else {
+        this.server = new Syslog(options.server);
       }
     }
     if (this.extendedColor) {
@@ -925,6 +978,30 @@ class RFC3164 extends RFC {
   }
 }
 
+type RFC5424Options = {
+  applicationName?: string;
+  color?: boolean;
+  colors?: {
+    alertColor?: number;
+    criticalColor?: number;
+    emergencyColor?: number;
+    errorColor?: number;
+    debugColor?: number;
+    informationalColor?: number;
+    noticeColor?: number;
+    warningColor?: number;
+  };
+  extendedColor?: boolean;
+  hostname?: string;
+  includeStructuredData?: boolean;
+  server?: Syslog | SyslogOptions;
+  timestamp?: boolean;
+  timestampMS?: boolean;
+  timestampTZ?: boolean;
+  timestampUTC?: boolean;
+  utf8BOM?: boolean;
+};
+
 /**
  * A class to work with RFC5424 formatted syslog messages. The messaging is
  * fully configurable and ANSI foreground  * colors can be added.  Both ANSI 8
@@ -941,7 +1018,17 @@ class RFC3164 extends RFC {
  * @version 0.0.0
  * @since 0.0.0
  */
-class RFC5424 extends RFC {
+export class RFC5424 extends RFC {
+  applicationName: string;
+  color: boolean;
+  hostname: string;
+  includeStructuredData: boolean;
+  server: Syslog;
+  timestamp: boolean;
+  timestampMS: boolean;
+  timestampTZ: boolean;
+  timestampUTC: boolean;
+  utf8BOM: boolean;
   /**
    * Construct a new RFC5424 formatted Syslog object with user options
    * @public
@@ -992,17 +1079,11 @@ class RFC5424 extends RFC {
    *    Syslog server connection} that should be used to send messages directly
    *    from this class. @see SyslogPro~Syslog
    */
-  constructor(options) {
+  constructor(options?: RFC5424Options) {
     super();
-    /** @private @type {boolean} */
-    this.constructor__ = true;
     options = options || {};
     this.hostname = options.hostname || os.hostname();
-    if (options.applicationName) {
-      this.applicationName = options.applicationName;
-    } else {
-      this.applicationName = options.applacationName || '';
-    }
+    this.applicationName = options.applicationName || '';
     if (typeof options.timestamp === 'undefined' || options.timestamp) {
       /** @type {boolean} */
       this.timestamp = true;
@@ -1027,7 +1108,7 @@ class RFC5424 extends RFC {
     } else {
       this.timestampMS = false;
     }
-    if (options.includeStructuredData || options.encludeStructuredData) {
+    if (options.includeStructuredData) {
       /** @type {boolean} */
       this.includeStructuredData = true;
     } else {
@@ -1052,11 +1133,11 @@ class RFC5424 extends RFC {
       this.extendedColor = false;
     }
     if (options.server) {
-      if (!options.server.constructor__) {
+      if (options.server instanceof Syslog) {
         /** @private @type {Syslog} */
-        this.server = new Syslog(options.server);
-      } else {
         this.server = options.server;
+      } else {
+        this.server = new Syslog(options.server);
       }
     }
     if (this.extendedColor) {
@@ -1440,6 +1521,16 @@ class RFC5424 extends RFC {
   }
 }
 
+type LEEFOptions = {
+  attributes?: any;
+  eventId?: string;
+  product?: string;
+  server?: Syslog | SyslogOptions;
+  syslogHeader?: boolean;
+  vendor?: string;
+  version?: string;
+};
+
 /**
  * A class to work with IBM LEEF (Log Event Extended Format) messages this form
  * of system messages are designed to work with security systems.  Messages can
@@ -1455,7 +1546,14 @@ class RFC5424 extends RFC {
  * @version 0.0.0
  * @since 0.0.0
  */
-class LEEF {
+export class LEEF {
+  attributes: any;
+  eventId: string;
+  product: string;
+  server: Syslog;
+  syslogHeader: boolean;
+  vendor: string;
+  version: string;
   /**
    * Construct a new LEEF formatting object with user options
    * @public
@@ -1477,9 +1575,7 @@ class LEEF {
    *    Syslog server connection} that should be used to send messages directly
    *    from this class. @see SyslogPro~Syslog
    */
-  constructor(options) {
-    /** @private @type {boolean} */
-    this.constructor__ = true;
+  constructor(options?: LEEFOptions) {
     options = options || {};
     /** @type {string} */
     this.vendor = options.vendor || 'unknown';
@@ -1542,7 +1638,7 @@ class LEEF {
       calCountryOrRegion: null,
     };
     if (options.server) {
-      if (options.server.constructor__) {
+      if (options.server instanceof Syslog) {
         /** @private @type {Syslog} */
         this.server = options.server;
       } else {
@@ -1590,6 +1686,17 @@ class LEEF {
   }
 }
 
+type CEFOptions = {
+  deviceEventClassId?: string;
+  deviceProduct?: string;
+  deviceVendor?: string;
+  deviceVersion?: string;
+  extensions?: any;
+  name?: string;
+  server?: Syslog | SyslogOptions;
+  severity?: string;
+};
+
 /**
  * A class to work with HP CEF (Common Event Format) messages. This form
  * of system messages are designed to work with security systems.  Messages can
@@ -1605,7 +1712,15 @@ class LEEF {
  * @version 0.0.0
  * @since 0.0.0
  */
-class CEF {
+export class CEF {
+  deviceEventClassId: string;
+  deviceProduct: string;
+  deviceVendor: string;
+  deviceVersion: string;
+  extensions: any;
+  name: string;
+  server: Syslog;
+  severity: string;
   /**
    * Construct a new CEF formatting object with user options
    * @public
@@ -1626,9 +1741,7 @@ class CEF {
    *    Syslog server connection} that should be used to send messages directly
    *    from this class. @see SyslogPro~Syslog
    */
-  constructor(options) {
-    /** @private @type {boolean} */
-    this.constructor__ = true;
+  constructor(options?: CEFOptions) {
     options = options || {};
     /** @type {string} */
     this.deviceVendor = options.deviceVendor || 'Unknown';
@@ -1803,11 +1916,11 @@ class CEF {
       sourceZoneURI: null,
     };
     if (options.server) {
-      if (options.server.constructor__) {
+      if (options.server instanceof Syslog) {
         /** @private @type {Syslog} */
         this.server = options.server;
       } else {
-        this.server = new Syslog(options.server);
+        this.server = new Syslog(options.server as SyslogOptions);
       }
     }
   }
@@ -3017,7 +3130,8 @@ class CEF {
             .toLowerCase()) {
             if (Extensions[cefExts[ext][0]].len > 0
                 && typeof cefExts[ext][1] === 'string'
-                && cefExts[ext][1].length > Extensions[cefExts[ext][0]].len){
+                && (cefExts[ext][1] as string).length
+                    > Extensions[cefExts[ext][0]].len){
               let errMsg = 'FORMAT ERROR:';
               errMsg += ' CEF Extention Key';
               errMsg += ' ' + cefExts[ext][0];
@@ -3078,11 +3192,4 @@ class CEF {
   }
 }
 
-module.exports = {
-  RgbToAnsi: rgbToAnsi,
-  RFC3164: RFC3164,
-  RFC5424: RFC5424,
-  LEEF: LEEF,
-  CEF: CEF,
-  Syslog: Syslog,
-};
+export const RgbToAnsi = rgbToAnsi;

@@ -42,14 +42,19 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cyamato/SyslogPro.git"
+    "url": "https://github.com/zeit/SyslogPro.git"
   },
   "directories": {
     "doc": "./docs",
     "example": "./example",
     "test": "./test"
   },
+  "files": [
+    "index.d.ts",
+    "index.js"
+  ],
   "main": "index.js",
+  "types": "index.d.ts",
   "engines": {
     "node": ">=10.0.0"
   },
@@ -57,6 +62,9 @@
     "moment": "^2.22.2"
   },
   "devDependencies": {
+    "@types/node": "12.7.11",
+    "@typescript-eslint/eslint-plugin": "2.3.3",
+    "@typescript-eslint/parser": "2.3.3",
     "ajv": "^6.5.4",
     "coveralls": "^3.0.2",
     "docco": "^0.8.0",
@@ -65,15 +73,18 @@
     "eslint-config-strongloop": "^2.1.0",
     "jest": "^23.5.0",
     "jsdoc": "^3.5.5",
-    "jsdoc-to-markdown": "^4.0.1"
+    "jsdoc-to-markdown": "^4.0.1",
+    "typescript": "3.6.3"
   },
   "scripts": {
-    "pretest": "eslint .",
+    "build": "tsc",
+    "pretest": "eslint '*.ts' && npm run build",
     "test": "jest --colors --expand --logHeapUsage --runInBand && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "docs": "jsdoc *.js -c ./jsdoc.json; jsdoc2md --template ./jsdoc2md/api.hbs --files *.js > ./docs/api.md; docco --output ./docs/docco --layout plain-markdown *.js && mv ./docs/docco/index.html ./docs/docco/README.md; docco --output ./docs/docco *.js",
     "jsdoc": "jsdoc *.js -c ./jsdoc.json",
     "readme": "jsdoc2md --template ./jsdoc2md/api.hbs --files *.js > ./docs/api.md",
-    "docco": "docco --output ./docs/docco --layout plain-markdown *.js && mv ./docs/docco/index.html ./docs/docco/README.md; docco --output ./docs/docco *.js"
+    "docco": "docco --output ./docs/docco --layout plain-markdown *.js && mv ./docs/docco/index.html ./docs/docco/README.md; docco --output ./docs/docco *.js",
+    "prepublishOnly": "npm run build"
   },
   "jest": {
     "collectCoverage": true,

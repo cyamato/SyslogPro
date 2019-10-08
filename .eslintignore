@@ -3,3 +3,5 @@ docs/*
 jsdoc2md/*
 coverage/*
 tests/*
+*.d.ts
+*.js

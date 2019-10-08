@@ -898,25 +898,25 @@ describe('Base Syslog Class tests', () => {
     let syslog = new SyslogPro.Syslog({
       format: 'cef'
     });
-    expect(syslog.cef.constructor__).toBe(true);
+    expect(syslog.cef instanceof SyslogPro.CEF).toBe(true);
   });
   test('Syslog constructor with format leef but no object', () => {
     let syslog = new SyslogPro.Syslog({
       format: 'leef'
     });
-    expect(syslog.leef.constructor__).toBe(true);
+    expect(syslog.leef instanceof SyslogPro.LEEF).toBe(true);
   });
   test('Syslog constructor with format rfc5424 but no object', () => {
     let syslog = new SyslogPro.Syslog({
       format: 'rfc5424'
     });
-    expect(syslog.rfc5424.constructor__).toBe(true);
+    expect(syslog.rfc5424 instanceof SyslogPro.RFC5424).toBe(true);
   });
   test('Syslog constructor with format rfc3164 but no object', () => {
     let syslog = new SyslogPro.Syslog({
       format: 'rfc3164'
     });
-    expect(syslog.rfc3164.constructor__).toBe(true);
+    expect(syslog.rfc3164 instanceof SyslogPro.RFC3164).toBe(true);
   });
   test('Syslog constructor with format objects', () => {
     let rfc3164 = new SyslogPro.RFC3164();
@@ -929,11 +929,10 @@ describe('Base Syslog Class tests', () => {
       leef: leef,
       cef: cef,
     });
-    expect.assertions(4);
-    expect(syslog.rfc3164.constructor__).toBe(true);
-    expect(syslog.rfc5424.constructor__).toBe(true);
-    expect(syslog.leef.constructor__).toBe(true);
-    expect(syslog.cef.constructor__).toBe(true);
+    expect(syslog.rfc3164 instanceof SyslogPro.RFC3164).toBe(true);
+    expect(syslog.rfc5424 instanceof SyslogPro.RFC5424).toBe(true);
+    expect(syslog.leef instanceof SyslogPro.LEEF).toBe(true);
+    expect(syslog.cef instanceof SyslogPro.CEF).toBe(true);
   });
   test('Syslog constructor with format objects configs', () => {
     let rfc3164 = {};
@@ -947,10 +946,10 @@ describe('Base Syslog Class tests', () => {
       cef: cef,
     });
     expect.assertions(4);
-    expect(syslog.rfc3164.constructor__).toBe(true);
-    expect(syslog.rfc5424.constructor__).toBe(true);
-    expect(syslog.leef.constructor__).toBe(true);
-    expect(syslog.cef.constructor__).toBe(true);
+    expect(syslog.rfc3164 instanceof SyslogPro.RFC3164).toBe(true);
+    expect(syslog.rfc5424 instanceof SyslogPro.RFC5424).toBe(true);
+    expect(syslog.leef instanceof SyslogPro.LEEF).toBe(true);
+    expect(syslog.cef instanceof SyslogPro.CEF).toBe(true);
   });
   test('Syslog Send with Protocol selection Error', async () => {
     let syslog = new SyslogPro.Syslog({
