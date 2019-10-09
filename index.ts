@@ -998,7 +998,6 @@ type RFC5424Options = {
   };
   extendedColor?: boolean;
   hostname?: string;
-  includeStructuredData?: boolean;
   server?: Syslog | SyslogOptions;
   timestamp?: boolean;
   timestampMS?: boolean;
@@ -1027,7 +1026,6 @@ export class RFC5424 extends RFC {
   applicationName: string;
   color: boolean;
   hostname: string;
-  includeStructuredData: boolean;
   server: Syslog;
   timestamp: boolean;
   timestampMS: boolean;
@@ -1041,15 +1039,13 @@ export class RFC5424 extends RFC {
    * @param {object} [options] - Options object
    * @param {string} [options.applicationName='NodeJSLogger'] - Application
    * @param {string} [options.hostname=os.hostname] - The name of this server
-   * @param {boolean} [options.timestamp=false] - Included a Timestamp
-   * @param {boolean} [options.timestampUTC=false] - RFC standard is for
+   * @param {boolean} [options.timestamp=true] - Included a Timestamp
+   * @param {boolean} [options.timestampUTC=true] - RFC standard is for
    *    local time
-   * @param {boolean} [options.timestampMS=false] - Timestamp with ms
+   * @param {boolean} [options.timestampMS=true] - Timestamp with ms
    *    resolution
    * @param {boolean} [options.timestampTZ=true] - Should the timestamp
    *    included time zone
-   * @param {boolean} [options.includeStructuredData=false] - Included
-   *    any provided structured data
    * @param {boolean} [options.utf8BOM=true] - Included the UTF8
    * @param {boolean} [options.color=false] - Included the UTF8
    * @param {boolean} [options.extendedColor=false] - Included the UTF8
@@ -1089,36 +1085,10 @@ export class RFC5424 extends RFC {
     options = options || {};
     this.hostname = options.hostname || os.hostname();
     this.applicationName = options.applicationName || '';
-    if (typeof options.timestamp === 'undefined' || options.timestamp) {
-      /** @type {boolean} */
-      this.timestamp = true;
-    } else {
-      this.timestamp = false;
-    }
-    if (options.timestampUTC) {
-      /** @type {boolean} */
-      this.timestampUTC = true;
-    } else {
-      this.timestampUTC = false;
-    }
-    if (typeof options.timestampTZ === 'undefined' || options.timestampTZ) {
-      /** @type {boolean} */
-      this.timestampTZ = true;
-    } else {
-      this.timestampTZ = false;
-    }
-    if (options.timestampMS) {
-      /** @type {boolean} */
-      this.timestampMS = true;
-    } else {
-      this.timestampMS = false;
-    }
-    if (options.includeStructuredData) {
-      /** @type {boolean} */
-      this.includeStructuredData = true;
-    } else {
-      this.includeStructuredData = false;
-    }
+    this.timestamp = options.timestamp !== false;
+    this.timestampMS = options.timestampMS !== false;
+    this.timestampTZ = options.timestampTZ !== false;
+    this.timestampUTC = options.timestampUTC !== false;
     if (typeof options.utf8BOM === 'undefined' || options.utf8BOM) {
       /** @type {boolean} */
       this.utf8BOM = true;
@@ -1241,9 +1211,7 @@ export class RFC5424 extends RFC {
     // RFC5424 timestamp formating
     let timestamp = '-';
     if (this.timestamp || options.timestamp) {
-      let timeQuality = '[timeQuality';
       if (this.timestampUTC) {
-        timeQuality += ' tzKnown=1';
         if (this.timestampMS) {
           if (this.timestampTZ) {
             timestamp = moment(options.timestamp)
@@ -1267,10 +1235,7 @@ export class RFC5424 extends RFC {
         }
       } else {
         if (this.timestampTZ) {
-          timeQuality += ' tzKnown=1';
           if (this.timestampMS) {
-            timeQuality += ' isSynced=1';
-            timeQuality += ' syncAccuracy=0';
             timestamp = moment(options.timestamp)
               .format('YYYY-MM-DDThh:mm:ss.SSSZ');
           } else {
@@ -1278,10 +1243,7 @@ export class RFC5424 extends RFC {
               .format('YYYY-MM-DDThh:mm:ssZ');
           }
         } else {
-          timeQuality += ' tzKnown=0';
           if (this.timestampMS) {
-            timeQuality += ' isSynced=1';
-            timeQuality += ' syncAccuracy=0';
             timestamp = moment(options.timestamp)
               .format('YYYY-MM-DDThh:mm:ss.SSS');
           } else {
@@ -1289,13 +1251,11 @@ export class RFC5424 extends RFC {
           }
         }
       }
-      timeQuality += ']';
-      msgStructuredData.push(timeQuality);
     }
     // Build Structured Data string
     let structuredData = '-';
     const sdElementCount = msgStructuredData.length;
-    if (this.includeStructuredData && sdElementCount > 0) {
+    if (sdElementCount > 0) {
       let sdElementNames = [];
       let sdElements = [];
       const sdElementNameRegEx = /(\[)(\S*)(\s|\])/;
