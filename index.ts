@@ -1248,11 +1248,11 @@ export class RFC5424 extends RFC {
           if (this.timestampTZ) {
             timestamp = moment(options.timestamp)
               .utc()
-              .format('YYYY-MM-DDThh:mm:ss.SSSSSSZ');
+              .format('YYYY-MM-DDThh:mm:ss.SSSZ');
           } else {
             timestamp = moment(options.timestamp)
               .utc()
-              .format('YYYY-MM-DDThh:mm:ss.SSSSSS');
+              .format('YYYY-MM-DDThh:mm:ss.SSS');
           }
         } else {
           if (this.timestampTZ) {
@@ -1272,7 +1272,7 @@ export class RFC5424 extends RFC {
             timeQuality += ' isSynced=1';
             timeQuality += ' syncAccuracy=0';
             timestamp = moment(options.timestamp)
-              .format('YYYY-MM-DDThh:mm:ss.SSSSSSZ');
+              .format('YYYY-MM-DDThh:mm:ss.SSSZ');
           } else {
             timestamp = moment(options.timestamp)
               .format('YYYY-MM-DDThh:mm:ssZ');
@@ -1283,7 +1283,7 @@ export class RFC5424 extends RFC {
             timeQuality += ' isSynced=1';
             timeQuality += ' syncAccuracy=0';
             timestamp = moment(options.timestamp)
-              .format('YYYY-MM-DDThh:mm:ss.SSSSSS');
+              .format('YYYY-MM-DDThh:mm:ss.SSS');
           } else {
             timestamp = moment(options.timestamp).format('YYYY-MM-DDThh:mm:ss');
           }
