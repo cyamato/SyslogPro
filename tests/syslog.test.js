@@ -190,7 +190,7 @@ describe('LEEF Class Tests', () => {
     let syslog = new SyslogPro.Syslog({
       port: global.tlsBasicServerPort+100,
       protocol: 'tls',
-      tlsServerCerts: ['./tests/jest_test_server_cert.pem']
+      tlsServerCerts: [fs.readFileSync('./tests/jest_test_server_cert.pem')]
     });
     let leef = new SyslogPro.LEEF({
       vendor: 'test',
@@ -219,9 +219,9 @@ describe('LEEF Class Tests', () => {
     let syslogOptions = {
       port: global.tlsAuthServerPort,
       protocol: 'tls',
-      tlsServerCerts: ['./tests/jest_test_server_cert.pem'],
-      tlsClientCert: './tests/jest_test_client_cert.pem',
-      tlsClientKey: './tests/jest_test_client_key.pem',
+      tlsServerCerts: [fs.readFileSync('./tests/jest_test_server_cert.pem')],
+      tlsClientCert: fs.readFileSync('./tests/jest_test_client_cert.pem'),
+      tlsClientKey: fs.readFileSync('./tests/jest_test_client_key.pem'),
     };
     let leef = new SyslogPro.LEEF({
       server: syslogOptions
@@ -778,7 +778,7 @@ describe('Base Syslog Class tests', () => {
     let syslog = new SyslogPro.Syslog({
       protocol: 'tls',
       port: global.tlsBasicServerPort,
-      tlsServerCerts: ['./tests/jest_test_server_cert.pem'],
+      tlsServerCerts: [fs.readFileSync('./tests/jest_test_server_cert.pem')],
       tcpTimeout: 1
     });
     expect.assertions(1);
@@ -789,7 +789,7 @@ describe('Base Syslog Class tests', () => {
       expect(reason.message).toBe(errorMsg);
     }
   });
-  test('Syslog Send TLS with server cert location type Error', async () => {
+  test('Syslog Send TLS with server cert type Error', async () => {
     let syslog = new SyslogPro.Syslog({
       protocol: 'tls',
       port: global.tlsBasicServerPort,
@@ -800,35 +800,33 @@ describe('Base Syslog Class tests', () => {
     try {
       await syslog.send('test');
     } catch(reason) {
-      let errorMsg = 'TYPE ERROR: TLS Server Cert is not a file';
-      errorMsg += 'location string';
+      let errorMsg = 'TYPE ERROR: TLS Server Cert is not a valid type';
       expect(reason.message).toBe(errorMsg);
     }
   });
-  test('Syslog Send TLS with client cert location type Error', async () => {
+  test('Syslog Send TLS with client cert type Error', async () => {
     let syslog = new SyslogPro.Syslog({
       protocol: 'tls',
       port: global.tlsBasicServerPort,
-      tlsServerCerts: './tests/jest_test_server_cert.pem',
+      tlsServerCerts: fs.readFileSync('./tests/jest_test_server_cert.pem'),
       tlsClientCert: {},
-      tlsClientKey: './tests/jest_test_client_key.pem',
+      tlsClientKey: fs.readFileSync('./tests/jest_test_client_key.pem'),
       tcpTimeout: 1
     });
     expect.assertions(1);
     try {
       await syslog.send('test');
     } catch(reason) {
-      let errorMsg = 'TYPE ERROR: TLS Client Cert is not a file';
-      errorMsg += 'location string';
+      let errorMsg = 'TYPE ERROR: TLS Client Cert is not a valid type';
       expect(reason.message).toBe(errorMsg);
     }
   });
-  test('Syslog Send TLS with client key location type Error', async () => {
+  test('Syslog Send TLS with client key type Error', async () => {
     let syslog = new SyslogPro.Syslog({
       protocol: 'tls',
       port: global.tlsBasicServerPort,
-      tlsServerCerts: ['./tests/jest_test_server_cert.pem'],
-      tlsClientCert: './tests/jest_test_client_cert.pem',
+      tlsServerCerts: [fs.readFileSync('./tests/jest_test_server_cert.pem')],
+      tlsClientCert: fs.readFileSync('./tests/jest_test_client_cert.pem'),
       tlsClientKey: {},
       tcpTimeout: 1
     });
@@ -836,8 +834,7 @@ describe('Base Syslog Class tests', () => {
     try {
       await syslog.send('test');
     } catch(reason) {
-      let errorMsg = 'TYPE ERROR: TLS Client Key is not a file';
-      errorMsg += 'location string';
+      let errorMsg = 'TYPE ERROR: TLS Client Key is not a valid type';
       expect(reason.message).toBe(errorMsg);
     }
   });
@@ -886,7 +883,7 @@ describe('Base Syslog Class tests', () => {
       expect(reason.message).toBe(errorMsg);
     }
   });
-  test('Syslog addTlsServerCerts server cert location type Error', () => {
+  test('Syslog addTlsServerCerts server cert type Error', () => {
     let syslog = new SyslogPro.Syslog({
       protocol: 'tls',
       port: global.tlsBasicServerPort,
@@ -896,8 +893,8 @@ describe('Base Syslog Class tests', () => {
     try {
       syslog.addTlsServerCerts(6);
     } catch (reason) {
-      let errorMsg = 'TYPE ERROR: Server Cert file locations should be a';
-      errorMsg += ' string or array of strings';
+      let errorMsg = 'TYPE ERROR: Server Cert should be a';
+      errorMsg += ' Buffer/string or array of Buffers/strings';
       expect(reason.message).toBe(errorMsg);
     }
   });

@@ -19,7 +19,6 @@
 import moment from 'moment';
 import * as os from 'os';
 import * as dns from 'dns';
-import * as fs from 'fs';
 import * as tls from 'tls'; // eslint-disable-line no-unused-vars
 let dnsPromises = dns.promises;
 
@@ -99,9 +98,9 @@ type SyslogOptions = {
   rfc5424?: RFC5424 | RFC5424Options;
   target?: string;
   tcpTimeout?: number;
-  tlsServerCerts?: string | string[];
-  tlsClientCert?: string;
-  tlsClientKey?: string;
+  tlsServerCerts?: (Buffer | string)[];
+  tlsClientCert?: Buffer | string;
+  tlsClientKey?: Buffer | string;
 };
 
 /**
@@ -126,9 +125,9 @@ export class Syslog {
   rfc5424: any;
   target: string;
   tcpTimeout: number;
-  tlsServerCerts: string | string[];
-  tlsClientCert: string;
-  tlsClientKey: string;
+  tlsServerCerts: (Buffer | string)[];
+  tlsClientCert: Buffer | string;
+  tlsClientKey: Buffer | string;
   /**
    * Construct a new Syslog transport object with user options
    * @public
@@ -148,15 +147,15 @@ export class Syslog {
    * @param {number} [options.tcpTimeout=10000] - Ignored for all other
    *    transports, this option if set will take presidents over any timeout
    *    set in a formatting object
-   * @param {string[]} [options.tlsServerCerts] - Array of authorized TLS server
-   *    certificates file locations, this option if set will take presidents
+   * @param {Buffer[]|string[]} [options.tlsServerCerts] - Array of authorized
+   *    TLS server certificates, this option if set will take presidents
    *    over any certificates set in a formatting object
-   * @param {string} [options.tlsClientCert] - Client TLS certificate file
-   *    location that this client should use, this option if set will take
-   *    presidents over any certificates set in a formatting object
-   * @param {string} [options.tlsClientKey] - Client TLS key file
-   *    location that this client should use, this option if set will take
-   *    presidents over any certificates set in a formatting object
+   * @param {string} [options.tlsClientCert] - Client TLS certificate that this
+   *    client should use, this option if set will take presidents over any
+   *    certificates set in a formatting object
+   * @param {string} [options.tlsClientKey] - Client TLS key that this client
+   *    should use, this option if set will take presidents over any
+   *    certificates set in a formatting object
    * @param {string} [options.rejectUnauthorized] - If not false, the server
    *    certificate is verified against the list of supplied CAs.
    * >>>Syslog Format Settings
@@ -185,12 +184,11 @@ export class Syslog {
     this.port = options.port || 514;
     /** @type {number} */
     this.tcpTimeout = options.tcpTimeout || 10000;
-    if ((typeof options.tlsServerCerts === 'object'
-        && Array.isArray(options.tlsServerCerts))
-        || typeof options.tlsServerCerts === 'string') {
+    if (Array.isArray(options.tlsServerCerts)
+      || Buffer.isBuffer(options.tlsServerCerts)
+      || typeof options.tlsServerCerts === 'string') {
       this.addTlsServerCerts(options.tlsServerCerts);
     } else {
-      /** @type {string[]} */
       this.tlsServerCerts = [];
     }
     if (options.tlsClientCert) {
@@ -258,24 +256,24 @@ export class Syslog {
   /**
    * Add a TLS server certificate which can be used to authenticate the server
    * this syslog client is connecting too.  This function will validate the
-   * input as a file location string and add it to an array of certificates
+   * input type and add it to an array of certificates
    * @private
    * @version 0.0.0
    * @since 0.0.0
-   * @param {string|string[]} certs - File location of the certificate(s)
+   * @param {Buffer|Buffer[]|string|string[]} certs - the certificate(s)
    * @returns {boolean} - True
    * @throws {Error} - A Type Error
    */
   addTlsServerCerts(certs) {
-    if (typeof certs === 'object' && Array.isArray(certs)) {
+    if (Array.isArray(certs)) {
       /** @private @type {string[]} */
       this.tlsServerCerts = certs;
-    } else if (typeof certs === 'string') {
+    } else if (Buffer.isBuffer(certs) || typeof certs === 'string') {
       this.tlsServerCerts = [certs];
     } else {
       let errMsg =
-          'TYPE ERROR: Server Cert file locations should be a string';
-      errMsg += ' or array of strings';
+          'TYPE ERROR: Server Cert should be a Buffer/string';
+      errMsg += ' or array of Buffers/strings';
       throw new Error(errMsg);
     }
     return true;
@@ -361,32 +359,32 @@ export class Syslog {
       port: this.port,
     };
     // Load client cert and key if requested
-    if (typeof this.tlsClientKey === 'string'
-        && typeof this.tlsClientCert === 'string') {
-      tlsOptions.key = fs.readFileSync(this.tlsClientKey);
-      tlsOptions.cert = fs.readFileSync(this.tlsClientCert);
-    } else if (typeof this.tlsClientKey !== 'string'
-        && typeof this.tlsClientKey !== 'undefined') {
-      let errMsg = 'TYPE ERROR: TLS Client Key is not a file';
-      errMsg += 'location string';
+    if (Buffer.isBuffer(this.tlsClientKey)
+      || typeof this.tlsClientKey === 'string') {
+      tlsOptions.key = this.tlsClientKey;
+    } else if (typeof this.tlsClientKey !== 'undefined') {
+      const errMsg = 'TYPE ERROR: TLS Client Key is not a valid type';
       throw new Error(errMsg);
-    } else if (typeof this.tlsClientCert !== 'string'
-        && typeof this.tlsClientCert !== 'undefined') {
-      let errMsg = 'TYPE ERROR: TLS Client Cert is not a file';
-      errMsg += 'location string';
+    }
+    if (Buffer.isBuffer(this.tlsClientCert)
+        || typeof this.tlsClientCert === 'string') {
+      tlsOptions.cert = this.tlsClientCert;
+    } else if (typeof this.tlsClientCert !== 'undefined') {
+      const errMsg = 'TYPE ERROR: TLS Client Cert is not a valid type';
       throw new Error(errMsg);
     }
     // Load any server certs if provided
     let tlsCerts = this.tlsServerCerts.length;
     if (tlsCerts > 0) {
-      let tlsOptionsCerts = [];
+      const tlsOptionsCerts = [];
       for (let certIndex = 0; certIndex < tlsCerts; certIndex++) {
-        if (typeof this.tlsServerCerts[certIndex] !== 'string') {
-          let errMsg = 'TYPE ERROR: TLS Server Cert is not a file';
-          errMsg += 'location string';
+        const tlsServerCert = this.tlsServerCerts[certIndex];
+        if (!Buffer.isBuffer(tlsServerCert)
+            && typeof tlsServerCert !== 'string') {
+          let errMsg = 'TYPE ERROR: TLS Server Cert is not a valid type';
           throw new Error(errMsg);
         }
-        let cert = fs.readFileSync(this.tlsServerCerts[certIndex]);
+        let cert = this.tlsServerCerts[certIndex];
         tlsOptionsCerts.push(cert);
       }
       tlsOptions.ca = tlsOptionsCerts;
