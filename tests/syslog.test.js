@@ -343,7 +343,7 @@ describe('RFC5424 Class Tests', () => {
         '[ourSDID@32473 test=test]'
       ]
     });
-    resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6} /;
+    resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{1,3} /;
     expect(result).toMatch(resultMsg);
     rfc5424 = new SyslogPro.RFC5424({
       timestamp: true,
@@ -352,7 +352,7 @@ describe('RFC5424 Class Tests', () => {
       timestampMS: true,
     });
     result = rfc5424.buildMessage('hello');
-    resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}\+/;
+    resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{1,3}\+/;
     expect(result).toMatch(resultMsg);
     rfc5424 = new SyslogPro.RFC5424({
       timestamp: true,
@@ -379,7 +379,7 @@ describe('RFC5424 Class Tests', () => {
       timestampMS: true,
     });
     result = rfc5424.buildMessage('hello');
-    resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6} /;
+    resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{1,3} /;
     expect(result).toMatch(resultMsg);
     rfc5424 = new SyslogPro.RFC5424({
       timestamp: true,
@@ -388,7 +388,7 @@ describe('RFC5424 Class Tests', () => {
       timestampMS: true,
     });
     result = rfc5424.buildMessage('hello');
-    resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}\+/;
+    resultMsg = /<190>1 \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{1,3}\+/;
     expect(result).toMatch(resultMsg);
     rfc5424 = new SyslogPro.RFC5424({
       timestamp: true,
@@ -409,7 +409,7 @@ describe('RFC5424 Class Tests', () => {
     });
     const timestamp = new Date('2020-01-01T01:23:45.678Z');
     const result = rfc5424.buildMessage('hello', { timestamp });
-    expect(result.startsWith('<190>1 2020-01-01T01:23:45.678000+00:00 ')).toBe(true);
+    expect(result.startsWith('<190>1 2020-01-01T01:23:45.678+00:00 ')).toBe(true);
   });
   test('RFC5424 BuildMessage with hostname and applicationName options', () => {
     const rfc5424 = new SyslogPro.RFC5424();
