@@ -637,7 +637,7 @@
    * @public
    * @this RFC3164
    * @param {object} [options] - Options object
-   * @param {string} [options.applacationName='NodeJSLogger'] - Application
+   * @param {string} [options.applicationName='NodeJSLogger'] - Application
    * @param {string} [options.hostname=os.hostname] - The name of this server
    * @param {number} [options.facility=23] - Facility code to use sending this
    *    message
@@ -680,7 +680,7 @@
     <span class="hljs-keyword">this</span>.constructor__ = <span class="hljs-literal">true</span>;
     options = options || {};
     <span class="hljs-keyword">this</span>.hostname = options.hostname || os.hostname();
-    <span class="hljs-keyword">this</span>.applacationName = options.applacationName || <span class="hljs-string">''</span>;
+    <span class="hljs-keyword">this</span>.applicationName = options.applicationName || <span class="hljs-string">''</span>;
     <span class="hljs-keyword">this</span>.facility = options.facility || <span class="hljs-number">23</span>;
     <span class="hljs-keyword">if</span> (options.color) {
       <span class="hljs-comment">/** @type {boolean} */</span>
@@ -1024,7 +1024,7 @@ uses BSD timeformat</p>
             <div class="content"><div class='highlight'><pre>      fmtMsg = <span class="hljs-string">'&lt;'</span> + pri + <span class="hljs-string">'&gt;'</span>;
       fmtMsg += timestamp;
       fmtMsg += <span class="hljs-string">' '</span> + <span class="hljs-keyword">this</span>.hostname;
-      fmtMsg += <span class="hljs-string">' '</span> + <span class="hljs-keyword">this</span>.applacationName;
+      fmtMsg += <span class="hljs-string">' '</span> + <span class="hljs-keyword">this</span>.applicationName;
       fmtMsg += <span class="hljs-string">' '</span> + msg;
       fmtMsg += newLine;
       resolve(fmtMsg);
@@ -1266,7 +1266,7 @@ uses BSD timeformat</p>
    * @public
    * @this RFC5424
    * @param {object} [options] - Options object
-   * @param {string} [options.applacationName='NodeJSLogger'] - Application
+   * @param {string} [options.applicationName='NodeJSLogger'] - Application
    * @param {string} [options.hostname=os.hostname] - The name of this server
    * @param {boolean} [options.timestamp=false] - Included a Timestamp
    * @param {boolean} [options.timestampUTC=false] - RFC standard is for
@@ -1275,7 +1275,7 @@ uses BSD timeformat</p>
    *    resolution
    * @param {boolean} [options.timestampTZ=true] - Should the timestamp
    *    included time zone
-   * @param {boolean} [options.encludeStructuredData=false] - Included
+   * @param {boolean} [options.includeStructuredData=false] - Included
    *    any provided structured data
    * @param {boolean} [options.utf8BOM=true] - Included the UTF8
    * @param {boolean} [options.color=false] - Included the UTF8
@@ -1316,7 +1316,7 @@ uses BSD timeformat</p>
     <span class="hljs-keyword">this</span>.constructor__ = <span class="hljs-literal">true</span>;
     options = options || {};
     <span class="hljs-keyword">this</span>.hostname = options.hostname || os.hostname();
-    <span class="hljs-keyword">this</span>.applacationName = options.applacationName || <span class="hljs-string">''</span>;
+    <span class="hljs-keyword">this</span>.applicationName = options.applicationName || <span class="hljs-string">''</span>;
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> options.timestamp === <span class="hljs-string">'undefined'</span> || options.timestamp) {
       <span class="hljs-comment">/** @type {boolean} */</span>
       <span class="hljs-keyword">this</span>.timestamp = <span class="hljs-literal">true</span>;
@@ -1341,11 +1341,11 @@ uses BSD timeformat</p>
     } <span class="hljs-keyword">else</span> {
       <span class="hljs-keyword">this</span>.timestampMS = <span class="hljs-literal">false</span>;
     }
-    <span class="hljs-keyword">if</span> (options.encludeStructuredData) {
+    <span class="hljs-keyword">if</span> (options.includeStructuredData) {
       <span class="hljs-comment">/** @type {boolean} */</span>
-      <span class="hljs-keyword">this</span>.encludeStructuredData = <span class="hljs-literal">true</span>;
+      <span class="hljs-keyword">this</span>.includeStructuredData = <span class="hljs-literal">true</span>;
     } <span class="hljs-keyword">else</span> {
-      <span class="hljs-keyword">this</span>.encludeStructuredData = <span class="hljs-literal">false</span>;
+      <span class="hljs-keyword">this</span>.includeStructuredData = <span class="hljs-literal">false</span>;
     }
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> options.utf8BOM === <span class="hljs-string">'undefined'</span> || options.utf8BOM) {
       <span class="hljs-comment">/** @type {boolean} */</span>
@@ -1743,7 +1743,7 @@ uses BSD timeformat</p>
             
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">let</span> structuredData = <span class="hljs-string">'-'</span>;
       <span class="hljs-keyword">const</span> sdElementCount = msgStructuredData.length;
-      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.encludeStructuredData &amp;&amp; sdElementCount &gt; <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.includeStructuredData &amp;&amp; sdElementCount &gt; <span class="hljs-number">0</span>) {
         <span class="hljs-keyword">let</span> sdElementNames = [];
         <span class="hljs-keyword">let</span> sdElements = [];
         <span class="hljs-keyword">const</span> sdElementNameRegEx = <span class="hljs-regexp">/(\[)(\S*)(\s|\])/</span>;</pre></div></div>
@@ -1792,7 +1792,7 @@ uses BSD timeformat</p>
       fmtMsg += <span class="hljs-string">'1'</span>; <span class="hljs-comment">// Version number</span>
       fmtMsg += <span class="hljs-string">' '</span> + timestamp;
       fmtMsg += <span class="hljs-string">' '</span> + <span class="hljs-keyword">this</span>.hostname;
-      fmtMsg += <span class="hljs-string">' '</span> + <span class="hljs-keyword">this</span>.applacationName;
+      fmtMsg += <span class="hljs-string">' '</span> + <span class="hljs-keyword">this</span>.applicationName;
       fmtMsg += <span class="hljs-string">' '</span> + pid;
       fmtMsg += <span class="hljs-string">' '</span> + id;
       fmtMsg += <span class="hljs-string">' '</span> + structuredData;

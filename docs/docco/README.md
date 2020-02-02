@@ -624,7 +624,7 @@ class RFC3164 {
    * @public
    * @this RFC3164
    * @param {object} [options] - Options object
-   * @param {string} [options.applacationName='NodeJSLogger'] - Application
+   * @param {string} [options.applicationName='NodeJSLogger'] - Application
    * @param {string} [options.hostname=os.hostname] - The name of this server
    * @param {number} [options.facility=23] - Facility code to use sending this
    *    message
@@ -667,7 +667,7 @@ class RFC3164 {
     this.constructor__ = true;
     options = options || {};
     this.hostname = options.hostname || os.hostname();
-    this.applacationName = options.applacationName || '';
+    this.applicationName = options.applicationName || '';
     this.facility = options.facility || 23;
     if (options.color) {
       /** @type {boolean} */
@@ -1016,7 +1016,7 @@ Build message
       fmtMsg = '<' + pri + '>';
       fmtMsg += timestamp;
       fmtMsg += ' ' + this.hostname;
-      fmtMsg += ' ' + this.applacationName;
+      fmtMsg += ' ' + this.applicationName;
       fmtMsg += ' ' + msg;
       fmtMsg += newLine;
       resolve(fmtMsg);
@@ -1258,7 +1258,7 @@ class RFC5424 {
    * @public
    * @this RFC5424
    * @param {object} [options] - Options object
-   * @param {string} [options.applacationName='NodeJSLogger'] - Application
+   * @param {string} [options.applicationName='NodeJSLogger'] - Application
    * @param {string} [options.hostname=os.hostname] - The name of this server
    * @param {boolean} [options.timestamp=false] - Included a Timestamp
    * @param {boolean} [options.timestampUTC=false] - RFC standard is for
@@ -1267,7 +1267,7 @@ class RFC5424 {
    *    resolution
    * @param {boolean} [options.timestampTZ=true] - Should the timestamp
    *    included time zone
-   * @param {boolean} [options.encludeStructuredData=false] - Included
+   * @param {boolean} [options.includeStructuredData=false] - Included
    *    any provided structured data
    * @param {boolean} [options.utf8BOM=true] - Included the UTF8
    * @param {boolean} [options.color=false] - Included the UTF8
@@ -1308,7 +1308,7 @@ class RFC5424 {
     this.constructor__ = true;
     options = options || {};
     this.hostname = options.hostname || os.hostname();
-    this.applacationName = options.applacationName || '';
+    this.applicationName = options.applicationName || '';
     if (typeof options.timestamp === 'undefined' || options.timestamp) {
       /** @type {boolean} */
       this.timestamp = true;
@@ -1333,11 +1333,11 @@ class RFC5424 {
     } else {
       this.timestampMS = false;
     }
-    if (options.encludeStructuredData) {
+    if (options.includeStructuredData) {
       /** @type {boolean} */
-      this.encludeStructuredData = true;
+      this.includeStructuredData = true;
     } else {
-      this.encludeStructuredData = false;
+      this.includeStructuredData = false;
     }
     if (typeof options.utf8BOM === 'undefined' || options.utf8BOM) {
       /** @type {boolean} */
@@ -1740,7 +1740,7 @@ Build Structured Data string
 ```
       let structuredData = '-';
       const sdElementCount = msgStructuredData.length;
-      if (this.encludeStructuredData && sdElementCount > 0) {
+      if (this.includeStructuredData && sdElementCount > 0) {
         let sdElementNames = [];
         let sdElements = [];
         const sdElementNameRegEx = /(\[)(\S*)(\s|\])/;
@@ -1791,7 +1791,7 @@ Build the message
       fmtMsg += '1'; // Version number
       fmtMsg += ' ' + timestamp;
       fmtMsg += ' ' + this.hostname;
-      fmtMsg += ' ' + this.applacationName;
+      fmtMsg += ' ' + this.applicationName;
       fmtMsg += ' ' + pid;
       fmtMsg += ' ' + id;
       fmtMsg += ' ' + structuredData;
