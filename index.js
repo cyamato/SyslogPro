@@ -26,9 +26,10 @@ const fs = require('fs');
 /**
  * Format the ANSI foreground color code from a RGB hex code or ANSI color code
  * @private
- * @param {string} hex - The color hex code in the form of #FFFFFF or Number of
+ * @param {string|number} hex - The color hex code in the form of #FFFFFF or Number of
  *     the ANSI color code (30-37 Standard & 0-255 Extended)
- * @returns {Promise} - The formatted ANSI color code
+ * @param {boolean} [extendedColor=false] - Whether to use ANSI extended color color codes.
+ * @returns {number} - The formatted ANSI color code
  * @throws {Error} - A Format Error
  */
 function rgbToAnsi(hex,
@@ -109,30 +110,30 @@ class Syslog {
    * @param {object} [options] - Options object
    * >>>Transport Configuration
    * @param {string} [options.target='localhost'] - The IP Address|FQDN of the
-   *    Syslog Server, this option if set will take presidents over any target
+   *    Syslog Server, this option if set will take precedence over any target
    *    set in a formatting object
    * @param {string} [options.protocol='udp'] - L4 transport protocol
-   *    (udp|tcp|tls), this option if set will take presidents over any
+   *    (udp|tcp|tls), this option if set will take precedence over any
    *    transport set in a formatting object
    * @param {number} [options.port=514] - IP port, this option if set will take
-   *    presidents over any IP Port set in a formatting object
+   *    precedence over any IP Port set in a formatting object
    * @param {number} [options.tcpTimeout=10000] - Ignored for all other
-   *    transports, this option if set will take presidents over any timeout
+   *    transports, this option if set will take precedence over any timeout
    *    set in a formatting object
    * @param {string[]} [options.tlsServerCerts] - Array of authorized TLS server
-   *    certificates file locations, this option if set will take presidents
+   *    certificates file locations, this option if set will take precedence
    *    over any certificates set in a formatting object
    * @param {string} [options.tlsClientCert] - Client TLS certificate file
    *    location that this client should use, this option if set will take
-   *    presidents over any certificates set in a formatting object
+   *    precedence over any certificates set in a formatting object
    * @param {string} [options.tlsClientKey] - Client TLS key file
    *    location that this client should use, this option if set will take
-   *    presidents over any certificates set in a formatting object
+   *    precedence over any certificates set in a formatting object
    * >>>Syslog Format Settings
    * @param {string} [options.format='none'] - Valid syslog format options for
    *    this module are 'none', 'rfc3164', 'rfc5424', 'leef', 'cef'
-   * @param {RFC3164} [options.rfc5424] - {@link module:SyslogPro~RFC5424|
-   *    RFC5424 related settings}
+   * @param {RFC3164} [options.rfc3164] - {@link module:SyslogPro~RFC3164|
+   *    RFC3164 related settings}
    * @param {RFC5424} [options.rfc5424] - {@link module:SyslogPro~RFC5424|
    *    RFC5424 related settings}
    * @param {LEEF} [options.leef] - {@link module:SyslogPro~LEEF|IBM LEEF
@@ -418,29 +419,29 @@ class RFC {
   /**
    * Sets the color to be used for messages at a set priority
    * @public
-   * @param {string} [colors.emergencyColor] - A RGB Hex coded color in the form
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255
+   * @param {string|number} [colors.emergencyColor] - A RGB Hex coded color in the form
+   *    of #FFFFFF or as the ANSI color code number (30-37 Standard & 0-255
    *    Extended)
-   * @param {string} [colors.alertColor] - A RGB Hex coded color in the form
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255
+   * @param {string|number} [colors.alertColor] - A RGB Hex coded color in the form
+   *    of #FFFFFF or as the ANSI color code number (30-37 Standard & 0-255
    *    Extended)
-   * @param {string} [colors.criticalColor] - A RGB Hex coded color in the form
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255
+   * @param {string|number} [colors.criticalColor] - A RGB Hex coded color in the form
+   *    of #FFFFFF or as the ANSI color code number (30-37 Standard & 0-255
    *    Extended)
-   * @param {string} [colors.errorColor] - A RGB Hex coded color in the form
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255
+   * @param {string|number} [colors.errorColor] - A RGB Hex coded color in the form
+   *    of #FFFFFF or as the ANSI color code number (30-37 Standard & 0-255
    *    Extended)
-   * @param {string} [colors.warningColor] - A RGB Hex coded color in the form
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255
+   * @param {string|number} [colors.warningColor] - A RGB Hex coded color in the form
+   *    of #FFFFFF or as the ANSI color code number (30-37 Standard & 0-255
    *    Extended)
-   * @param {string} [colors.noticeColor] - A RGB Hex coded color in the form
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255
+   * @param {string|number} [colors.noticeColor] - A RGB Hex coded color in the form
+   *    of #FFFFFF or as the ANSI color code number (30-37 Standard & 0-255
    *    Extended)
-   * @param {string} [colors.informationalColor] - A RGB Hex coded color in the
-   *    form of #FFFFFF or as or the ANSI color code number (30-37 Standard &
+   * @param {string|number} [colors.informationalColor] - A RGB Hex coded color in the
+   *    form of #FFFFFF or as the ANSI color code number (30-37 Standard &
    *    0-255 Extended)
-   * @param {string} [colors.debugColor] - A RGB Hex coded color in the form
-   *    of #FFFFFF or as or the ANSI color code number (30-37 Standard & 0-255
+   * @param {string|number} [colors.debugColor] - A RGB Hex coded color in the form
+   *    of #FFFFFF or as the ANSI color code number (30-37 Standard & 0-255
    *    Extended)
    * @throws {Error} A standard error object
    */
@@ -560,7 +561,7 @@ class RFC3164 extends RFC {
    * @public
    * @this RFC3164
    * @param {object} [options] - Options object
-   * @param {string} [options.applicationName='NodeJSLogger'] - Application
+   * @param {string} [options.applicationName=''] - Application name
    * @param {string} [options.hostname=os.hostname] - The name of this server
    * @param {number} [options.facility=23] - Facility code to use sending this
    *    message
@@ -568,31 +569,31 @@ class RFC3164 extends RFC {
    *    with syslog message text
    * @param {boolean} [options.extendedColor=false] - Use the extended ANSI
    *    color set encoding tag with syslog message text
-   * @param {object} [options.colors] - User defended colors for
+   * @param {object} [options.colors] - User defined colors for
    *    severities
-   * @param {string} [options.colors.emergencyColor] - A RGB Hex coded color in
-   *    the form of #FFFFFF or as or the ANSI color code number (30-37 Standard
+   * @param {string|number} [options.colors.emergencyColor] - A RGB Hex coded color in
+   *    the form of #FFFFFF or as the ANSI color code number (30-37 Standard
    *    & 0-255 Extended)
    * @param {string} [options.colors.alertColor] - A RGB Hex coded color in the
-   *    form of #FFFFFF or as or the ANSI color code number (30-37 Standard &
+   *    form of #FFFFFF or as the ANSI color code number (30-37 Standard &
    *    0-255 Extended)
-   * @param {string} [options.colors.criticalColor] - A RGB Hex coded color in
-   *    the form of #FFFFFF or as or the ANSI color code number (30-37 Standard
+   * @param {string|number} [options.colors.criticalColor] - A RGB Hex coded color in
+   *    the form of #FFFFFF or as the ANSI color code number (30-37 Standard
    *    & 0-255 Extended)
-   * @param {string} [options.colors.errorColor] - A RGB Hex coded color in the
-   *    form of #FFFFFF or as or the ANSI color code number (30-37 Standard &
+   * @param {string|number} [options.colors.errorColor] - A RGB Hex coded color in the
+   *    form of #FFFFFF or as the ANSI color code number (30-37 Standard &
    *    0-255 Extended)
-   * @param {string} [options.colors.warningColor] - A RGB Hex coded color in
-   *    the form of #FFFFFF or as or the ANSI color code number (30-37 Standard
+   * @param {string|number} [options.colors.warningColor] - A RGB Hex coded color in
+   *    the form of #FFFFFF or as the ANSI color code number (30-37 Standard
    *     & 0-255 Extended)
-   * @param {string} [options.colors.noticeColor] - A RGB Hex coded color in the
-   *     form of #FFFFFF or as or the ANSI color code number (30-37 Standard &
+   * @param {string|number} [options.colors.noticeColor] - A RGB Hex coded color in the
+   *     form of #FFFFFF or as the ANSI color code number (30-37 Standard &
    *     0-255 Extended)
-   * @param {string} [options.colors.informationalColor] - A RGB Hex coded color
-   *    in the form of #FFFFFF or as or the ANSI color code number (30-37
+   * @param {string|number} [options.colors.informationalColor] - A RGB Hex coded color
+   *    in the form of #FFFFFF or as the ANSI color code number (30-37
    *    Standard & 0-255 Extended)
-   * @param {string} [options.colors.debugColor] - A RGB Hex coded color in the
-   *    form of #FFFFFF or as or the ANSI color code number (30-37 Standard &
+   * @param {string|number} [options.colors.debugColor] - A RGB Hex coded color in the
+   *    form of #FFFFFF or as the ANSI color code number (30-37 Standard &
    *    0-255 Extended)
    * @param {Syslog} [options.server=false] - A {@link module:SyslogPro~Syslog|
    *    Syslog server connection} that should be used to send messages directly
@@ -603,12 +604,15 @@ class RFC3164 extends RFC {
     /** @private @type {boolean} */
     this.constructor__ = true;
     options = options || {};
+    /** @type {string} */
     this.hostname = options.hostname || os.hostname();
     if (options.applicationName) {
+      /** @type {string} */
       this.applicationName = options.applicationName;
     } else {
       this.applicationName = options.applacationName || '';
     }
+    /** @type {number} */
     this.facility = options.facility || 23;
     if (options.color) {
       /** @type {boolean} */
@@ -662,14 +666,14 @@ class RFC3164 extends RFC {
     }
   }
   /**
-   * Building a formatted message.  Returns a promise with a formatted message
+   * Build a formatted message.  Returns the formatted message.
    * @public
-   * @param {string} msg - The Syslog Message
+   * @param {string} msg - The unformatted Syslog message to format
    * @param {object} [options] - Options object
-   * @param {number} [options.severity=7] - An array of structure
-   * @param {number} [options.colorCode=36] - The ANSI color code to use if
+   * @param {number} [options.severity=6] - The message severity (0-7)
+   * @param {number} [options.msgColor=36] - The ANSI color code to use if
    *    message coloration is selected
-   * @returns {Promise} A Syslog formatted string according to the selected RFC
+   * @returns {string} A Syslog formatted string according to the selected RFC
    * @throws {Error} A standard error object
    */
   buildMessage(msg, options) {
@@ -722,15 +726,15 @@ class RFC3164 extends RFC {
     return fmtMsg;
   }
   /**
-   * send a RFC5424 formatted message.  Returns a promise with the formatted
+   * Send a RFC3164 formatted message.  Returns a promise with the formatted
    *    message that was sent.  If no server connection was defined when the
    *    class was created a default Syslog connector will be used.
    *    @see SyslogPro~Syslog
    * @public
    * @param {string} msg - The unformatted Syslog message to send
    * @param {object} [options] - Options object
-   * @param {number} [options.severity=7] - An array of structure
-   * @param {number} [options.colorCode=36] - The ANSI color code to use if
+   * @param {number} [options.severity=6] - The message severity (0-7)
+   * @param {number} [options.msgColor=36] - The ANSI color code to use if
    * @returns {Promise} A Syslog formatted string according to the selected RFC
    * @throws {Error} A standard error object
    */
@@ -742,7 +746,7 @@ class RFC3164 extends RFC {
     return this.server.send(result);
   }
   /**
-   * Send a syslog message with a security level of 0 (Emergency)
+   * Send a Syslog message with a severity level of 0 (Emergency)
    * @public
    * @param {string} msg - The emergency message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -751,11 +755,11 @@ class RFC3164 extends RFC {
   emergency(msg) {
     return this.send(msg, {
       severity: 0,
-      colorCode: this.emergencyColor,
+      msgColor: this.emergencyColor,
     });
   }
   /**
-   * Send a syslog message with a security level of 0 (Emergency)
+   * Send a Syslog message with a severity level of 0 (Emergency)
    * @public
    * @param {string} msg - The emergency message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -765,7 +769,7 @@ class RFC3164 extends RFC {
     return this.emergency(msg);
   }
   /**
-   * Send a syslog message with a severity level of 1 (Alert)
+   * Send a Syslog message with a severity level of 1 (Alert)
    * @public
    * @param {string} msg - The alert message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -774,11 +778,11 @@ class RFC3164 extends RFC {
   alert(msg) {
     return this.send(msg, {
       severity: 1,
-      colorCode: this.alertColor,
+      msgColor: this.alertColor,
     });
   }
   /**
-   * Send a syslog message with a severity level of 2 (Critical)
+   * Send a Syslog message with a severity level of 2 (Critical)
    * @public
    * @param {string} msg - The critical message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -787,11 +791,11 @@ class RFC3164 extends RFC {
   critical(msg) {
     return this.send(msg, {
       severity: 2,
-      colorCode: this.criticalColor,
+      msgColor: this.criticalColor,
     });
   }
   /**
-   * Send a syslog message with a severity level of 2 (Critical)
+   * Send a Syslog message with a severity level of 2 (Critical)
    * @public
    * @param {string} msg - The critical message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -801,7 +805,7 @@ class RFC3164 extends RFC {
     return this.critical(msg);
   }
   /**
-   * Send a syslog message with a severity level of 3 (Error)
+   * Send a Syslog message with a severity level of 3 (Error)
    * @public
    * @param {string} msg - The error message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -810,11 +814,11 @@ class RFC3164 extends RFC {
   error(msg) {
     return this.send(msg, {
       severity: 3,
-      colorCode: this.errorColor,
+      msgColor: this.errorColor,
     });
   }
   /**
-   * Send a syslog message with a severity level of 3 (Error)
+   * Send a Syslog message with a severity level of 3 (Error)
    * @public
    * @param {string} msg - The error message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -824,7 +828,7 @@ class RFC3164 extends RFC {
     return this.error(msg);
   }
   /**
-   * Send a syslog message with a severity level of 4 (Warning)
+   * Send a Syslog message with a severity level of 4 (Warning)
    * @public
    * @param {string} msg - The warning message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -833,11 +837,11 @@ class RFC3164 extends RFC {
   warning(msg) {
     return this.send(msg, {
       severity: 4,
-      colorCode: this.warningColor,
+      msgColor: this.warningColor,
     });
   }
   /**
-   * Send a syslog message with a severity level of 4 (Warning)
+   * Send a Syslog message with a severity level of 4 (Warning)
    * @public
    * @param {string} msg - The warning message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -847,7 +851,7 @@ class RFC3164 extends RFC {
     return this.warning(msg);
   }
   /**
-   * Send a syslog message with a severity level of 5 (Notice)
+   * Send a Syslog message with a severity level of 5 (Notice)
    * @public
    * @param {string} msg - The notice message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -856,11 +860,11 @@ class RFC3164 extends RFC {
   notice(msg) {
     return this.send(msg, {
       severity: 5,
-      colorCode: this.noticeColor,
+      msgColor: this.noticeColor,
     });
   }
   /**
-   * Send a syslog message with a severity level of 5 (Notice)
+   * Send a Syslog message with a severity level of 5 (Notice)
    * @public
    * @param {string} msg - The notice message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -870,7 +874,7 @@ class RFC3164 extends RFC {
     return this.notice(msg);
   }
   /**
-   * Send a syslog message with a severity level of 6 (Informational)
+   * Send a Syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog
    *    server
@@ -880,11 +884,11 @@ class RFC3164 extends RFC {
   informational(msg) {
     return this.send(msg, {
       severity: 6,
-      colorCode: this.informationalColor,
+      msgColor: this.informationalColor,
     });
   }
   /**
-   * Send a syslog message with a severity level of 6 (Informational)
+   * Send a Syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog
    *    server
@@ -895,7 +899,7 @@ class RFC3164 extends RFC {
     return this.informational(msg);
   }
   /**
-   * Send a syslog message with a severity level of 6 (Informational)
+   * Send a Syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog
    *    server
@@ -906,7 +910,7 @@ class RFC3164 extends RFC {
     return this.informational(msg);
   }
   /**
-   * Send a syslog message with a severity level of 7 (Debug)
+   * Send a Syslog message with a severity level of 7 (Debug)
    * @public
    * @param {string} msg - The debug message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -915,14 +919,14 @@ class RFC3164 extends RFC {
   debug(msg) {
     return this.send(msg, {
       severity: 7,
-      colorCode: this.debugColor,
+      msgColor: this.debugColor,
     });
   }
 }
 
 /**
  * A class to work with RFC5424 formatted syslog messages. The messaging is
- * fully configurable and ANSI foreground  * colors can be added.  Both ANSI 8
+ * fully configurable and ANSI foreground colors can be added.  Both ANSI 8
  * and ANSI 256 color are fully supported.
  *
  * A Syslog class with a configured
@@ -942,46 +946,48 @@ class RFC5424 extends RFC {
    * @public
    * @this RFC5424
    * @param {object} [options] - Options object
-   * @param {string} [options.applicationName='NodeJSLogger'] - Application
+   * @param {string} [options.applicationName=''] - Application name
    * @param {string} [options.hostname=os.hostname] - The name of this server
-   * @param {boolean} [options.timestamp=false] - Included a Timestamp
-   * @param {boolean} [options.timestampUTC=false] - RFC standard is for
-   *    local time
+   * @param {boolean} [options.timestamp=true] - Include a timestamp
+   * @param {boolean} [options.timestampUTC=false] - Whether timestamp should
+   *    be relative to UTC timezone instead of local timezone
    * @param {boolean} [options.timestampMS=false] - Timestamp with ms
    *    resolution
    * @param {boolean} [options.timestampTZ=true] - Should the timestamp
-   *    included time zone
-   * @param {boolean} [options.includeStructuredData=false] - Included
+   *    include time zone
+   * @param {boolean} [options.includeStructuredData=false] - Include
    *    any provided structured data
-   * @param {boolean} [options.utf8BOM=true] - Included the UTF8
-   * @param {boolean} [options.color=false] - Included the UTF8
-   * @param {boolean} [options.extendedColor=false] - Included the UTF8
+   * @param {boolean} [options.utf8BOM=true] - Include the UTF8
    *    encoding tag with syslog message text
-   * @param {object} [options.colors] - User defended colors for
+   * @param {boolean} [options.color=false] - Apply color coding encoding tag
+   *    with syslog message text
+   * @param {boolean} [options.extendedColor=false] - Use the extended ANSI
+   *    color set encoding tag with syslog message text
+   * @param {object} [options.colors] - User defined colors for
    *    severities
-   * @param {string} [options.colors.emergencyColor] - A RGB Hex coded color in
-   *    the form of #FFFFFF or as or the ANSI color code number (30-37 Standard
+   * @param {string|number} [options.colors.emergencyColor] - A RGB Hex coded color in
+   *    the form of #FFFFFF or as the ANSI color code number (30-37 Standard
    *    & 0-255 Extended)
-   * @param {string} [options.colors.alertColor] - A RGB Hex coded color in the
-   *    form of #FFFFFF or as or the ANSI color code number (30-37 Standard &
+   * @param {string|number} [options.colors.alertColor] - A RGB Hex coded color in the
+   *    form of #FFFFFF or as the ANSI color code number (30-37 Standard &
    *    0-255 Extended)
-   * @param {string} [options.colors.criticalColor] - A RGB Hex coded color in
-   *    the form of #FFFFFF or as or the ANSI color code number (30-37 Standard
+   * @param {string|number} [options.colors.criticalColor] - A RGB Hex coded color in
+   *    the form of #FFFFFF or as the ANSI color code number (30-37 Standard
    *    & 0-255 Extended)
-   * @param {string} [options.colors.errorColor] - A RGB Hex coded color in the
-   *    form of #FFFFFF or as or the ANSI color code number (30-37 Standard &
+   * @param {string|number} [options.colors.errorColor] - A RGB Hex coded color in the
+   *    form of #FFFFFF or as the ANSI color code number (30-37 Standard &
    *    0-255 Extended)
-   * @param {string} [options.colors.warningColor] - A RGB Hex coded color in
-   *    the form of #FFFFFF or as or the ANSI color code number (30-37 Standard
+   * @param {string|number} [options.colors.warningColor] - A RGB Hex coded color in
+   *    the form of #FFFFFF or as the ANSI color code number (30-37 Standard
    *    & 0-255 Extended)
-   * @param {string} [options.colors.noticeColor] - A RGB Hex coded color in the
-   *    form of #FFFFFF or as or the ANSI color code number (30-37 Standard &
+   * @param {string|number} [options.colors.noticeColor] - A RGB Hex coded color in the
+   *    form of #FFFFFF or as the ANSI color code number (30-37 Standard &
    *    0-255 Extended)
-   * @param {string} [options.colors.informationalColor] - A RGB Hex coded color
-   *    in the form of #FFFFFF or as or the ANSI color code number (30-37
+   * @param {string|number} [options.colors.informationalColor] - A RGB Hex coded color
+   *    in the form of #FFFFFF or as the ANSI color code number (30-37
    *    Standard & 0-255 Extended)
-   * @param {string} [options.colors.debugColor] - A RGB Hex coded color in the
-   *    form of #FFFFFF or as or the ANSI color code number (30-37 Standard &
+   * @param {string|number} [options.colors.debugColor] - A RGB Hex coded color in the
+   *    form of #FFFFFF or as the ANSI color code number (30-37 Standard &
    *    0-255 Extended)
    * @param {Syslog} [options.server=false] - A {@link module:SyslogPro~Syslog|
    *    Syslog server connection} that should be used to send messages directly
@@ -992,8 +998,10 @@ class RFC5424 extends RFC {
     /** @private @type {boolean} */
     this.constructor__ = true;
     options = options || {};
+    /** @type {string} */
     this.hostname = options.hostname || os.hostname();
     if (options.applicationName) {
+      /** @type {string} */
       this.applicationName = options.applicationName;
     } else {
       this.applicationName = options.applacationName || '';
@@ -1086,21 +1094,21 @@ class RFC5424 extends RFC {
     }
   }
   /**
-   * Building a formatted message.  Returns a promise with a formatted message
+   * Build a formatted message.  Returns the formatted message.
    * @public
-   * @param {string} msg - The Syslog Message
+   * @param {string} msg - The unformatted Syslog message to format
    * @param {object} [options] - Options object
-   * @param {number} [options.severity=7] - An array of structure
+   * @param {number} [options.severity=6] - The message severity (0-7)
    * @param {number} [options.facility=23] - Facility code to use sending this
    *    message
    * @param {string} [options.pid='-'] - The process id of the service sending
    *    this message
-   * @param {string[]} [options.structuredData] - An array of structure
+   * @param {string[]} [options.msgStructuredData] - An array of structured
    *    data strings conforming to the IETF/IANA defined SD-IDs or IANA
    *    registered SMI Network Management Private Enterprise Code SD-ID
    *    conforming to the format
    *    [name@<private enterprise number> parameter=value]
-   * @param {number} [options.colorCode=36] - The ANSI color code to use if
+   * @param {number} [options.msgColor=36] - The ANSI color code to use if
    *    message coloration is selected
    * @returns {string} A Syslog formatted string according to the selected RFC
    * @throws {Error} A standard error object
@@ -1241,7 +1249,7 @@ class RFC5424 extends RFC {
     return this.server.send(result);
   }
   /**
-   * Send a syslog message with a severity level of 0 (Emergency)
+   * Send a Syslog message with a severity level of 0 (Emergency)
    * @public
    * @param {string} msg - The emergency message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -1250,11 +1258,11 @@ class RFC5424 extends RFC {
   emergency(msg) {
     return this.send(msg, {
       severity: 0,
-      colorCode: this.emergencyColor,
+      msgColor: this.emergencyColor,
     });
   }
   /**
-   * Send a syslog message with a severity level of 0 (Emergency)
+   * Send a Syslog message with a severity level of 0 (Emergency)
    * @public
    * @param {string} msg - The emergency message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -1264,7 +1272,7 @@ class RFC5424 extends RFC {
     return this.emergency(msg);
   }
   /**
-   * Send a syslog message with a severity level of 1 (Alert)
+   * Send a Syslog message with a severity level of 1 (Alert)
    * @public
    * @param {string} msg - The alert message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -1273,11 +1281,11 @@ class RFC5424 extends RFC {
   alert(msg) {
     return this.send(msg, {
       severity: 1,
-      colorCode: this.alertColor,
+      msgColor: this.alertColor,
     });
   }
   /**
-   * Send a syslog message with a severity level of 2 (Critical)
+   * Send a Syslog message with a severity level of 2 (Critical)
    * @public
    * @param {string} msg - The critical message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -1286,11 +1294,11 @@ class RFC5424 extends RFC {
   critical(msg) {
     return this.send(msg, {
       severity: 2,
-      colorCode: this.criticalColor,
+      msgColor: this.criticalColor,
     });
   }
   /**
-   * Send a syslog message with a severity level of 2 (Critical)
+   * Send a Syslog message with a severity level of 2 (Critical)
    * @public
    * @param {string} msg - The critical message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -1300,7 +1308,7 @@ class RFC5424 extends RFC {
     return this.critical(msg);
   }
   /**
-   * Send a syslog message with a severity level of 3 (Error)
+   * Send a Syslog message with a severity level of 3 (Error)
    * @public
    * @param {string} msg - The error message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -1309,11 +1317,11 @@ class RFC5424 extends RFC {
   error(msg) {
     return this.send(msg, {
       severity: 3,
-      colorCode: this.errorColor,
+      msgColor: this.errorColor,
     });
   }
   /**
-   * Send a syslog message with a severity level of 3 (Error)
+   * Send a Syslog message with a severity level of 3 (Error)
    * @public
    * @param {string} msg - The error message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -1323,7 +1331,7 @@ class RFC5424 extends RFC {
     return this.error(msg);
   }
   /**
-   * Send a syslog message with a severity level of 4 (Warning)
+   * Send a Syslog message with a severity level of 4 (Warning)
    * @public
    * @param {string} msg - The warning message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -1332,11 +1340,11 @@ class RFC5424 extends RFC {
   warning(msg) {
     return this.send(msg, {
       severity: 4,
-      colorCode: this.warningColor,
+      msgColor: this.warningColor,
     });
   }
   /**
-   * Send a syslog message with a severity level of 4 (Warning)
+   * Send a Syslog message with a severity level of 4 (Warning)
    * @public
    * @param {string} msg - The warning message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -1346,7 +1354,7 @@ class RFC5424 extends RFC {
     return this.warning(msg);
   }
   /**
-   * Send a syslog message with a severity level of 5 (Notice)
+   * Send a Syslog message with a severity level of 5 (Notice)
    * @public
    * @param {string} msg - The notice message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -1355,11 +1363,11 @@ class RFC5424 extends RFC {
   notice(msg) {
     return this.send(msg, {
       severity: 5,
-      colorCode: this.noticeColor,
+      msgColor: this.noticeColor,
     });
   }
   /**
-   * Send a syslog message with a severity level of 5 (Notice)
+   * Send a Syslog message with a severity level of 5 (Notice)
    * @public
    * @param {string} msg - The notice message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -1369,7 +1377,7 @@ class RFC5424 extends RFC {
     return this.notice(msg);
   }
   /**
-   * Send a syslog message with a severity level of 6 (Informational)
+   * Send a Syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog
    *    server
@@ -1379,11 +1387,11 @@ class RFC5424 extends RFC {
   informational(msg) {
     return this.send(msg, {
       severity: 6,
-      colorCode: this.informationalColor,
+      msgColor: this.informationalColor,
     });
   }
   /**
-   * Send a syslog message with a severity level of 6 (Informational)
+   * Send a Syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog
    *    server
@@ -1394,7 +1402,7 @@ class RFC5424 extends RFC {
     return this.informational(msg);
   }
   /**
-   * Send a syslog message with a severity level of 6 (Informational)
+   * Send a Syslog message with a severity level of 6 (Informational)
    * @public
    * @param {string} msg - The informational message to send to the Syslog
    *    server
@@ -1405,7 +1413,7 @@ class RFC5424 extends RFC {
     return this.informational(msg);
   }
   /**
-   * Send a syslog message with a severity level of 7 (Debug)
+   * Send a Syslog message with a severity level of 7 (Debug)
    * @public
    * @param {string} msg - The debug message to send to the Syslog server
    * @returns {Promise} - The formatted syslog message sent to the Syslog server
@@ -1414,22 +1422,22 @@ class RFC5424 extends RFC {
   debug(msg) {
     return this.send(msg, {
       severity: 7,
-      colorCode: this.debugColor,
+      msgColor: this.debugColor,
     });
   }
 }
 
 /**
- * A class to work with IBM LEEF (Log Event Extended Format) messages this form
- * of system messages are designed to work with security systems.  Messages can
- * be saved to file (Saving to file if not part of this module but a LEEF
+ * A class to work with IBM LEEF (Log Event Extended Format) messages. This form
+ * of system messages is designed to work with security systems.  Messages can
+ * be saved to file (Saving to file is not part of this module but a LEEF
  * formatted message produced by this module can be saved externally to it) or
  * sent via Syslog.
  *
  * A Syslog class with a configured Syslog server target can also be used as
  * the input into the formatting classes so that it may run independently. The
  * LEEF format is designed to send event data to a SIEM system and should not
- * be as a logging stream. This class is meant to be used once per message.
+ * be used as a logging stream. This class is meant to be used once per message.
  * @requires moment
  * @version 0.0.0
  * @since 0.0.0
@@ -1442,16 +1450,16 @@ class LEEF {
    * @param {string} [options.vendor='unknown'] - The vendor of the system that
    *    generated the event being reported
    * @param {string} [options.product='unknown'] - The product name of the
-   *    system that genrated the event being reported
+   *    system that generated the event being reported
    * @param {string} [options.version='unknown'] - The version name of the
-   *    system that genrated the event being reported
+   *    system that generated the event being reported
    * @param {string} [options.eventId='unknown'] - The eventId of the
-   *    system that genrated the event being reported
+   *    system that generated the event being reported
    * @param {object} [options.attributes] - LEEF message attributes which
    *    defaults to all base attributes with null values, new attributes should
    *    be added as new elements to this object
-   * @param {boolean} [options.syslogHeader='true'] - Should the LEEF message
-   *    include a Syslog header with Timestamp and source
+   * @param {boolean} [options.syslogHeader=true] - Should the LEEF message
+   *    include a Syslog header with timestamp and source
    * @param {Syslog} [options.server=false] - A {@link module:SyslogPro~Syslog|
    *    Syslog server connection} that should be used to send messages directly
    *    from this class. @see SyslogPro~Syslog
@@ -1530,7 +1538,7 @@ class LEEF {
     }
   }
   /**
-   *Build a formatted message
+   * Build a formatted message
    * @public
    * @return {string} - string with formatted message
    */
@@ -1555,6 +1563,7 @@ class LEEF {
   }
 
   /**
+   * Send a LEEF formatted message
    * @public
    * @param {Syslog} [options=false] - A {@link module:SyslogPro~Syslog|
    *    Syslog server connection} that should be used to send messages directly
@@ -1571,15 +1580,15 @@ class LEEF {
 
 /**
  * A class to work with HP CEF (Common Event Format) messages. This form
- * of system messages are designed to work with security systems.  Messages can
- * be saved to file (Saving to file if not part of this module but a CEF
+ * of system messages is designed to work with security systems.  Messages can
+ * be saved to file (Saving to file is not part of this module but a CEF
  * formatted message produced by this module can be saved externally to it) or
  * sent via Syslog.
  *
  * A Syslog class with a configured Syslog server target can also be used as
  * the input into the formatting classes so that it may run independently. The
  * CEF format is designed to send event data to a SIEM system and should not be
- * as a logging stream. This class is meant to be used once per message.
+ * used as a logging stream. This class is meant to be used once per message.
  * @requires moment
  * @version 0.0.0
  * @since 0.0.0
@@ -1589,17 +1598,17 @@ class CEF {
    * Construct a new CEF formatting object with user options
    * @public
    * @param {object} [options] - Options object
-   * @param {string} [options.deviceVendor='unknown'] - The vendor of the system
+   * @param {string} [options.deviceVendor='Unknown'] - The vendor of the system
    *    that generated the event being reported
-   * @param {string} [options.deviceProduct='unknown'] - The product name of the
-   *    system that genrated the event being reported
-   * @param {string} [options.deviceVersion='unknown'] - The version name of the
-   *    system that genrated the event being reported
-   * @param {string} [options.deviceEventClassId='unknown'] - The eventId of the
-   *    system that genrated the event being reported
-   * @param {string} [options.name='unknown'] - Name of the service generating
+   * @param {string} [options.deviceProduct='Unknown'] - The product name of the
+   *    system that generated the event being reported
+   * @param {string} [options.deviceVersion='Unknown'] - The version name of the
+   *    system that generated the event being reported
+   * @param {string} [options.deviceEventClassId='Unknown'] - The eventId of the
+   *    system that generated the event being reported
+   * @param {string} [options.name='Unknown'] - Name of the service generating
    *    the notice
-   * @param {string} [options.severity='unknown'] - Severity of the notification
+   * @param {string} [options.severity='Unknown'] - Severity of the notification
    * @param {string} [options.extensions={}] - Any CEF Key=Value extensions
    * @param {Syslog} [options.server=false] - A {@link module:SyslogPro~Syslog|
    *    Syslog server connection} that should be used to send messages directly
@@ -1793,7 +1802,7 @@ class CEF {
   /**
    * Validate this CEF object
    * @public
-   * @return {Promise} - True if validated
+   * @return {boolean} - True if validated
    * @throws {Error} - First element to fail validation
    */
   validate() {
@@ -3019,9 +3028,9 @@ class CEF {
     return true;
   }
   /**
-   * Build a CEF formated string
+   * Build a CEF formatted string
    * @public
-   * @return {string} - String with formated message
+   * @return {string} - String with formatted message
    */
   buildMessage() {
     let fmtMsg = 'CEF:0';
